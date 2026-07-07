@@ -285,18 +285,18 @@ export default function BookingWizard({ car, searchParams, onClose, onSubmitSucc
 
   if (step >= 2) {
     return (
-      <div className="fixed inset-0 z-50 overflow-y-auto bg-neutral-50 text-neutral-900 flex flex-col select-none font-sans">
+      <div data-lenis-prevent className="fixed inset-0 z-50 overflow-y-auto bg-neutral-50 text-neutral-900 flex flex-col select-none font-sans">
         
         {/* W Luxury Car Rental Header */}
         <div className="w-full bg-[#000000] px-6 py-3 flex items-center justify-between text-white font-semibold text-xs border-b border-neutral-900 flex-shrink-0">
           {/* W Logo */}
           <div className="flex items-center gap-2">
-            <div className="flex flex-col leading-none text-left">
-              <span className="font-condensed font-extrabold text-[28px] tracking-normal text-[#C5A059]">
+            <div className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100" onClick={onClose}>
+              <span className="font-sans font-bold text-[32px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-0.5">
                 W
               </span>
-              <span className="text-[6px] tracking-[0.25em] font-semibold text-neutral-400 uppercase block -mt-1 leading-none">
-                Luxury Rental
+              <span className="text-[6px] tracking-[0.45em] font-bold text-white uppercase block text-center ml-[0.45em] opacity-90">
+                LUXURY RENTAL
               </span>
             </div>
           </div>
@@ -1141,7 +1141,7 @@ export default function BookingWizard({ car, searchParams, onClose, onSubmitSucc
   }
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 select-none">
+    <div data-lenis-prevent className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 select-none">
       <div className="bg-[#121212] border border-neutral-800 rounded-2xl w-full max-w-[1050px] shadow-2xl overflow-hidden flex flex-col md:flex-row relative max-h-[92vh]">
         
         <button 

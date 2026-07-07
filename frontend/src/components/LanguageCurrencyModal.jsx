@@ -79,7 +79,7 @@ export default function LanguageCurrencyModal({ isOpen, onClose, onSelectLang, o
   ];
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-300">
+    <div data-lenis-prevent className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-300">
       <div className="bg-white rounded-2xl w-full max-w-[850px] max-h-[85vh] flex flex-col relative shadow-2xl animate-in zoom-in-95 duration-300">
         
         {/* Close Button Header */}

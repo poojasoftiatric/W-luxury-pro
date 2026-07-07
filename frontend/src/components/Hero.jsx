@@ -647,28 +647,52 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
   }, []);
 
   const scrollAnimationRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!scrollAnimationRef.current) return;
-      const rect = scrollAnimationRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      const end = rect.height - windowHeight;
-      if (end <= 0) return;
-      
-      let progress = 0;
-      if (rect.top <= 0) {
-        progress = Math.min(1, Math.max(0, -rect.top / end));
+  useGSAP(() => {
+    if (isDropdownMode) return;
+    const trigger = scrollAnimationRef.current;
+    if (!trigger) return;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: trigger,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.5,
       }
-      
-      setScrollProgress(progress);
-    };
+    });
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    // Translate the car container from 100vw to -100vw
+    tl.to(".car-container-animate", {
+      x: "-100vw",
+      ease: "none"
+    }, 0);
+
+    // Rotate front wheel
+    tl.to(".car-wheel-front", {
+      rotation: -360 * 6,
+      ease: "none"
+    }, 0);
+
+    // Rotate rear wheel
+    tl.to(".car-wheel-rear", {
+      rotation: -360 * 6,
+      ease: "none"
+    }, 0);
+
+    // Fade in/out the text
+    tl.to(".car-text-animate", {
+      opacity: 1,
+      duration: 0.5,
+      ease: "power1.inOut"
+    }, 0)
+    .to(".car-text-animate", {
+      opacity: 0,
+      duration: 0.5,
+      ease: "power1.inOut"
+    }, 0.5);
+
+  }, { scope: scrollAnimationRef, dependencies: [isDropdownMode] });
 
 
   const [isDifferentReturn, setIsDifferentReturn] = useState(false);
@@ -1748,7 +1772,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
       {/* ── PANEL 1B: Return Location Picker ── */}
       {mobilePanel === 'location-return' && (
-        <div className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
+        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
           <div className="flex items-center px-5 py-4 border-b border-neutral-100">
             <button onClick={() => setMobilePanel('details')} className="text-neutral-800 font-bold text-lg p-1 mr-3">✕</button>
             <span className="font-bold text-base text-neutral-900">Return location</span>
@@ -1781,7 +1805,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
       {/* ── PANEL 1: Location Picker ── */}
       {mobilePanel === 'location' && (
-        <div className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
+        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
           <div className="flex items-center px-5 py-4 border-b border-neutral-100">
             <button onClick={() => setMobilePanel(null)} className="text-neutral-800 font-bold text-lg p-1 mr-3">✕</button>
             <span className="font-bold text-base text-neutral-900">Pickup location</span>
@@ -1827,7 +1851,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
       {/* ── PANEL 2: Rental Details ── */}
       {mobilePanel === 'details' && (
-        <div className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
+        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
           <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
             <span className="font-black text-base text-neutral-900">Your rental details</span>
             <button onClick={() => setMobilePanel(null)} className="text-neutral-800 font-bold text-lg p-1">✕</button>
@@ -1913,7 +1937,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
       {/* ── PANEL 3: Calendar (full-screen stacked months) ── */}
       {mobilePanel === 'calendar' && (
-        <div className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
+        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
           <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
             <button onClick={() => setMobilePanel('details')} className="text-neutral-700 p-1">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -1938,7 +1962,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
       {/* ── PANEL 4a: Time Picker – Pickup ── */}
       {mobilePanel === 'time-pickup' && (
-        <div className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
+        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
           <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
             <button onClick={() => setMobilePanel('details')} className="text-neutral-700 p-1">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -1971,7 +1995,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
       {/* ── PANEL 4b: Time Picker – Return ── */}
       {mobilePanel === 'time-return' && (
-        <div className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
+        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
           <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
             <button onClick={() => setMobilePanel('details')} className="text-neutral-700 p-1">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -2025,15 +2049,15 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
         
         {/* Car Container that drives across */}
         <div 
-          className="absolute z-20 flex items-center justify-center drop-shadow-2xl pointer-events-none"
+          className="car-container-animate absolute z-20 flex items-center justify-center drop-shadow-2xl pointer-events-none"
           style={{ 
-            transform: `translateX(${100 - scrollProgress * 200}vw)`
+            transform: 'translateX(100vw)'
           }}
         >
           <div className="relative w-[900px] h-[318px] origin-center scale-[0.4] sm:scale-[0.65] md:scale-100 transition-transform duration-300">
           {/* Main Car Body - Now naturally fitting the 900x318 aspect ratio (3400x1200 original) */}
           <img 
-            src="https://media.rivian.com/image/upload/v1742853432/rivian-com/home%20page/vehicles/r1s/R1S_Side.png" 
+            src="/assets/cars/r1s_body.png" 
             alt="Rivian R1S" 
             className="absolute inset-0 w-full h-full object-contain z-30"
           />
@@ -2046,7 +2070,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
               top: '168px',
               width: '60px',
               height: '14px',
-              backgroundImage: 'url(https://media.rivian.com/image/upload/v1742853432/rivian-com/home%20page/vehicles/r1s/R1S_Side.png)',
+              backgroundImage: 'url(/assets/cars/r1s_body.png)',
               backgroundSize: '900px 318px',
               backgroundPosition: '-350px -168px',
               filter: 'blur(1px)',
@@ -2054,39 +2078,37 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
             }}
           />
           
-          {/* Front Wheel Overlay */}
-          <div 
-            className="absolute z-40 rounded-full"
+          {/* Front Wheel Overlay - using pre-cropped wheel image */}
+          <img
+            src="/assets/cars/r1s_wheel_front.png"
+            alt=""
+            className="car-wheel-front absolute z-40"
             style={{
-              width: '130px', 
-              height: '130px',
-              left: '132px', 
-              top: '169px',
-              backgroundImage: 'url(https://media.rivian.com/image/upload/v1742853432/rivian-com/home%20page/vehicles/r1s/R1S_Side.png)',
-              backgroundSize: '900px 318px',
-              backgroundPosition: '-132px -169px',
-              transform: `rotate(${-scrollProgress * 360 * 6}deg)`
+              width: '116px',
+              height: '116px',
+              left: '138px',
+              top: '181px',
+              borderRadius: '50%'
             }}
           />
           
-          {/* Rear Wheel Overlay */}
-          <div 
-            className="absolute z-40 rounded-full"
+          {/* Rear Wheel Overlay - using pre-cropped wheel image */}
+          <img
+            src="/assets/cars/r1s_wheel_rear.png"
+            alt=""
+            className="car-wheel-rear absolute z-40"
             style={{
-              width: '130px', 
-              height: '130px',
-              left: '591px', 
-              top: '169px',
-              backgroundImage: 'url(https://media.rivian.com/image/upload/v1742853432/rivian-com/home%20page/vehicles/r1s/R1S_Side.png)',
-              backgroundSize: '900px 318px',
-              backgroundPosition: '-591px -169px',
-              transform: `rotate(${-scrollProgress * 360 * 6}deg)`
+              width: '116px',
+              height: '116px',
+              left: '604px',
+              top: '182px',
+              borderRadius: '50%'
             }}
           />
           </div>
         </div>
         
-        <div className="absolute bottom-[20%] text-center z-30 transition-opacity duration-300 pointer-events-none" style={{ opacity: Math.max(0, Math.sin(scrollProgress * Math.PI)) }}>
+        <div className="car-text-animate absolute bottom-[20%] text-center z-30 pointer-events-none" style={{ opacity: 0 }}>
           <p className="text-[#C5A059] font-bold tracking-widest text-[11px] uppercase mb-2">Uncompromising Performance</p>
           <h3 className="text-white text-3xl font-normal font-condensed">The journey begins here.</h3>
         </div>
@@ -2446,9 +2468,9 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           {[
             { city: 'Los Angeles', img: 'https://images.unsplash.com/photo-1580655653885-65763b2597d0?auto=format&fit=crop&w=600&q=80' },
             { city: 'New York City', img: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=600&q=80' },
-            { city: 'Miami, FL', img: 'https://images.unsplash.com/photo-1506970198081-a83a5be7bd20?auto=format&fit=crop&w=600&q=80' },
+            { city: 'Miami, FL', img: 'https://images.unsplash.com/photo-1535498730771-e735b998cd64?auto=format&fit=crop&w=600&q=80' },
             { city: 'San Francisco', img: 'https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?auto=format&fit=crop&w=600&q=80' },
-            { city: 'Las Vegas', img: 'https://images.unsplash.com/photo-1522083165195-3427502977a1?auto=format&fit=crop&w=600&q=80' },
+            { city: 'Las Vegas', img: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=600&q=80' },
             { city: 'London', img: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80' }
           ].map((item, idx) => (
             <div 
@@ -2492,19 +2514,27 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
               className="relative h-[480px] rounded-3xl overflow-hidden flex flex-col justify-between p-8 text-white text-center shadow-lg group hover:shadow-2xl transition-all duration-300 bg-[#0F1012] border border-neutral-800"
             >
               {/* Card top text content grouped together */}
-              <div className="z-20 relative flex flex-col items-center gap-3">
-                <h3 className="font-condensed font-normal text-[22px] md:text-2xl text-white uppercase tracking-wide leading-tight">
-                  {item.title}
-                </h3>
-                <p className="text-[13px] text-neutral-200 font-semibold leading-relaxed max-w-[280px]">
-                  {item.subtext}
-                </p>
-                <button 
-                  type="button"
-                  className="border border-white/60 hover:border-white hover:bg-white hover:text-black text-white text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full transition-all duration-200"
-                >
-                  {item.buttonText}
-                </button>
+              <div className="z-20 relative flex flex-col items-center w-full">
+                {/* Text container with a min-height to ensure horizontal button alignment */}
+                <div className="flex flex-col items-center gap-3 min-h-[110px] md:min-h-[120px] justify-start w-full">
+                  <div className="min-h-[56px] md:min-h-[64px] flex items-start justify-center w-full">
+                    <h3 className="font-condensed font-normal text-[22px] md:text-2xl text-white uppercase tracking-wide leading-tight">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <p className="text-[13px] text-neutral-200 font-semibold leading-relaxed max-w-[280px]">
+                    {item.subtext}
+                  </p>
+                </div>
+                {/* Button placed below the text area */}
+                <div className="mt-2">
+                  <button 
+                    type="button"
+                    className="border border-white/60 hover:border-white hover:bg-white hover:text-black text-white text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full transition-all duration-200"
+                  >
+                    {item.buttonText}
+                  </button>
+                </div>
               </div>
 
               {/* Card background graphic (spans full height behind content) */}

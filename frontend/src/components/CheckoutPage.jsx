@@ -30,6 +30,7 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
   const [zip, setZip] = useState('');
   const [city, setCity] = useState('');
   const [stateRegion, setStateRegion] = useState('');
+  const [isStateDropdownOpen, setIsStateDropdownOpen] = useState(false);
   
   const [errors, setErrors] = useState({});
   
@@ -62,8 +63,9 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
     setIsSubmitting(true);
     try {
       // Send to Web3Forms
+      const web3formsAccessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "YOUR_WEB3FORMS_ACCESS_KEY";
       const formData = new FormData();
-      formData.append("access_key", "YOUR_WEB3FORMS_ACCESS_KEY");
+      formData.append("access_key", web3formsAccessKey);
       formData.append("subject", "New Car Booking Request");
       formData.append("from_name", "Luxury Rental Booking");
       formData.append("email", email || 'Not provided');
@@ -115,18 +117,21 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
   ];
 
   return (
-    <div className="fixed inset-0 z-[100] overflow-y-auto bg-white text-[#191919] flex flex-col font-sans">
+    <div data-lenis-prevent className="fixed inset-0 z-[100] overflow-y-auto bg-white text-[#191919] flex flex-col font-sans">
       
       {/* Dark Header */}
       <div className="w-full bg-[#191919] px-6 py-4 flex items-center justify-between text-white flex-shrink-0">
         {/* W Logo */}
         <div className="flex items-center gap-2">
-          <div className="flex flex-col leading-none text-left cursor-pointer" onClick={onClose}>
-            <span className="font-condensed font-extrabold text-[28px] tracking-normal text-[#C5A059]">
+          <div 
+            onClick={onClose}
+            className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100"
+          >
+            <span className="font-sans font-bold text-[32px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-0.5">
               W
             </span>
-            <span className="text-[6px] tracking-[0.25em] font-semibold text-neutral-400 uppercase block -mt-1 leading-none">
-              Luxury Rental
+            <span className="text-[6px] tracking-[0.45em] font-bold text-white uppercase block text-center ml-[0.45em] opacity-90">
+              LUXURY RENTAL
             </span>
           </div>
         </div>
@@ -365,15 +370,48 @@ export default function CheckoutPage({ car, searchParams, bookingOption, mileage
             <div>
               <label className="block text-[13px] font-bold mb-1">State</label>
               <div className="relative">
-                <select value={stateRegion} onChange={e => {setStateRegion(e.target.value); setErrors(prev => ({...prev, stateRegion: null}))}} className={`w-full border ${errors.stateRegion ? 'border-red-500' : 'border-neutral-300'} rounded-lg h-12 px-4 appearance-none focus:border-black focus:ring-1 focus:ring-black outline-none transition-all bg-white text-[14px]`}>
-                  <option value=""></option>
-                  <option value="California">California</option>
-                  <option value="New York">New York</option>
-                </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <ChevronDownIcon className="w-4 h-4 text-neutral-500" />
+                <div 
+                  onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
+                  className={`w-full border rounded-lg h-12 px-4 flex items-center justify-between cursor-pointer transition-all bg-white text-[14px] ${
+                    isStateDropdownOpen 
+                      ? 'border-[2px] border-[#C5A059] shadow-sm' 
+                      : errors.stateRegion 
+                        ? 'border-red-500' 
+                        : 'border-neutral-300 hover:border-neutral-400'
+                  }`}
+                >
+                  <span className={stateRegion ? 'text-[#191919] font-medium' : 'text-neutral-400 font-normal'}>
+                    {stateRegion || 'Select a state'}
+                  </span>
+                  <ChevronDownIcon className={`w-4 h-4 text-neutral-500 transition-transform ${isStateDropdownOpen ? 'rotate-180' : ''}`} />
                 </div>
+                
+                {isStateDropdownOpen && (
+                  <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white rounded-xl shadow-2xl border border-neutral-100 z-50 overflow-hidden">
+                    <div className="p-2 max-h-[220px] overflow-y-auto custom-scrollbar">
+                      {['California', 'New York', 'Texas', 'Florida', 'Nevada', 'Washington'].map((stateName) => (
+                        <div 
+                          key={stateName}
+                          onClick={() => {
+                            setStateRegion(stateName);
+                            setIsStateDropdownOpen(false);
+                            setErrors(prev => ({...prev, stateRegion: null}));
+                          }}
+                          className="flex items-center justify-between px-3 py-3 hover:bg-neutral-50 cursor-pointer rounded-lg group"
+                        >
+                          <span className="text-[14px] text-[#191919] font-medium">
+                            {stateName}
+                          </span>
+                          {stateRegion === stateName && (
+                            <Check className="w-4 h-4 text-[#191919] stroke-[2.5]" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
+              {errors.stateRegion && <span className="text-red-500 text-xs mt-1 block">{errors.stateRegion}</span>}
             </div>
           </div>
           
