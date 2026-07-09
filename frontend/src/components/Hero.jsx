@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Plane, Calendar, Clock, User, Info, RotateCcw, ChevronLeft, ChevronRight, Briefcase, Globe, Car, ShieldCheck, Check, Sparkles, Building, HandHeart, CarFront } from 'lucide-react';
+import { Plane, Calendar, Clock, User, Info, RotateCcw, ChevronLeft, ChevronRight, Briefcase, Globe, Car, ShieldCheck, Check, Sparkles, Building, HandHeart, CarFront, Fuel, ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -9,9 +9,9 @@ import CarCard from './CarCard.jsx';
 
 const RevealOnScroll = ({ children, className = "w-full flex flex-col items-center justify-center" }) => {
   const ref = useRef(null);
-  
+
   useGSAP(() => {
-    gsap.fromTo(ref.current, 
+    gsap.fromTo(ref.current,
       { y: 50, opacity: 0 },
       {
         y: 0,
@@ -26,10 +26,10 @@ const RevealOnScroll = ({ children, className = "w-full flex flex-col items-cent
       }
     );
   }, []);
-  
+
   return (
-    <div 
-      ref={ref} 
+    <div
+      ref={ref}
       className={className}
       style={{ willChange: 'transform, opacity' }}
     >
@@ -40,10 +40,10 @@ const RevealOnScroll = ({ children, className = "w-full flex flex-col items-cent
 
 const AnimatedBannerText = () => {
   const containerRef = useRef(null);
-  
+
   useGSAP(() => {
     const lines = gsap.utils.toArray('.banner-line', containerRef.current);
-    gsap.fromTo(lines, 
+    gsap.fromTo(lines,
       { x: -60, opacity: 0 },
       {
         x: 0,
@@ -107,13 +107,13 @@ const stationsData = {
 
 const SolidPlaneIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M21,16v-2l-8-5V3.5C13,2.67 12.33,2 11.5,2S10,2.67 10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5L21,16z"/>
+    <path d="M21,16v-2l-8-5V3.5C13,2.67 12.33,2 11.5,2S10,2.67 10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5L21,16z" />
   </svg>
 );
 
 const SolidCalendarIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
+    <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" />
   </svg>
 );
 
@@ -227,11 +227,10 @@ function TimePickerPopup({ activeTimeField, currentTime, selectTime }) {
                     ref={isSelected ? selectedRef : null}
                     type="button"
                     onClick={() => selectTime(slot, activeTimeField)}
-                    className={`text-[13px] font-semibold py-3 px-3 rounded-xl text-center transition-colors premium-transition ${
-                      isSelected
+                    className={`text-[13px] font-semibold py-3 px-3 rounded-xl text-center transition-colors premium-transition ${isSelected
                         ? 'bg-[#191919] text-white'
                         : 'bg-[#fafafa] text-neutral-800 hover:bg-[#f3f3f3]'
-                    }`}
+                      }`}
                   >
                     {slot}
                   </button>
@@ -357,20 +356,20 @@ const BoutiqueCarousel = () => {
       </div>
 
       {/* GSAP Scrolling Track */}
-      <div 
+      <div
         ref={trackRef}
         className="flex w-max"
       >
         {slides.map((slide, idx) => (
-          <div 
-            key={idx} 
+          <div
+            key={idx}
             className="w-[90vw] lg:w-[85vw] shrink-0 flex flex-col lg:flex-row gap-4 md:gap-10 lg:gap-16 pr-8 pl-6 md:pl-[5vw] lg:pl-[7.5vw]"
           >
             {/* Left Image */}
             <div className="w-full lg:w-[55%] h-[200px] sm:h-[35vh] md:h-[45vh] lg:h-[60vh] relative overflow-hidden group shrink-0">
-               <img src={slide.image} alt={slide.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-[2s] ease-out" />
+              <img src={slide.image} alt={slide.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-[2s] ease-out" />
             </div>
-            
+
             {/* Right Text Content */}
             <div className={`w-full lg:w-[45%] flex flex-col justify-center pr-4 md:pr-12 lg:pr-16 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${activeSlide === idx ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: activeSlide === idx ? '150ms' : '0ms' }}>
               <h3 className="font-sans font-normal text-[22px] md:text-[28px] lg:text-[34px] text-[#191919] mb-3 md:mb-6 tracking-wider uppercase leading-[1.2]">
@@ -379,7 +378,7 @@ const BoutiqueCarousel = () => {
               <div className="text-[14px] md:text-[15px] text-[#555555] font-normal leading-[1.6] md:leading-[1.8] space-y-4 mb-6 md:mb-10 max-w-[480px]">
                 <p>{slide.desc}</p>
               </div>
-              
+
               {/* Discover More Button */}
               <button className="flex items-center gap-4 text-[#191919] hover:text-[#C5A059] transition-colors group cursor-pointer w-fit">
                 <div className="w-[42px] h-[42px] rounded-full border border-[#191919]/20 group-hover:border-[#C5A059] flex items-center justify-center transition-colors">
@@ -400,7 +399,7 @@ const BoutiqueCarousel = () => {
       <div className="max-w-[1200px] mx-auto mt-6 md:mt-12 px-6 flex justify-center lg:justify-start lg:pl-[7.5vw] w-full shrink-0">
         <div className="relative flex items-center gap-4">
           {slides.map((_, idx) => (
-            <button 
+            <button
               key={idx}
               onClick={() => scrollToSlide(idx)}
               className={`w-[7px] h-[7px] rounded-full transition-colors duration-300 ${activeSlide === idx ? 'bg-[#191919]' : 'bg-[#191919]/20'}`}
@@ -408,7 +407,7 @@ const BoutiqueCarousel = () => {
             />
           ))}
           {/* Gliding Arc SVG */}
-          <div 
+          <div
             className="absolute top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex justify-center items-center"
             style={{ left: `${activeSlide * 23}px`, width: '7px', height: '7px' }}
           >
@@ -490,15 +489,15 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
         {/* Top Row Grid: First 4 items */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16 text-center w-full">
           {popularTypesList.slice(0, 4).map((item, index) => (
-            <div 
+            <div
               key={`popular-${index}`}
               className="w-full flex flex-col items-center transition-all duration-200 mx-auto group cursor-pointer"
             >
               {/* Image */}
               <div className="relative w-full h-[180px] flex items-center justify-center mb-6">
                 <div className="absolute bottom-4 w-3/4 h-4 bg-black/5 rounded-[100%] blur-md scale-75 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-700 pointer-events-none" />
-                <img 
-                  src={item.image} 
+                <img
+                  src={item.image}
                   alt={item.title}
                   className="relative z-10 max-h-[160px] w-[105%] object-contain drop-shadow-[0_8px_15px_rgba(0,0,0,0.1)] transform group-hover:scale-[1.15] group-hover:translate-x-3 group-hover:-translate-y-3 transition-all duration-[800ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] group-hover:drop-shadow-[0_25px_25px_rgba(0,0,0,0.25)]"
                 />
@@ -554,15 +553,15 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
         {/* Bottom Row Flex: Centered remaining 2 items */}
         <div className="flex flex-col sm:flex-row justify-center gap-6 mt-6 text-center w-full lg:max-w-[50%] mx-auto">
           {popularTypesList.slice(4, 6).map((item, index) => (
-            <div 
+            <div
               key={`popular-${index + 4}`}
               className="w-full flex flex-col items-center transition-all duration-200 group cursor-pointer"
             >
               {/* Image */}
               <div className="relative w-full h-[180px] flex items-center justify-center mb-6">
                 <div className="absolute bottom-4 w-3/4 h-4 bg-black/5 rounded-[100%] blur-md scale-75 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-700 pointer-events-none" />
-                <img 
-                  src={item.image} 
+                <img
+                  src={item.image}
                   alt={item.title}
                   className="relative z-10 max-h-[160px] w-[105%] object-contain drop-shadow-[0_8px_15px_rgba(0,0,0,0.1)] transform group-hover:scale-[1.15] group-hover:translate-x-3 group-hover:-translate-y-3 transition-all duration-[800ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] group-hover:drop-shadow-[0_25px_25px_rgba(0,0,0,0.25)]"
                 />
@@ -625,6 +624,40 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
 };
 
 
+const MARQUEE_BRANDS = [
+  { name: "ROLLS ROYCE", file: "rollsroyce.svg" },
+  { name: "BUGATTI", file: "bugatti.png" },
+  { name: "McLAREN", file: "mclaren_orange.svg" },
+  { name: "BMW", file: "bmw.svg" },
+  { name: "CADILLAC", file: "cadillac.png" },
+  { name: "FERRARI", file: "ferrari.svg" },
+  { name: "LAMBORGHINI", file: "lamborghini.svg" },
+  { name: "PORSCHE", file: "porsche.png" },
+  { name: "ASTON MARTIN", file: "astonmartin_white.svg" },
+  { name: "MASERATI", file: "maserati.svg" }
+];
+
+const TIME_SLOTS = [];
+for (let h = 8; h <= 20; h++) {
+  for (let m = 0; m < 60; m += 30) {
+    if (h === 20 && m === 30) continue;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const hour = h % 12 === 0 ? 12 : h % 12;
+    const minute = m === 0 ? '00' : '30';
+    const hourStr = hour < 10 ? `0${hour}` : `${hour}`;
+    TIME_SLOTS.push(`${hourStr}:${minute} ${ampm}`);
+  }
+}
+
+// Helper to get calendar data for a month
+function getMonthData(year, monthIndex) {
+  const d = new Date(year, monthIndex, 1);
+  const firstDay = d.getDay();
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  const monthName = d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+  return { firstDay, daysInMonth, monthName };
+}
+
 export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDropdownMode = false, initialSearchParams = null }) {
   const [pickupLocation, setPickupLocation] = useState(initialSearchParams?.pickupLocation || 'Munich Airport');
   const [pickupDate, setPickupDate] = useState(initialSearchParams?.pickupDate || 'Jun 30');
@@ -635,11 +668,16 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
   const [activeTab, setActiveTab] = useState('Cars');
   const [isWidgetExpanded, setIsWidgetExpanded] = useState(false);
   const widgetRef = useRef(null);
+  const stickyWidgetRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (widgetRef.current && !widgetRef.current.contains(event.target)) {
+      const clickedMain = widgetRef.current && widgetRef.current.contains(event.target);
+      const clickedSticky = stickyWidgetRef.current && stickyWidgetRef.current.contains(event.target);
+      if (!clickedMain && !clickedSticky) {
         setIsWidgetExpanded(false);
+        setShowCalendarPopup(false);
+        setShowTimePopup(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -663,7 +701,9 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
     });
 
     // Translate the car container from 100vw to -100vw
-    tl.to(".car-container-animate", {
+    tl.fromTo(".car-container-animate", {
+      x: "100vw"
+    }, {
       x: "-100vw",
       ease: "none"
     }, 0);
@@ -686,11 +726,11 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
       duration: 0.5,
       ease: "power1.inOut"
     }, 0)
-    .to(".car-text-animate", {
-      opacity: 0,
-      duration: 0.5,
-      ease: "power1.inOut"
-    }, 0.5);
+      .to(".car-text-animate", {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power1.inOut"
+      }, 0.5);
 
   }, { scope: scrollAnimationRef, dependencies: [isDropdownMode] });
 
@@ -704,7 +744,10 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
   const [showLocationPopup, setShowLocationPopup] = useState(false);
   const [hoveredStationKey, setHoveredStationKey] = useState('Munich Airport');
   const [isSticky, setIsSticky] = useState(false);
+  const [showStickySearch, setShowStickySearch] = useState(false);
+  const lastScrollY = useRef(0);
   const [showCalendarPopup, setShowCalendarPopup] = useState(false);
+  const [calendarOffset, setCalendarOffset] = useState(0);
   const [activeDateField, setActiveDateField] = useState(null); // 'pickup' or 'return'
   const [showTimePopup, setShowTimePopup] = useState(false);
   const [activeTimeField, setActiveTimeField] = useState(null); // 'pickup' or 'return'
@@ -733,7 +776,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
   const handleScrollToListings = () => {
     const el = document.getElementById('listings-container');
-    if (el) {
+    if (el && !isDropdownMode) {
       el.scrollIntoView({ behavior: 'smooth' });
     } else {
       onSearch({
@@ -778,30 +821,60 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
     setActiveTimeField(null);
   };
 
-  const getDayValue = (dateStr) => {
+  const parseDateStr = (dateStr) => {
     if (!dateStr) return null;
-    const parts = dateStr.split(' ');
-    if (parts.length < 2) return null;
-    const month = parts[0];
-    const day = parseInt(parts[1], 10);
-    if (isNaN(day)) return null;
-    if (month.startsWith('Jun')) return day;
-    if (month.startsWith('Jul')) return 30 + day;
-    if (month.startsWith('Aug')) return 61 + day;
+    if (dateStr.includes('-')) {
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      }
+    }
+    const parts = dateStr.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      const monthStr = parts[0];
+      const day = parseInt(parts[1], 10);
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const monthIndex = months.findIndex(m => monthStr.toLowerCase().startsWith(m.toLowerCase()));
+      if (monthIndex !== -1) {
+        return new Date(2026, monthIndex, day);
+      }
+    }
     return null;
+  };
+
+  const isSameDay = (d1, d2) => {
+    if (!d1 || !d2) return false;
+    return d1.getFullYear() === d2.getFullYear() &&
+           d1.getMonth() === d2.getMonth() &&
+           d1.getDate() === d2.getDate();
   };
 
 
   useEffect(() => {
     const handleScroll = () => {
-      // Threshold is 120px (when the header/navbar scrolls away)
-      if (window.scrollY > 120) {
+      const currentScrollY = window.scrollY;
+      
+      // Update general sticky flag
+      if (currentScrollY > 120) {
         setIsSticky(true);
       } else {
         setIsSticky(false);
       }
+
+      // Update scroll-up search bar visibility
+      if (currentScrollY > 300) {
+        if (currentScrollY < lastScrollY.current) {
+          setShowStickySearch(true);
+        } else {
+          setShowStickySearch(false);
+        }
+      } else {
+        setShowStickySearch(false);
+      }
+      
+      lastScrollY.current = currentScrollY;
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -812,7 +885,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
     if (!pickupLocation || list.includes(pickupLocation)) {
       return list;
     }
-    const filtered = list.filter(name => 
+    const filtered = list.filter(name =>
       name.toLowerCase().includes(pickupLocation.toLowerCase())
     );
     return filtered.length > 0 ? filtered : list;
@@ -824,7 +897,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
         <h3 className="text-center font-normal text-neutral-900 mb-5 text-xl tracking-tight">
           {monthName}
         </h3>
-        
+
         {/* Days of week header */}
         <div className="grid grid-cols-7 text-center mb-3">
           {['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'].map(day => (
@@ -841,26 +914,25 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
               return <div key={`empty-${idx}`} />;
             }
 
-            const dayVal = baseValueOffset + item.day;
+            const parts = monthName.split(' ');
+            const monthStr = parts[0].substring(0, 3);
+            const yearVal = parseInt(parts[1], 10);
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const monthIndex = months.findIndex(m => monthStr.toLowerCase().startsWith(m.toLowerCase()));
+            const cellDate = new Date(yearVal, monthIndex, item.day);
 
             const today = new Date();
-            const m = today.getMonth();
-            const d = today.getDate();
-            let todayVal = 25; // default fallback
-            if (m === 5) todayVal = d; // June
-            else if (m === 6) todayVal = 30 + d; // July
-            else if (m === 7) todayVal = 61 + d; // August
-            else todayVal = 30; // fallback to Jun 30 if testing outside
+            today.setHours(0, 0, 0, 0);
 
-            const isPast = dayVal < todayVal;
-            const isToday = dayVal === todayVal;
-            
-            const startVal = getDayValue(pickupDate);
-            const endVal = getDayValue(returnDate);
-            
-            const isStart = dayVal === startVal;
-            const isEnd = dayVal === endVal;
-            const inRange = startVal && endVal && dayVal > startVal && dayVal < endVal;
+            const isPast = cellDate < today;
+            const isToday = isSameDay(cellDate, today);
+
+            const startDate = parseDateStr(pickupDate);
+            const endDate = parseDateStr(returnDate);
+
+            const isStart = isSameDay(cellDate, startDate);
+            const isEnd = isSameDay(cellDate, endDate);
+            const inRange = startDate && endDate && cellDate > startDate && cellDate < endDate;
 
             let dayClass = "w-9 h-9 flex items-center justify-center mx-auto rounded-full transition-colors cursor-pointer ";
             if (isPast) {
@@ -878,7 +950,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
             // Click handler
             const handleDateClick = () => {
               if (isPast) return;
-              
+
               const monthPrefix = monthName.split(' ')[0].substring(0, 3); // "Jun", "Jul", "Aug"
               const dateStr = `${monthPrefix} ${item.day}`;
 
@@ -904,7 +976,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
             };
 
             return (
-              <div 
+              <div
                 key={`day-${item.day}`}
                 onClick={handleDateClick}
                 className={dayClass}
@@ -1002,1766 +1074,1461 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
     'South America': ['Brazil', 'Argentina', 'Colombia', 'Chile']
   };
 
-  return (
-    <>
-    <section className={`relative w-full flex flex-col justify-start items-center select-none ${isDropdownMode ? 'bg-white py-4 md:py-6' : 'h-screen min-h-[520px] bg-transparent overflow-hidden pt-20'}`}>
-      
-      {/* Full-width Background Video exactly like the reference */}
-      {!isDropdownMode && (
-        <>
-          <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
-            className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none z-0"
+  const renderSearchWidget = () => {
+    return (
+      <div ref={widgetRef} className="w-full z-40 relative mb-4 pointer-events-auto">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4 w-full">
+          {/* Rental Dates */}
+          <div 
+            onClick={() => {
+              setShowCalendarPopup(!showCalendarPopup);
+              setShowTimePopup(false);
+            }}
+            className="flex items-center justify-between bg-[#F4F5F6] rounded-[16px] px-6 py-2.5 flex-[1.2] cursor-pointer hover:bg-[#EBECEC] transition-colors"
           >
-            {/* The video source is now a local file. Drop your downloaded video into public/assets/bg-video.mp4 */}
-            <source src="/assets/bg-video3.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-
-          {/* Elegant Text Overlay matching Lucid Motors */}
-          <RevealOnScroll className="absolute inset-0 flex flex-col justify-center items-start px-6 md:px-12 lg:px-[10%] pt-24 md:pt-32 z-10 pointer-events-none">
-            <h1 
-              className="text-white text-[45px] md:text-[70px] lg:text-[85px] font-condensed font-normal tracking-tight leading-[1.1] mb-4 drop-shadow-md"
-            >
-              W Luxury Car Rental
-            </h1>
-            <p className="text-white text-base md:text-[20px] font-medium max-w-lg md:max-w-2xl leading-relaxed opacity-100 font-sans tracking-wide drop-shadow-md">
-              Choose from our range of top Luxury cars worldwide.
-            </p>
-          </RevealOnScroll>
-        </>
-      )}
-      
-      {/* Floating Booking Card Widget */}
-      <div 
-        ref={widgetRef}
-        className={`w-full max-w-[1100px] px-4 md:px-6 z-40 ${
-          isDropdownMode 
-            ? 'relative mx-auto'
-            : isSticky 
-              ? 'fixed top-0 md:top-4 left-1/2 animate-slideDownSticky' 
-              : 'relative z-20 mx-auto mt-0'
-        }`}
-      >
-        {/* ═══════════════════════════════════════════════════
-            MOBILE FORM: compact or expanded (hidden on md+)
-            ═══════════════════════════════════════════════════ */}
-        <form
-          onSubmit={handleSubmit}
-          className={`md:hidden bg-white rounded-[24px] shadow-xl ${isWidgetExpanded ? 'p-5 flex flex-col gap-4' : 'p-3 flex items-center cursor-pointer'} border border-neutral-200/40 text-neutral-800 transition-all duration-300 ease-in-out`}
-          onClick={() => {
-            if (!isWidgetExpanded) {
-              setIsWidgetExpanded(true);
-            }
-          }}
-        >
-          {!isWidgetExpanded ? (
-            <div className="flex items-center gap-3 w-full h-[32px] px-2">
-              <svg className="w-[18px] h-[18px] text-neutral-500 flex-shrink-0 stroke-[2.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-              <span className="text-[15px] font-bold text-neutral-900 truncate">{pickupLocation || 'Munich Airport'}</span>
+            <div className="flex flex-col">
+              <span className="text-[13px] font-normal text-neutral-400 mb-0.5">Rental dates</span>
+              <span className="text-[16px] font-bold text-neutral-800">
+                {pickupDate && returnDate ? `${pickupDate} - ${returnDate}` : 'Select dates'}
+              </span>
             </div>
-          ) : (
-            <>
-              {/* Tabs */}
-              <div className="flex items-center justify-between">
-                <div className="flex gap-2">
-                  <button type="button" onClick={() => setActiveTab('Cars')}
-                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-colors ${activeTab === 'Cars' ? 'bg-[#191919] text-white' : 'bg-neutral-100 text-neutral-600'}`}>
-                    <svg className="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 7h11l1.04 3H5.46l1.04-3zM7.5 17a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg> Cars
-                  </button>
-                </div>
-              </div>
-
-              {/* Location field — tap to open location panel */}
-              <div
-                onClick={() => setMobilePanel('location')}
-                className="flex items-center gap-3 border-2 border-neutral-200 rounded-xl h-[50px] px-4 cursor-pointer"
-              >
-                <svg className="w-4 h-4 text-neutral-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                <span className="text-sm font-bold text-neutral-900 truncate">{pickupLocation || 'Pickup location'}</span>
-              </div>
-
-              {/* Search button */}
-              <button
-                type="button"
-                onClick={() => setMobilePanel('details')}
-                className="w-full bg-[#C5A059] hover:bg-[#B28F4B] text-white font-condensed font-black text-sm uppercase h-[50px] rounded-xl shadow tracking-wider"
-              >
-                Search cars
-              </button>
-
-              {/* Bottom links */}
-              <div className="flex flex-col items-center gap-1.5 pt-1">
-                <button type="button" className="text-xs font-bold text-neutral-700 underline">View / edit my booking</button>
-                <button type="button" className="text-xs font-bold text-neutral-700 underline">Apply corporate rate</button>
-              </div>
-            </>
-          )}
-        </form>
-
-        {/* ═══════════════════════════════════════════════════
-            DESKTOP FORM: full inline layout (hidden on mobile)
-            ═══════════════════════════════════════════════════ */}
-        <form 
-          onSubmit={handleSubmit}
-          className={`hidden md:flex bg-white rounded-[24px] shadow-xl ${isWidgetExpanded ? 'p-5 md:p-6 flex-col gap-4' : 'p-2 md:p-3 items-center cursor-pointer'} border border-neutral-200/40 text-neutral-800 transition-all duration-300 ease-in-out w-full max-w-[1100px] mx-auto`}
-          onClick={() => {
-            if (!isWidgetExpanded) {
-              setIsWidgetExpanded(true);
-            }
-          }}
-        >
-          {!isWidgetExpanded ? (
-            <div className="flex items-center gap-4 w-full h-[52px] px-5">
-              <svg className="w-5 h-5 text-neutral-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-              <span className="text-[17px] font-bold text-neutral-900 truncate">{pickupLocation || 'Munich Airport'}</span>
-            </div>
-          ) : (
-            <>
-          {/* Top Tabs Row */}
-          <div className="flex items-center justify-between pb-1">
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setActiveTab('Cars')}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold premium-transition ${
-                  activeTab === 'Cars' 
-                    ? 'bg-[#191919] text-white' 
-                    : 'bg-[#F3F3F3] text-neutral-600 hover:bg-[#EAEAEA]'
-                }`}
-              >
-                <svg className="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 7h11l1.04 3H5.46l1.04-3zM7.5 17a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg> Cars
-              </button>
-            </div>
-            
-            <button 
-              type="button"
-              className="text-[12px] font-bold text-neutral-900 hover:underline premium-transition"
-            >
-              View / edit my booking
-            </button>
+            <svg className="w-6 h-6 text-[#C5A059] stroke-[1.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
           </div>
 
-          {/* Form Fields Stack */}
-          <div className="flex flex-col gap-3">
+          {/* Time Selectors */}
+          <div 
+            onClick={() => {
+              setShowTimePopup(!showTimePopup);
+              setShowCalendarPopup(false);
+            }}
+            className="flex items-center bg-[#F4F5F6] rounded-[16px] flex-[1.5] relative"
+          >
+            {/* Pick up time */}
+            <div className="flex flex-col justify-center px-6 py-2.5 flex-1 cursor-pointer hover:bg-[#EBECEC] rounded-l-[16px] transition-colors h-full">
+              <span className="text-[13px] font-normal text-neutral-400 mb-0.5">Pick up time</span>
+              <span className="text-[16px] font-bold text-neutral-800">{pickupTime}</span>
+            </div>
             
-            {/* Pickup & Return Row (Popup Trigger Wrapper) */}
-            <div className="w-full flex flex-col relative">
-              {!isDifferentReturn ? (
-                <>
-                  <label className="text-[11px] font-bold text-neutral-900 mb-1.5 text-left">Pickup & return</label>
-                  <div className="flex items-center gap-4">
-                    {/* Search Bar Input Container */}
-                    <div 
-                      onClick={() => {
-                        setShowLocationPopup(true);
-                        setShowReturnPopup(false);
-                      }}
-                      className={`flex-grow flex items-center bg-white border rounded-lg px-4 py-2 h-[48px] cursor-pointer premium-transition ${
-                        showLocationPopup 
-                          ? 'border-[#C5A059]' 
-                          : 'border-neutral-200 focus-within:border-black'
-                      }`}
-                    >
-                      <SolidPlaneIcon className="w-5 h-5 text-black mr-3 flex-shrink-0" />
-                      <input 
-                        type="text"
-                        value={pickupLocation}
-                        onFocus={() => {
-                          setShowLocationPopup(true);
-                          setShowReturnPopup(false);
-                        }}
-                        onChange={(e) => setPickupLocation(e.target.value)}
-                        className="bg-transparent border-none outline-none w-full text-[15px] font-normal text-neutral-900 focus:ring-0 p-0"
-                        required
-                      />
-                    </div>
-                    
-                    <button 
-                      type="button"
-                      onClick={() => {
-                        setIsDifferentReturn(true);
-                        setShowLocationPopup(false);
-                        setShowReturnPopup(true);
-                      }}
-                      className="text-[12px] font-semibold text-neutral-500 hover:text-black whitespace-nowrap flex items-center gap-1.5"
-                    >
-                      <svg className="w-[18px] h-[18px] text-neutral-400 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Different return location
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start w-full">
-                  {/* Pickup field */}
-                  <div className="flex flex-col w-full relative">
-                    <label className="text-[11px] font-bold text-neutral-900 mb-1.5 text-left">Pickup</label>
-                    <div 
-                      onClick={() => {
-                        setShowLocationPopup(true);
-                        setShowReturnPopup(false);
-                      }}
-                      className={`w-full flex items-center bg-white border rounded-lg px-4 py-2 h-[48px] cursor-pointer premium-transition ${
-                        showLocationPopup 
-                          ? 'border-[#C5A059]' 
-                          : 'border-neutral-200 focus-within:border-black'
-                      }`}
-                    >
-                      <SolidPlaneIcon className="w-5 h-5 text-black mr-3 flex-shrink-0" />
-                      <input 
-                        type="text"
-                        value={pickupLocation}
-                        onFocus={() => {
-                          setShowLocationPopup(true);
-                          setShowReturnPopup(false);
-                        }}
-                        onChange={(e) => setPickupLocation(e.target.value)}
-                        className="bg-transparent border-none outline-none w-full text-[15px] font-normal text-neutral-900 focus:ring-0 p-0"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  {/* Return field */}
-                  <div className="flex flex-col w-full relative">
-                    <label className="text-[11px] font-bold text-neutral-900 mb-1.5 text-left">Return</label>
-                    <div 
-                      onClick={() => {
-                        setShowReturnPopup(true);
-                        setShowLocationPopup(false);
-                      }}
-                      className={`w-full flex items-center bg-white border rounded-lg px-4 py-2 h-[48px] cursor-pointer premium-transition ${
-                        showReturnPopup 
-                          ? 'border-[#C5A059]' 
-                          : 'border-neutral-200 focus-within:border-black'
-                      }`}
-                    >
-                      {/* Search magnifying glass icon for Return search */}
-                      <svg className="w-5 h-5 text-black mr-3 flex-shrink-0 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="8" />
-                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                      </svg>
-                      <input 
-                        type="text"
-                        value={returnLocation}
-                        placeholder="Airport, city or address"
-                        onFocus={() => {
-                          setShowReturnPopup(true);
-                          setShowLocationPopup(false);
-                        }}
-                        onChange={(e) => setReturnLocation(e.target.value)}
-                        className="bg-transparent border-none outline-none w-full text-[15px] font-normal text-neutral-900 focus:ring-0 p-0"
-                        required={isDifferentReturn}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Click Outside Overlay Layers */}
-              {showLocationPopup && (
-                <div 
-                  className="fixed inset-0 z-30 bg-transparent" 
-                  onClick={() => setShowLocationPopup(false)}
-                />
-              )}
-
-              {showReturnPopup && (
-                <div 
-                  className="fixed inset-0 z-30 bg-transparent" 
-                  onClick={() => setShowReturnPopup(false)}
-                />
-              )}
-
-              {/* High-Fidelity Location Picker Popup */}
-              {showLocationPopup && (
-                <div className="absolute top-full mt-2 left-0 w-full md:max-w-[740px] bg-white border border-neutral-200/80 rounded-2xl shadow-2xl z-40 flex flex-col md:flex-row overflow-hidden text-left text-neutral-800 transition-all duration-200 animate-fadeIn">
-                  
-                  {/* Left Column: Stations Lists */}
-                  <div className="w-full md:w-[42%] bg-white py-4 max-h-[300px] md:max-h-[400px] overflow-y-auto">
-                    
-                    {/* History Section */}
-                    {getFilteredStations(historyStations).length > 0 && (
-                      <div>
-                        <h3 className="px-6 pt-2 pb-1.5 text-sm font-normal text-neutral-900">History</h3>
-                        {getFilteredStations(historyStations).map((name) => (
-                          <div 
-                            key={name}
-                            onMouseEnter={() => setHoveredStationKey(name)}
-                            onClick={() => {
-                              setPickupLocation(name);
-                              setShowLocationPopup(false);
-                            }}
-                            className={`flex items-center gap-4 px-6 py-3 cursor-pointer transition-colors duration-150 ${
-                              hoveredStationKey === name 
-                                ? 'bg-[#f3f3f3] text-black' 
-                                : 'bg-transparent text-neutral-800 hover:bg-[#f9f9f9]'
-                            }`}
-                          >
-                            <SolidPlaneIcon className={`w-4 h-4 ${
-                              hoveredStationKey === name ? 'text-black' : 'text-neutral-500'
-                            }`} />
-                            <span className="text-[13px] font-bold">
-                              {name}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Popular Stations Section */}
-                    {getFilteredStations(popularStations).length > 0 && (
-                      <div className="mt-2">
-                        <h3 className="px-6 pt-3 pb-1.5 text-sm font-normal text-neutral-900">Popular stations</h3>
-                        {getFilteredStations(popularStations).map((name) => (
-                          <div 
-                            key={name}
-                            onMouseEnter={() => setHoveredStationKey(name)}
-                            onClick={() => {
-                              setPickupLocation(name);
-                              setShowLocationPopup(false);
-                            }}
-                            className={`flex items-center gap-4 px-6 py-3 cursor-pointer transition-colors duration-150 ${
-                              hoveredStationKey === name 
-                                ? 'bg-[#f3f3f3] text-black' 
-                                : 'bg-transparent text-neutral-800 hover:bg-[#f9f9f9]'
-                            }`}
-                          >
-                            <SolidPlaneIcon className={`w-4 h-4 ${
-                              hoveredStationKey === name ? 'text-black' : 'text-neutral-500'
-                            }`} />
-                            <span className="text-[13px] font-bold">
-                              {name}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                  </div>
-
-                  {/* Right Column: Station Details Panel */}
-                  <div className="w-full md:w-[58%] bg-[#f3f3f3] p-6 md:p-8 flex flex-col justify-between min-h-[260px] md:min-h-[350px]">
-                    
-                    {/* Upper Details Block */}
-                    <div>
-                      {/* Top Header Row inside Details Panel */}
-                      <div className="flex items-start justify-between">
-                        <SolidPlaneIcon className="w-10 h-10 text-neutral-900" />
-                        <div className="flex items-center gap-1.5 border border-[#C5A059] text-[#C5A059] px-3 py-1.5 rounded-full text-[11px] font-bold bg-transparent">
-                          <RotateCcw className="w-3.5 h-3.5 stroke-[2.5]" /> 24-hour return
-                        </div>
-                      </div>
-
-                      {/* Station Details */}
-                      <div className="mt-6">
-                        <h4 className="font-normal text-2xl text-neutral-900 leading-tight">
-                          {currentStation.name}
-                        </h4>
-                        <p className="text-xs text-neutral-500 mt-1.5 font-medium leading-normal">
-                          {currentStation.address}
-                        </p>
-                      </div>
-
-                      {/* Opening Hours list */}
-                      <div className="mt-6">
-                        <span className="text-xs font-bold text-neutral-900 block mb-2">Opening hours</span>
-                        <div className="text-xs space-y-1.5">
-                          <div className="flex items-center">
-                            <span className="text-neutral-500 font-medium w-24">Mon - Sun:</span>
-                            <span className="text-neutral-900 font-bold">{currentStation.hours}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <span className="text-neutral-500 font-medium w-24">Holidays:</span>
-                            <span className="text-neutral-900 font-bold">{currentStation.holidays}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom Details Footer Link */}
-                    <div className="flex items-center gap-2 mt-6 cursor-pointer group">
-                      <div className="w-5 h-5 bg-black rounded-full flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0">
-                        i
-                      </div>
-                      <span className="text-xs font-bold text-neutral-900 underline underline-offset-2 group-hover:text-[#C5A059] transition-colors">
-                        Station Details
-                      </span>
-                    </div>
-
-                  </div>
-
-                </div>
-              )}
-
-              {/* High-Fidelity Return Location Picker Popup */}
-              {showReturnPopup && (
-                <div className="absolute top-full mt-2 left-0 w-full md:max-w-[740px] bg-white border border-neutral-200/80 rounded-2xl shadow-2xl z-40 flex flex-col md:flex-row overflow-hidden text-left text-neutral-800 transition-all duration-200 animate-fadeIn">
-                  
-                  {/* Left Column: Stations Lists */}
-                  <div className="w-full md:w-[42%] bg-white py-4 max-h-[300px] md:max-h-[400px] overflow-y-auto">
-                    
-                    {/* Return at pickup option */}
-                    <div 
-                      onClick={() => {
-                        setIsDifferentReturn(false);
-                        setReturnLocation('');
-                        setShowReturnPopup(false);
-                      }}
-                      className="flex items-center gap-4 px-6 py-3 cursor-pointer hover:bg-[#f9f9f9] border-b border-neutral-100 transition-colors"
-                    >
-                      <RotateCcw className="w-4 h-4 text-neutral-800 stroke-[2.5]" />
-                      <span className="text-[13px] font-bold text-neutral-900">
-                        Return at pickup
-                      </span>
-                    </div>
-
-                    {/* History Section */}
-                    <div className="mt-2">
-                      <h3 className="px-6 pt-2 pb-1.5 text-sm font-normal text-neutral-900">History</h3>
-                      
-                      {/* Munich Airport history item */}
-                      <div 
-                        onMouseEnter={() => setHoveredReturnStationKey('Munich Airport')}
-                        onClick={() => {
-                          setReturnLocation('Munich Airport');
-                          setShowReturnPopup(false);
-                        }}
-                        className={`flex items-center gap-4 px-6 py-3 cursor-pointer transition-colors duration-150 ${
-                          hoveredReturnStationKey === 'Munich Airport' 
-                            ? 'bg-[#f3f3f3] text-black' 
-                            : 'bg-transparent text-neutral-800 hover:bg-[#f9f9f9]'
-                        }`}
-                      >
-                        <SolidPlaneIcon className={`w-4 h-4 ${
-                          hoveredReturnStationKey === 'Munich Airport' ? 'text-black' : 'text-neutral-500'
-                        }`} />
-                        <span className="text-[13px] font-bold">
-                          Munich Airport
-                        </span>
-                      </div>
-
-                      {/* NYC Long Island City history item */}
-                      <div 
-                        onMouseEnter={() => setHoveredReturnStationKey('New York City Long Island City')}
-                        onClick={() => {
-                          setReturnLocation('New York City Long Island City');
-                          setShowReturnPopup(false);
-                        }}
-                        className={`flex items-center gap-4 px-6 py-3 cursor-pointer transition-colors duration-150 ${
-                          hoveredReturnStationKey === 'New York City Long Island City' 
-                            ? 'bg-[#f3f3f3] text-black' 
-                            : 'bg-transparent text-neutral-800 hover:bg-[#f9f9f9]'
-                        }`}
-                      >
-                        <Building className={`w-4 h-4 stroke-[2] ${
-                          hoveredReturnStationKey === 'New York City Long Island City' ? 'text-black' : 'text-neutral-500'
-                        }`} />
-                        <span className="text-[13px] font-bold text-left">
-                          New York City Long Island City
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Column: Return Station Details Panel */}
-                  <div className="w-full md:w-[58%] bg-[#f3f3f3] p-6 md:p-8 flex flex-col justify-between min-h-[260px] md:min-h-[350px]">
-                    
-                    {/* Upper Details Block */}
-                    <div>
-                      {/* Top Header Row inside Details Panel */}
-                      <div className="flex items-start justify-between">
-                        {hoveredReturnStationKey === 'New York City Long Island City' ? (
-                          <Building className="w-10 h-10 text-neutral-900 stroke-[1.5]" />
-                        ) : (
-                          <SolidPlaneIcon className="w-10 h-10 text-neutral-900" />
-                        )}
-                        <div className="flex items-center gap-1.5 border border-[#C5A059] text-[#C5A059] px-3 py-1.5 rounded-full text-[11px] font-bold bg-transparent">
-                          <RotateCcw className="w-3.5 h-3.5 stroke-[2.5]" /> 24-hour return
-                        </div>
-                      </div>
-
-                      {/* Station Details */}
-                      <div className="mt-6">
-                        <h4 className="font-normal text-2xl text-neutral-900 leading-tight">
-                          {stationsData[hoveredReturnStationKey]?.name || 'Munich Airport'}
-                        </h4>
-                        <p className="text-xs text-neutral-500 mt-1.5 font-medium leading-normal">
-                          {stationsData[hoveredReturnStationKey]?.address || 'Terminalstr. Mitte/MWZ, München, 85356, DE'}
-                        </p>
-                      </div>
-
-                      {/* Opening Hours list */}
-                      <div className="mt-6">
-                        <span className="text-xs font-bold text-neutral-900 block mb-2">Opening hours</span>
-                        <div className="text-xs space-y-1.5">
-                          <div className="flex items-center">
-                            <span className="text-neutral-500 font-medium w-24">Mon - Sun:</span>
-                            <span className="text-neutral-900 font-bold">{stationsData[hoveredReturnStationKey]?.hours}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <span className="text-neutral-500 font-medium w-24">Holidays:</span>
-                            <span className="text-neutral-900 font-bold">{stationsData[hoveredReturnStationKey]?.holidays}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom Details Footer Link */}
-                    <div className="flex items-center gap-2 mt-6 cursor-pointer group">
-                      <div className="w-5 h-5 bg-black rounded-full flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0">
-                        i
-                      </div>
-                      <span className="text-xs font-bold text-neutral-900 underline underline-offset-2 group-hover:text-[#C5A059] transition-colors">
-                        Station Details
-                      </span>
-                    </div>
-
-                  </div>
-
-                </div>
-              )}
+            {/* Divider */}
+            <div className="w-[1px] h-[36px] bg-neutral-200"></div>
+            
+            {/* Drop-off time */}
+            <div className="flex flex-col justify-center px-6 py-2.5 flex-1 cursor-pointer hover:bg-[#EBECEC] rounded-r-[16px] transition-colors h-full">
+              <span className="text-[13px] font-normal text-neutral-400 mb-0.5">Drop-off time</span>
+              <span className="text-[16px] font-bold text-neutral-800">{returnTime}</span>
             </div>
-
-            {/* Dates & Search Action Row — separate boxes like reference */}
-            <div className="grid grid-cols-2 lg:flex lg:flex-row gap-3 lg:gap-4 items-end relative">
-
-              {/* ── PICKUP DATE & TIME ── */}
-              <div className="flex flex-col col-span-2 lg:flex-1 relative">
-                <label className="text-[11px] font-bold text-neutral-900 mb-1.5 text-left">Pickup date</label>
-                <div className={`flex items-center bg-white border rounded-lg h-[48px] cursor-pointer premium-transition ${
-                    (showCalendarPopup && activeDateField === 'pickup') || (showTimePopup && activeTimeField === 'pickup')
-                      ? 'border-[#C5A059]'
-                      : 'border-neutral-200 hover:border-neutral-400'
-                  }`}
-                >
-                  {/* Date Part */}
-                  <div 
-                    onClick={() => {
-                      setShowTimePopup(false);
-                      setShowCalendarPopup(true);
-                      setActiveDateField('pickup');
-                    }}
-                    className="flex items-center px-3 md:px-4 h-full flex-grow"
-                  >
-                    <SolidCalendarIcon className="w-[20px] h-[20px] text-black mr-2 flex-shrink-0" />
-                    <span className="text-[15px] font-normal text-neutral-900 select-none truncate">{pickupDate || 'Select date'}</span>
-                  </div>
-                  
-                  {/* Divider */}
-                  <div className="h-2/3 w-[1px] bg-neutral-200"></div>
-
-                  {/* Time Part */}
-                  <div
-                    onClick={(e) => openTimePopup(e, 'pickup')}
-                    className="flex items-center px-3 md:px-4 h-full flex-shrink-0"
-                  >
-                    <span className="text-[15px] font-normal text-neutral-900 select-none whitespace-nowrap">{pickupTime}</span>
-                  </div>
-                </div>
-                {/* Time Picker Popup anchored here */}
-                {showTimePopup && activeTimeField === 'pickup' && (
-                  <div
-                    className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-neutral-200 rounded-xl shadow-2xl z-50 animate-fadeIn text-neutral-800 overflow-hidden"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <TimePickerPopup
-                      activeTimeField={activeTimeField}
-                      currentTime={pickupTime}
-                      selectTime={selectTime}
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* ── RETURN DATE & TIME ── */}
-              <div className="flex flex-col col-span-2 lg:flex-1 relative">
-                <label className="text-[11px] font-bold text-neutral-900 mb-1.5 text-left">Return date</label>
-                <div className={`flex items-center bg-white border rounded-lg h-[48px] cursor-pointer premium-transition ${
-                    (showCalendarPopup && activeDateField === 'return') || (showTimePopup && activeTimeField === 'return')
-                      ? 'border-[#C5A059]'
-                      : 'border-neutral-200 hover:border-neutral-400'
-                  }`}
-                >
-                  {/* Date Part */}
-                  <div 
-                    onClick={() => {
-                      setShowTimePopup(false);
-                      setShowCalendarPopup(true);
-                      setActiveDateField('return');
-                    }}
-                    className="flex items-center px-3 md:px-4 h-full flex-grow"
-                  >
-                    <SolidCalendarIcon className="w-[20px] h-[20px] text-black mr-2 flex-shrink-0" />
-                    <span className="text-[15px] font-normal text-neutral-900 select-none truncate">{returnDate || 'Select date'}</span>
-                  </div>
-                  
-                  {/* Divider */}
-                  <div className="h-2/3 w-[1px] bg-neutral-200"></div>
-
-                  {/* Time Part */}
-                  <div
-                    onClick={(e) => openTimePopup(e, 'return')}
-                    className="flex items-center px-3 md:px-4 h-full flex-shrink-0"
-                  >
-                    <span className="text-[15px] font-normal text-neutral-900 select-none whitespace-nowrap">{returnTime}</span>
-                  </div>
-                </div>
-                {/* Time Picker Popup anchored here */}
-                {showTimePopup && activeTimeField === 'return' && (
-                  <div
-                    className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-neutral-200 rounded-xl shadow-2xl z-50 animate-fadeIn text-neutral-800 overflow-hidden"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <TimePickerPopup
-                      activeTimeField={activeTimeField}
-                      currentTime={returnTime}
-                      selectTime={selectTime}
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* ── SHOW CARS BUTTON ── */}
-              <div className="flex flex-col col-span-2 lg:col-span-1" style={{flexShrink: 0}}>
-                <label className="hidden lg:block text-[11px] font-bold text-neutral-900 mb-1.5 text-left opacity-0 pointer-events-none">.</label>
-                <button 
-                  type="submit"
-                  className="w-full lg:w-auto bg-[#C5A059] hover:bg-[#B28F4B] text-white font-bold text-[15px] h-[48px] px-8 rounded-lg shadow-lg tracking-wide flex items-center justify-center hover:scale-[1.02] active:scale-95 premium-transition whitespace-nowrap"
-                >
-                  Show cars
-                </button>
-              </div>
-
-              {/* Click Outside Overlay for Calendar and Time Picker */}
-              {(showCalendarPopup || showTimePopup) && (
-                <div 
-                  className="fixed inset-0 z-30 bg-transparent" 
-                  onClick={() => {
-                    setShowCalendarPopup(false);
-                    setActiveDateField(null);
-                    setShowTimePopup(false);
-                    setActiveTimeField(null);
-                  }}
-                />
-              )}
-
-              {/* ── Calendar Range Picker Popup ── */}
-              {showCalendarPopup && (
-                <div
-                  className={`fixed md:absolute top-1/2 md:top-full left-1/2 md:left-0 -translate-x-1/2 -translate-y-1/2 md:translate-x-0 md:translate-y-0 mt-0 md:mt-2 ${
-                    activeDateField === 'pickup'
-                      ? 'md:left-0'
-                      : 'md:left-0 lg:left-auto lg:right-0'
-                  } w-[calc(100vw-2rem)] max-w-[400px] md:max-w-none md:w-[650px] lg:w-[900px] bg-white border border-neutral-200/60 rounded-2xl shadow-2xl z-50 animate-fadeIn select-none text-neutral-800 overflow-hidden`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {/* Inner padded area with relative for chevron positioning */}
-                  <div className="relative px-10 pt-6 pb-8">
-                    {/* Left arrow */}
-                    <button
-                      type="button"
-                      className="absolute top-6 left-4 p-1 text-neutral-400 hover:text-black transition-colors"
-                      onClick={() => alert('Previous months unavailable in this visual clone.')}
+            
+            {/* Time Popup Dropdown */}
+            {showTimePopup && (
+              <div 
+                data-lenis-prevent
+                className="absolute top-[calc(100%+12px)] left-0 w-full bg-[#F4F5F6] rounded-[24px] shadow-2xl z-50 border border-neutral-200/50 flex overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Pickup Time List */}
+                <div className="flex-1 overflow-y-auto h-[320px] px-2 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                  {TIME_SLOTS.map(time => (
+                    <div 
+                      key={`pickup-${time}`}
+                      onClick={() => { setPickupTime(time); }}
+                      className={`text-center py-2.5 mx-4 my-1.5 rounded-full cursor-pointer transition-colors text-[15px] font-normal ${
+                        pickupTime === time 
+                          ? 'bg-[#C5A059] text-white shadow-sm' 
+                          : 'text-neutral-800 hover:bg-neutral-200/70'
+                      }`}
                     >
-                      <ChevronLeft className="w-6 h-6 stroke-[2]" />
-                    </button>
-                    {/* Right arrow */}
-                    <button
-                      type="button"
-                      className="absolute top-6 right-4 p-1 text-neutral-400 hover:text-black transition-colors"
-                      onClick={() => alert('Future months unavailable in this visual clone.')}
-                    >
-                      <ChevronRight className="w-6 h-6 stroke-[2]" />
-                    </button>
-
-                    {/* Three months side by side */}
-                    <div className="flex flex-col md:flex-row gap-6 lg:gap-10 justify-between items-start">
-                      <div className="flex-1">
-                        {renderMonth('June 2026', juneDays, 0)}
-                      </div>
-                      <div className="hidden md:block flex-1">
-                        {renderMonth('July 2026', julyDays, 30)}
-                      </div>
-                      <div className="hidden lg:block flex-1">
-                        {renderMonth('August 2026', augustDays, 61)}
-                      </div>
+                      {time}
                     </div>
-                  </div>
+                  ))}
                 </div>
-              )}
+                
+                {/* Divider */}
+                <div className="w-[1px] bg-neutral-200/60 my-4"></div>
 
-            </div>
-
+                {/* Drop-off Time List */}
+                <div className="flex-1 overflow-y-auto h-[320px] px-2 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                  {TIME_SLOTS.map(time => (
+                    <div 
+                      key={`return-${time}`}
+                      onClick={() => { setReturnTime(time); }}
+                      className={`text-center py-2.5 mx-4 my-1.5 rounded-full cursor-pointer transition-colors text-[15px] font-normal ${
+                        returnTime === time 
+                          ? 'bg-[#C5A059] text-white shadow-sm' 
+                          : 'text-neutral-800 hover:bg-neutral-200/70'
+                      }`}
+                    >
+                      {time}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Bottom Settings Row */}
-          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-neutral-100 pt-3.5 text-xs text-neutral-800">
-            <div className="flex items-center gap-3">
+          {/* Show Cars Button */}
+          <button 
+            onClick={handleScrollToListings}
+            className="bg-[#C5A059] hover:bg-[#B28F4B] text-white rounded-[16px] px-10 py-2.5 flex items-center justify-center font-bold text-[16px] transition-colors md:w-auto shadow-md"
+          >
+            Show Cars
+          </button>
+          
+        </div>
+
+        {/* Calendar Popup Overlay */}
+        {showCalendarPopup && (
+          <div className="absolute top-[calc(100%+12px)] left-0 w-full bg-[#F4F5F6] rounded-[24px] px-8 py-5 shadow-2xl z-50 border border-neutral-200/50">
+            {/* Header with arrows */}
+            <div className="flex items-center justify-between mb-5">
+              <button 
+                type="button" 
+                onClick={() => setCalendarOffset(Math.max(0, calendarOffset - 1))}
+                className={`p-1 transition-colors ${calendarOffset > 0 ? 'text-[#C5A059] hover:text-[#B28F4B]' : 'text-neutral-300 cursor-default'}`}
+              >
+                <svg className="w-6 h-6 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+              </button>
               
-              {/* Driver's Age Selector Option */}
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowAgeDropdown(!showAgeDropdown);
-                  }}
-                  className="flex items-center gap-1 bg-white text-neutral-900 font-bold hover:text-black cursor-pointer select-none focus:outline-none"
-                >
-                  <svg className="w-[15px] h-[15px] text-black fill-current" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                  <span>Driver's age {driverAge}</span>
-                  <span className="text-[9px] text-neutral-500 font-black ml-0.5">▼</span>
-                </button>
+              <div className="flex-1 flex justify-between px-16 lg:px-32">
+                {[0, 1, 2].map(offset => (
+                  <span key={offset} className="text-[16px] font-normal text-neutral-800 tracking-wide">
+                    {getMonthData(2026, 6 + calendarOffset + offset).monthName}
+                  </span>
+                ))}
+              </div>
+              
+              <button 
+                type="button"
+                onClick={() => setCalendarOffset(calendarOffset + 1)}
+                className="text-[#C5A059] hover:text-[#B28F4B] p-1"
+              >
+                <svg className="w-6 h-6 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+              </button>
+            </div>
+            
+            {/* Calendars Row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[0, 1, 2].map(offset => {
+                const { firstDay, daysInMonth, monthName } = getMonthData(2026, 6 + calendarOffset + offset);
+                
+                return (
+                  <div key={offset} className="flex-1">
+                    <p className="text-center font-bold text-[14px] text-neutral-500 uppercase tracking-widest mb-4 md:hidden">
+                      {monthName}
+                    </p>
+                    
+                    {/* Days of week */}
+                    <div className="grid grid-cols-7 gap-y-2 text-center text-xs font-bold text-neutral-400 mb-2">
+                      <span>MO</span><span>TU</span><span>WE</span><span>TH</span><span>FR</span><span>SA</span><span>SU</span>
+                    </div>
+                    
+                    {/* Month Days */}
+                    <div className="grid grid-cols-7 gap-y-2 text-center">
+                      {Array.from({length: firstDay}).map((_, i) => (
+                        <div key={`empty-${offset}-${i}`}></div>
+                      ))}
+                      {Array.from({length: daysInMonth}, (_, i) => i + 1).map(date => {
+                        const monthPrefix = getMonthData(2026, 6 + calendarOffset + offset).monthName.split(' ')[0].substring(0, 3);
+                        const dateStr = `${monthPrefix} ${date}`;
+                        
+                        const startDate = parseDateStr(pickupDate);
+                        const endDate = parseDateStr(returnDate);
+                        const cellDate = new Date(2026, 6 + calendarOffset + offset, date);
+                        const isStart = isSameDay(cellDate, startDate);
+                        const isEnd = isSameDay(cellDate, endDate);
+                        const inRange = startDate && endDate && cellDate > startDate && cellDate < endDate;
 
-                {showAgeDropdown && (
-                  <>
-                    <div 
-                      className="fixed inset-0 z-40 bg-transparent" 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowAgeDropdown(false);
-                      }}
-                    />
-                    <div className="absolute left-0 mt-2 z-50 bg-white border border-neutral-200 rounded-2xl shadow-xl w-[140px] max-h-[225px] overflow-y-auto text-left text-neutral-800 animate-fadeIn py-1.5">
-                      {['30+', '29', '28', '27', '26', '25', '24', '23', '22', '21', '20', '19', '18'].map((age) => {
-                        const isSelected = driverAge === age;
+                        let dayClass = "text-[14px] font-semibold w-[32px] h-[32px] mx-auto flex items-center justify-center rounded-full cursor-pointer transition-colors ";
+                        if (isStart || isEnd) {
+                          dayClass += "bg-black text-white font-bold";
+                        } else if (inRange) {
+                          dayClass += "bg-neutral-200 text-neutral-900 rounded-lg";
+                        } else {
+                          dayClass += "text-neutral-800 hover:bg-white";
+                        }
+
                         return (
-                          <button
-                            key={age}
-                            type="button"
+                          <div 
+                            key={date} 
                             onClick={() => {
-                              setDriverAge(age);
-                              setShowAgeDropdown(false);
+                              if (!pickupDate || (pickupDate && returnDate)) {
+                                setPickupDate(dateStr);
+                                setReturnDate('');
+                              } else {
+                                setReturnDate(dateStr);
+                                setShowCalendarPopup(false);
+                              }
                             }}
-                            className={`flex items-center justify-between w-full px-4 py-2 hover:bg-neutral-50 transition-colors text-xs font-bold leading-none ${
-                              isSelected ? 'text-neutral-900' : 'text-neutral-800'
-                            }`}
+                            className={dayClass}
                           >
-                            <span>{age}</span>
-                          </button>
+                            {date}
+                          </div>
                         );
                       })}
                     </div>
-                  </>
-                )}
-              </div>
-
-              <span className="text-neutral-200">|</span>
-
-              {/* Apply Corporate Rate link */}
-              <button 
-                type="button" 
-                className="font-bold text-neutral-900 underline hover:text-[#C5A059] premium-transition"
-              >
-                Apply corporate rate
-              </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          </>
-          )}
-        </form>
-
+        )}
       </div>
+    );
+  };
 
-      {/* ═══════════════════════════════════════════════════════════
-          MOBILE PANELS — full-screen overlays (hidden on md+)
-          ═══════════════════════════════════════════════════════════ */}
-
-      {/* ── PANEL 1B: Return Location Picker ── */}
-      {mobilePanel === 'location-return' && (
-        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
-          <div className="flex items-center px-5 py-4 border-b border-neutral-100">
-            <button onClick={() => setMobilePanel('details')} className="text-neutral-800 font-bold text-lg p-1 mr-3">✕</button>
-            <span className="font-bold text-base text-neutral-900">Return location</span>
+  return (
+    <>
+      {/* Sticky Scroll-Up Search Bar */}
+      <div 
+        ref={stickyWidgetRef}
+        className={`fixed top-0 left-0 right-0 w-full z-[100] bg-black/90 backdrop-blur-md shadow-2xl border-b border-neutral-800 py-3.5 transition-all duration-300 ease-out hidden md:block ${
+          showStickySearch ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className="max-w-[1100px] mx-auto px-6 flex items-center justify-between gap-6">
+          {/* Logo Brand */}
+          <div 
+            onClick={handleScrollToListings}
+            className="flex flex-col items-center cursor-pointer select-none leading-none active:scale-95 transition-transform duration-100 flex-shrink-0"
+          >
+            <span className="font-sans font-bold text-[24px] bg-gradient-to-b from-[#EAE0C8] via-[#C5A059] to-[#997A3D] bg-clip-text text-transparent leading-none mb-0.5">
+              W
+            </span>
+            <span className="text-[4px] tracking-[0.3em] font-extrabold text-neutral-400 uppercase">
+              LUXURY RENTAL
+            </span>
           </div>
-          <div className="px-5 pt-4 pb-2">
-            <div className="flex items-center gap-2 border-2 border-neutral-200 rounded-xl px-3 h-[46px]">
-              <svg className="w-4 h-4 text-neutral-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-              <input type="text" value={returnLocation} onChange={e => setReturnLocation(e.target.value)}
-                className="flex-grow text-sm font-bold text-neutral-900 outline-none" placeholder="City, airport, station..." autoFocus />
-              {returnLocation && <button onClick={() => setReturnLocation('')} className="text-neutral-400 text-xs">✕</button>}
+
+          {/* Search Inputs Container */}
+          <div className="flex flex-row gap-3 md:gap-4 flex-grow max-w-[800px] relative">
+            {/* Rental Dates Selector */}
+            <div 
+              onClick={() => {
+                setShowCalendarPopup(!showCalendarPopup);
+                setShowTimePopup(false);
+              }}
+              className="flex items-center justify-between bg-neutral-900/60 border border-neutral-800 hover:border-neutral-700 rounded-[14px] px-5 py-2 flex-[1.2] cursor-pointer hover:bg-neutral-900 transition-colors"
+            >
+              <div className="flex flex-col text-left">
+                <span className="text-[10px] font-normal text-neutral-500 mb-0.5 uppercase tracking-wider">Rental dates</span>
+                <span className="text-[14px] font-bold text-neutral-200">
+                  {pickupDate && returnDate ? `${pickupDate} - ${returnDate}` : 'Select dates'}
+                </span>
+              </div>
+              <svg className="w-5 h-5 text-[#C5A059] stroke-[1.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
             </div>
-          </div>
-          <div className="flex-grow overflow-y-auto px-5 pb-8">
-            <p className="text-xs font-black text-neutral-400 uppercase tracking-wider mt-4 mb-3">Popular stations</p>
-            {popularStations.map(name => (
-              <button key={name} type="button" onClick={() => { setReturnLocation(name); setHoveredReturnStationKey(name); setMobilePanel('details'); }}
-                className="w-full flex items-center gap-4 py-3.5 border-b border-neutral-100 text-left">
-                <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-4 h-4 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="currentColor" stroke="none"/><circle cx="12" cy="9" r="2.5" fill="white" stroke="none"/></svg>
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-neutral-900">{name}</p>
-                  <p className="text-xs text-neutral-400 truncate max-w-[240px]">{stationsData[name]?.address || ''}</p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
 
-      {/* ── PANEL 1: Location Picker ── */}
-      {mobilePanel === 'location' && (
-        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
-          <div className="flex items-center px-5 py-4 border-b border-neutral-100">
-            <button onClick={() => setMobilePanel(null)} className="text-neutral-800 font-bold text-lg p-1 mr-3">✕</button>
-            <span className="font-bold text-base text-neutral-900">Pickup location</span>
-          </div>
-          <div className="px-5 pt-4 pb-2">
-            <div className="flex items-center gap-2 border-2 border-neutral-200 rounded-xl px-3 h-[46px]">
-              <svg className="w-4 h-4 text-neutral-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-              <input type="text" value={pickupLocation} onChange={e => setPickupLocation(e.target.value)}
-                className="flex-grow text-sm font-bold text-neutral-900 outline-none" placeholder="City, airport, station..." autoFocus />
-              {pickupLocation && <button onClick={() => setPickupLocation('')} className="text-neutral-400 text-xs">✕</button>}
-            </div>
-          </div>
-          <div className="flex-grow overflow-y-auto px-5 pb-8">
-            <p className="text-xs font-black text-neutral-400 uppercase tracking-wider mt-4 mb-3">History</p>
-            {historyStations.map(name => (
-              <button key={name} type="button" onClick={() => { setPickupLocation(name); setHoveredStationKey(name); setMobilePanel('details'); }}
-                className="w-full flex items-center gap-4 py-3.5 border-b border-neutral-100 text-left">
-                <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-4 h-4 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-neutral-900">{name}</p>
-                  <p className="text-xs text-neutral-400">{stationsData[name]?.address || ''}</p>
-                </div>
-              </button>
-            ))}
-            <p className="text-xs font-black text-neutral-400 uppercase tracking-wider mt-5 mb-3">Popular stations</p>
-            {popularStations.map(name => (
-              <button key={name} type="button" onClick={() => { setPickupLocation(name); setHoveredStationKey(name); setMobilePanel('details'); }}
-                className="w-full flex items-center gap-4 py-3.5 border-b border-neutral-100 text-left">
-                <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-4 h-4 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="currentColor" stroke="none"/><circle cx="12" cy="9" r="2.5" fill="white" stroke="none"/></svg>
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-neutral-900">{name}</p>
-                  <p className="text-xs text-neutral-400 truncate max-w-[240px]">{stationsData[name]?.address || ''}</p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ── PANEL 2: Rental Details ── */}
-      {mobilePanel === 'details' && (
-        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
-            <span className="font-black text-base text-neutral-900">Your rental details</span>
-            <button onClick={() => setMobilePanel(null)} className="text-neutral-800 font-bold text-lg p-1">✕</button>
-          </div>
-          <div className="flex-grow overflow-y-auto px-5 py-5 space-y-5">
-            <div>
-              <p className="text-xs font-black text-neutral-400 uppercase tracking-wider mb-2">Pickup &amp; return</p>
-              <button type="button" onClick={() => setMobilePanel('location')}
-                className="w-full flex items-center gap-3 border-2 border-neutral-200 rounded-xl h-[50px] px-4 text-left">
-                <svg className="w-4 h-4 text-neutral-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span className="text-sm font-bold text-neutral-900 truncate">{pickupLocation}</span>
-              </button>
-              <button type="button" onClick={() => setIsDifferentReturn(!isDifferentReturn)}
-                className="flex items-center gap-1.5 mt-2 text-xs font-bold text-[#C5A059]">
-                <span className="text-base leading-none">{isDifferentReturn ? '−' : '+'}</span>
-                {isDifferentReturn ? 'Same return location' : 'Different return location?'}
-              </button>
-              {isDifferentReturn && (
-                <div className="mt-2 flex items-center gap-3 border-2 border-neutral-200 rounded-xl h-[50px] px-4 cursor-pointer"
-                  onClick={() => setMobilePanel('location-return')}>
-                  <svg className="w-4 h-4 text-neutral-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  <span className="text-sm font-bold text-neutral-900 truncate">{returnLocation || 'Select return location'}</span>
+            {/* Time Selectors */}
+            <div 
+              onClick={() => {
+                setShowTimePopup(!showTimePopup);
+                setShowCalendarPopup(false);
+              }}
+              className="flex items-center bg-neutral-900/60 border border-neutral-800 rounded-[14px] flex-[1.5] relative"
+            >
+              {/* Pick up time */}
+              <div className="flex flex-col justify-center px-5 py-2 flex-1 cursor-pointer hover:bg-neutral-900 rounded-l-[14px] transition-colors h-full text-left">
+                <span className="text-[10px] font-normal text-neutral-500 mb-0.5 uppercase tracking-wider">Pick up time</span>
+                <span className="text-[14px] font-bold text-neutral-200">{pickupTime}</span>
+              </div>
+              
+              {/* Divider */}
+              <div className="w-[1px] h-[26px] bg-neutral-800"></div>
+              
+              {/* Drop-off time */}
+              <div className="flex flex-col justify-center px-5 py-2 flex-1 cursor-pointer hover:bg-neutral-900 rounded-r-[14px] transition-colors h-full text-left">
+                <span className="text-[10px] font-normal text-neutral-500 mb-0.5 uppercase tracking-wider">Drop-off time</span>
+                <span className="text-[14px] font-bold text-neutral-200">{returnTime}</span>
+              </div>
+              
+              {/* Time Popup Dropdown inside sticky bar */}
+              {showTimePopup && (
+                <div 
+                  data-lenis-prevent
+                  className="absolute top-[calc(100%+10px)] left-0 w-full bg-[#121212] rounded-[20px] shadow-2xl z-50 border border-neutral-800 flex overflow-hidden"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex-1 overflow-y-auto h-[280px] px-1 py-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                    {TIME_SLOTS.map(time => (
+                      <div 
+                        key={`pickup-sticky-${time}`}
+                        onClick={() => { setPickupTime(time); }}
+                        className={`text-center py-2 mx-3 my-1 rounded-full cursor-pointer transition-colors text-[14px] font-normal ${
+                          pickupTime === time 
+                            ? 'bg-[#C5A059] text-white shadow-sm font-bold' 
+                            : 'text-neutral-300 hover:bg-neutral-800'
+                        }`}
+                      >
+                        {time}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="w-[1px] bg-neutral-800 my-4"></div>
+                  <div className="flex-1 overflow-y-auto h-[280px] px-1 py-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                    {TIME_SLOTS.map(time => (
+                      <div 
+                        key={`return-sticky-${time}`}
+                        onClick={() => { setReturnTime(time); }}
+                        className={`text-center py-2 mx-3 my-1 rounded-full cursor-pointer transition-colors text-[14px] font-normal ${
+                          returnTime === time 
+                            ? 'bg-[#C5A059] text-white shadow-sm font-bold' 
+                            : 'text-neutral-300 hover:bg-neutral-800'
+                        }`}
+                      >
+                        {time}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-2 gap-3 pt-1">
-              <div>
-                <p className="text-xs font-black text-neutral-900 mb-2">Pickup</p>
-                <button type="button" onClick={() => { setActiveDateField('pickup'); setMobilePanel('calendar'); }}
-                  className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3 mb-2">
-                  <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                  <span className="text-xs font-bold text-neutral-900">{pickupDate || 'Select'}</span>
-                </button>
-                <button type="button" onClick={() => setMobilePanel('time-pickup')}
-                  className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3">
-                  <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  <span className="text-xs font-bold text-neutral-900">{pickupTime}</span>
-                </button>
+
+            {/* Calendar Popup Overlay inside sticky bar */}
+            {showCalendarPopup && (
+              <div 
+                className="absolute top-[calc(100%+10px)] left-0 w-full bg-[#F4F5F6] rounded-[24px] px-8 py-5 shadow-2xl z-50 border border-neutral-200/50"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Header with arrows */}
+                <div className="flex items-center justify-between mb-5">
+                  <button 
+                    type="button" 
+                    onClick={() => setCalendarOffset(Math.max(0, calendarOffset - 1))}
+                    className={`p-1 transition-colors ${calendarOffset > 0 ? 'text-[#C5A059] hover:text-[#B28F4B]' : 'text-neutral-300 cursor-default'}`}
+                  >
+                    <svg className="w-6 h-6 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                  </button>
+                  
+                  <div className="flex-1 flex justify-between px-16 lg:px-32">
+                    {[0, 1, 2].map(offset => (
+                      <span key={offset} className="text-[16px] font-normal text-neutral-800 tracking-wide">
+                        {getMonthData(2026, 6 + calendarOffset + offset).monthName}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <button 
+                    type="button" 
+                    onClick={() => setCalendarOffset(calendarOffset + 1)}
+                    className="text-[#C5A059] hover:text-[#B28F4B] transition-colors p-1"
+                  >
+                    <svg className="w-6 h-6 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  </button>
+                </div>
+
+                {/* Calendars Container */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {[0, 1, 2].map(offset => {
+                    const { firstDay, daysInMonth } = getMonthData(2026, 6 + calendarOffset + offset);
+                    return (
+                      <div key={offset}>
+                        <div className="grid grid-cols-7 text-center mb-3">
+                          {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
+                            <span key={day} className="text-[12px] font-normal text-neutral-500">{day}</span>
+                          ))}
+                        </div>
+                        <div className="grid grid-cols-7 gap-y-2 gap-x-1 text-center">
+                          {Array.from({length: firstDay}).map((_, i) => (
+                            <div key={`empty-sticky-${i}`}></div>
+                          ))}
+                          {Array.from({length: daysInMonth}, (_, i) => i + 1).map(date => {
+                            const monthPrefix = getMonthData(2026, 6 + calendarOffset + offset).monthName.split(' ')[0].substring(0, 3);
+                            const dateStr = `${monthPrefix} ${date}`;
+                            
+                            const startDate = parseDateStr(pickupDate);
+                            const endDate = parseDateStr(returnDate);
+                            const cellDate = new Date(2026, 6 + calendarOffset + offset, date);
+                            const isStart = isSameDay(cellDate, startDate);
+                            const isEnd = isSameDay(cellDate, endDate);
+                            const inRange = startDate && endDate && cellDate > startDate && cellDate < endDate;
+
+                            let dayClass = "text-[14px] font-semibold w-[32px] h-[32px] mx-auto flex items-center justify-center rounded-full cursor-pointer transition-colors ";
+                            if (isStart || isEnd) {
+                              dayClass += "bg-black text-white font-bold";
+                            } else if (inRange) {
+                              dayClass += "bg-neutral-200 text-neutral-900 rounded-lg";
+                            } else {
+                              dayClass += "text-neutral-800 hover:bg-neutral-200";
+                            }
+                            
+                            return (
+                              <div 
+                                key={date} 
+                                onClick={() => {
+                                  if (!pickupDate || (pickupDate && returnDate)) {
+                                    setPickupDate(dateStr);
+                                    setReturnDate('');
+                                    setActiveDateField('return');
+                                  } else {
+                                    setReturnDate(dateStr);
+                                    setShowCalendarPopup(false);
+                                  }
+                                }}
+                                className={dayClass}
+                              >
+                                {date}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-              <div>
-                <p className="text-xs font-black text-neutral-900 mb-2">Return</p>
-                <button type="button" onClick={() => { setActiveDateField('return'); setMobilePanel('calendar'); }}
-                  className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3 mb-2">
-                  <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                  <span className="text-xs font-bold text-neutral-900">{returnDate || 'Select'}</span>
-                </button>
-                <button type="button" onClick={() => setMobilePanel('time-return')}
-                  className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3">
-                  <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  <span className="text-xs font-bold text-neutral-900">{returnTime}</span>
-                </button>
+            )}
+          </div>
+
+          {/* Show Cars Action Button */}
+          <button 
+            onClick={handleScrollToListings}
+            className="bg-[#C5A059] hover:bg-[#B28F4B] text-white rounded-[14px] px-8 py-2.5 flex items-center justify-center font-bold text-[15px] transition-colors md:w-auto shadow-lg flex-shrink-0"
+          >
+            Show Cars
+          </button>
+        </div>
+      </div>
+
+      <section className={`relative w-full flex flex-col justify-start items-center select-none ${isDropdownMode ? 'bg-white py-4 md:py-6' : 'h-screen min-h-[520px] bg-transparent overflow-hidden pt-20'}`}>
+
+        {/* Full-width Background Video exactly like the reference */}
+        {!isDropdownMode && (
+          <>
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none z-0"
+            >
+              {/* The video source is now a local file. Drop your downloaded video into public/assets/bg-video.mp4 */}
+              <source src="/assets/bg-video3.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+
+            {/* Elegant Text Overlay matching Lucid Motors */}
+            <RevealOnScroll className="absolute inset-0 flex flex-col justify-start items-start px-6 md:px-12 lg:px-[10%] pt-24 md:pt-32 z-10 pointer-events-none">
+              {renderSearchWidget()}
+
+              <h1
+                className="text-white text-[45px] md:text-[70px] lg:text-[85px] font-condensed font-normal tracking-tight leading-[1.1] mb-4 drop-shadow-md mt-24 md:mt-[15vh]"
+              >
+                W Luxury Car Rental
+              </h1>
+              <p className="text-white text-base md:text-[20px] font-medium max-w-lg md:max-w-2xl leading-relaxed opacity-100 font-sans tracking-wide drop-shadow-md">
+                Choose from our range of top Luxury cars worldwide.
+              </p>
+            </RevealOnScroll>
+
+          </>
+        )}
+
+        {isDropdownMode && (
+          <div className="w-full max-w-[1100px] px-6">
+            {renderSearchWidget()}
+          </div>
+        )}
+
+        {/* ═══════════════════════════════════════════════════════════
+          MOBILE PANELS — full-screen overlays (hidden on md+)
+          ═══════════════════════════════════════════════════════════ */}
+
+        {/* ── PANEL 1B: Return Location Picker ── */}
+        {mobilePanel === 'location-return' && (
+          <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
+            <div className="flex items-center px-5 py-4 border-b border-neutral-100">
+              <button onClick={() => setMobilePanel('details')} className="text-neutral-800 font-bold text-lg p-1 mr-3">✕</button>
+              <span className="font-bold text-base text-neutral-900">Return location</span>
+            </div>
+            <div className="px-5 pt-4 pb-2">
+              <div className="flex items-center gap-2 border-2 border-neutral-200 rounded-xl px-3 h-[46px]">
+                <svg className="w-4 h-4 text-neutral-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
+                <input type="text" value={returnLocation} onChange={e => setReturnLocation(e.target.value)}
+                  className="flex-grow text-sm font-bold text-neutral-900 outline-none" placeholder="City, airport, station..." autoFocus />
+                {returnLocation && <button onClick={() => setReturnLocation('')} className="text-neutral-400 text-xs">✕</button>}
               </div>
             </div>
-            
-            {/* Action buttons (Show Cars, Corporate Rate, Driver Age) centered at bottom of scroll content */}
-            <div className="pt-4 flex flex-col items-center gap-4">
-              <button type="button" onClick={() => { onSearch({ pickupLocation, returnLocation: isDifferentReturn ? returnLocation : pickupLocation, pickupDate, pickupTime, returnDate, returnTime, driverAge }); setMobilePanel(null); }}
-                className="w-full bg-[#C5A059] hover:bg-[#B28F4B] text-white font-condensed font-black text-sm uppercase h-[52px] rounded-xl shadow tracking-wider">
-                Show cars
-              </button>
-              <button type="button" className="text-xs font-bold text-neutral-600 underline">Apply corporate rate</button>
-              <div className="relative">
-                <button type="button" onClick={() => setShowAgeDropdown(!showAgeDropdown)}
-                  className="flex items-center gap-1.5 text-xs font-bold text-neutral-700">
-                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                  Driver's age {driverAge} <span className="text-[10px]">▼</span>
-                </button>  
-                {showAgeDropdown && (
-                  <div className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-white border border-neutral-200 rounded-xl shadow-xl w-[130px] max-h-[200px] overflow-y-auto z-10 py-1">
-                    {['30+','29','28','27','26','25','24','23','22','21','20','19','18'].map(age => (
-                      <button key={age} type="button" onClick={() => { setDriverAge(age); setShowAgeDropdown(false); }}
-                        className={`w-full text-center px-4 py-2 text-xs font-bold ${driverAge === age ? 'text-[#C5A059]' : 'text-neutral-700'} hover:bg-neutral-50`}>
-                        {age}
-                      </button>
-                    ))}
+            <div className="flex-grow overflow-y-auto px-5 pb-8">
+              <p className="text-xs font-black text-neutral-400 uppercase tracking-wider mt-4 mb-3">Popular stations</p>
+              {popularStations.map(name => (
+                <button key={name} type="button" onClick={() => { setReturnLocation(name); setHoveredReturnStationKey(name); setMobilePanel('details'); }}
+                  className="w-full flex items-center gap-4 py-3.5 border-b border-neutral-100 text-left">
+                  <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="currentColor" stroke="none" /><circle cx="12" cy="9" r="2.5" fill="white" stroke="none" /></svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-neutral-900">{name}</p>
+                    <p className="text-xs text-neutral-400 truncate max-w-[240px]">{stationsData[name]?.address || ''}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── PANEL 1: Location Picker ── */}
+        {mobilePanel === 'location' && (
+          <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
+            <div className="flex items-center px-5 py-4 border-b border-neutral-100">
+              <button onClick={() => setMobilePanel(null)} className="text-neutral-800 font-bold text-lg p-1 mr-3">✕</button>
+              <span className="font-bold text-base text-neutral-900">Pickup location</span>
+            </div>
+            <div className="px-5 pt-4 pb-2">
+              <div className="flex items-center gap-2 border-2 border-neutral-200 rounded-xl px-3 h-[46px]">
+                <svg className="w-4 h-4 text-neutral-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
+                <input type="text" value={pickupLocation} onChange={e => setPickupLocation(e.target.value)}
+                  className="flex-grow text-sm font-bold text-neutral-900 outline-none" placeholder="City, airport, station..." autoFocus />
+                {pickupLocation && <button onClick={() => setPickupLocation('')} className="text-neutral-400 text-xs">✕</button>}
+              </div>
+            </div>
+            <div className="flex-grow overflow-y-auto px-5 pb-8">
+              <p className="text-xs font-black text-neutral-400 uppercase tracking-wider mt-4 mb-3">History</p>
+              {historyStations.map(name => (
+                <button key={name} type="button" onClick={() => { setPickupLocation(name); setHoveredStationKey(name); setMobilePanel('details'); }}
+                  className="w-full flex items-center gap-4 py-3.5 border-b border-neutral-100 text-left">
+                  <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 8 12 12 14 14" /></svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-neutral-900">{name}</p>
+                    <p className="text-xs text-neutral-400">{stationsData[name]?.address || ''}</p>
+                  </div>
+                </button>
+              ))}
+              <p className="text-xs font-black text-neutral-400 uppercase tracking-wider mt-5 mb-3">Popular stations</p>
+              {popularStations.map(name => (
+                <button key={name} type="button" onClick={() => { setPickupLocation(name); setHoveredStationKey(name); setMobilePanel('details'); }}
+                  className="w-full flex items-center gap-4 py-3.5 border-b border-neutral-100 text-left">
+                  <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="currentColor" stroke="none" /><circle cx="12" cy="9" r="2.5" fill="white" stroke="none" /></svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-neutral-900">{name}</p>
+                    <p className="text-xs text-neutral-400 truncate max-w-[240px]">{stationsData[name]?.address || ''}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── PANEL 2: Rental Details ── */}
+        {mobilePanel === 'details' && (
+          <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
+              <span className="font-black text-base text-neutral-900">Your rental details</span>
+              <button onClick={() => setMobilePanel(null)} className="text-neutral-800 font-bold text-lg p-1">✕</button>
+            </div>
+            <div className="flex-grow overflow-y-auto px-5 py-5 space-y-5">
+              <div>
+                <p className="text-xs font-black text-neutral-400 uppercase tracking-wider mb-2">Pickup &amp; return</p>
+                <button type="button" onClick={() => setMobilePanel('location')}
+                  className="w-full flex items-center gap-3 border-2 border-neutral-200 rounded-xl h-[50px] px-4 text-left">
+                  <svg className="w-4 h-4 text-neutral-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                  <span className="text-sm font-bold text-neutral-900 truncate">{pickupLocation}</span>
+                </button>
+                <button type="button" onClick={() => setIsDifferentReturn(!isDifferentReturn)}
+                  className="flex items-center gap-1.5 mt-2 text-xs font-bold text-[#C5A059]">
+                  <span className="text-base leading-none">{isDifferentReturn ? '−' : '+'}</span>
+                  {isDifferentReturn ? 'Same return location' : 'Different return location?'}
+                </button>
+                {isDifferentReturn && (
+                  <div className="mt-2 flex items-center gap-3 border-2 border-neutral-200 rounded-xl h-[50px] px-4 cursor-pointer"
+                    onClick={() => setMobilePanel('location-return')}>
+                    <svg className="w-4 h-4 text-neutral-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                    <span className="text-sm font-bold text-neutral-900 truncate">{returnLocation || 'Select return location'}</span>
                   </div>
                 )}
               </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── PANEL 3: Calendar (full-screen stacked months) ── */}
-      {mobilePanel === 'calendar' && (
-        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
-            <button onClick={() => setMobilePanel('details')} className="text-neutral-700 p-1">
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-            </button>
-            <span className="font-black text-base text-neutral-900">Trip dates</span>
-            <button onClick={() => { setPickupDate(''); setReturnDate(''); }} className="text-xs font-black text-neutral-500 uppercase tracking-wide">✕ Clear</button>
-          </div>
-          <div className="flex-grow overflow-y-auto px-5 py-6 space-y-10">
-            {renderMonth('June 2026', juneDays, 0)}
-            {renderMonth('July 2026', julyDays, 30)}
-            {renderMonth('August 2026', augustDays, 61)}
-          </div>
-          <div className="px-5 py-4 border-t border-neutral-100 bg-white">
-            <button type="button" onClick={() => { if (pickupDate && returnDate) setMobilePanel('details'); }}
-              disabled={!pickupDate || !returnDate}
-              className="w-full bg-[#C5A059] disabled:bg-neutral-200 disabled:text-neutral-400 text-white font-condensed font-black text-sm uppercase h-[52px] rounded-xl shadow tracking-wider transition-colors">
-              Continue
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* ── PANEL 4a: Time Picker – Pickup ── */}
-      {mobilePanel === 'time-pickup' && (
-        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
-            <button onClick={() => setMobilePanel('details')} className="text-neutral-700 p-1">
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-            </button>
-            <span className="font-black text-base text-neutral-900">Select pickup time</span>
-            <div className="w-8" />
-          </div>
-          <div className="grid grid-cols-2 gap-3 px-5 pt-4 pb-2">
-            <div className="flex items-center gap-2 border-2 border-[#C5A059] bg-[#FDF8EF] rounded-xl h-[44px] px-3">
-              <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              <span className="text-xs font-bold text-neutral-900">{pickupDate || '—'}</span>
-            </div>
-            <div className="flex items-center gap-2 border-2 border-neutral-200 bg-neutral-50 rounded-xl h-[44px] px-3">
-              <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              <span className="text-xs font-bold text-neutral-900">{returnDate || '—'}</span>
-            </div>
-          </div>
-          <p className="px-5 text-[11px] text-neutral-400 font-semibold mb-1">⏱ Opening Times: {stationsData[pickupLocation]?.hours || '05:00 AM - 11:59 PM'}</p>
-          <div className="flex-grow overflow-y-auto px-5 pb-8">
-            <TimePickerPopup activeTimeField="pickup" currentTime={pickupTime} selectTime={(slot) => { setPickupTime(slot); setMobilePanel('details'); }} />
-          </div>
-          <div className="px-5 py-4 border-t border-neutral-100 bg-white">
-            <button type="button" onClick={() => setMobilePanel('details')}
-              className="w-full bg-[#C5A059] text-white font-condensed font-black text-sm uppercase h-[52px] rounded-xl shadow tracking-wider">
-              Continue
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* ── PANEL 4b: Time Picker – Return ── */}
-      {mobilePanel === 'time-return' && (
-        <div data-lenis-prevent className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
-            <button onClick={() => setMobilePanel('details')} className="text-neutral-700 p-1">
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-            </button>
-            <span className="font-black text-base text-neutral-900">Select return time</span>
-            <div className="w-8" />
-          </div>
-          <div className="grid grid-cols-2 gap-3 px-5 pt-4 pb-2">
-            <div className="flex items-center gap-2 border-2 border-neutral-200 bg-neutral-50 rounded-xl h-[44px] px-3">
-              <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              <span className="text-xs font-bold text-neutral-900">{pickupDate || '—'}</span>
-            </div>
-            <div className="flex items-center gap-2 border-2 border-[#C5A059] bg-[#FDF8EF] rounded-xl h-[44px] px-3">
-              <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              <span className="text-xs font-bold text-neutral-900">{returnDate || '—'}</span>
-            </div>
-          </div>
-          <p className="px-5 text-[11px] text-neutral-400 font-semibold mb-1">⏱ Opening Times: {stationsData[pickupLocation]?.hours || '05:00 AM - 11:59 PM'}</p>
-          <div className="flex-grow overflow-y-auto px-5 pb-8">
-            <TimePickerPopup activeTimeField="return" currentTime={returnTime} selectTime={(slot) => { setReturnTime(slot); setMobilePanel('details'); }} />
-          </div>
-          <div className="px-5 py-4 border-t border-neutral-100 bg-white">
-            <button type="button" onClick={() => setMobilePanel('details')}
-              className="w-full bg-[#C5A059] text-white font-condensed font-black text-sm uppercase h-[52px] rounded-xl shadow tracking-wider">
-              Continue
-            </button>
-          </div>
-        </div>
-      )}
-
-
-      {isSticky && !isDropdownMode && (
-        <div className="w-full max-w-[1100px] px-6 h-[420px] md:h-[310px] pointer-events-none" />
-      )}
-
-    </section>
-
-    {!isDropdownMode && (
-      <>
-    {/* Section 1.5: Scroll-linked Driving Animation */}
-    <div 
-      ref={scrollAnimationRef} 
-      id="car-animation-section"
-      className="w-full h-[300vh] bg-transparent relative z-10 block"
-    >
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center">
-        {/* Subtle background text */}
-        <h2 className="absolute top-[20%] text-[#141414] font-condensed font-normal text-[13vw] md:text-[9vw] leading-[0.9] md:whitespace-nowrap select-none pointer-events-none w-full text-center">
-          DRIVE EXCELLENCE
-        </h2>
-        
-        {/* Car Container that drives across */}
-        <div 
-          className="car-container-animate absolute z-20 flex items-center justify-center drop-shadow-2xl pointer-events-none"
-          style={{ 
-            transform: 'translateX(100vw)'
-          }}
-        >
-          <div className="relative w-[900px] h-[318px] origin-center scale-[0.4] sm:scale-[0.65] md:scale-100 transition-transform duration-300">
-          {/* Main Car Body - Now naturally fitting the 900x318 aspect ratio (3400x1200 original) */}
-          <img 
-            src="/assets/cars/r1s_body.png" 
-            alt="Rivian R1S" 
-            className="absolute inset-0 w-full h-full object-contain z-30"
-          />
-          
-          {/* Watermark Concealer (Clone Stamp technique) */}
-          <div 
-            className="absolute z-30"
-            style={{
-              left: '280px',
-              top: '168px',
-              width: '60px',
-              height: '14px',
-              backgroundImage: 'url(/assets/cars/r1s_body.png)',
-              backgroundSize: '900px 318px',
-              backgroundPosition: '-350px -168px',
-              filter: 'blur(1px)',
-              borderRadius: '3px'
-            }}
-          />
-          
-          {/* Front Wheel Overlay - using pre-cropped wheel image */}
-          <img
-            src="/assets/cars/r1s_wheel_front.png"
-            alt=""
-            className="car-wheel-front absolute z-40"
-            style={{
-              width: '116px',
-              height: '116px',
-              left: '138px',
-              top: '181px',
-              borderRadius: '50%'
-            }}
-          />
-          
-          {/* Rear Wheel Overlay - using pre-cropped wheel image */}
-          <img
-            src="/assets/cars/r1s_wheel_rear.png"
-            alt=""
-            className="car-wheel-rear absolute z-40"
-            style={{
-              width: '116px',
-              height: '116px',
-              left: '604px',
-              top: '182px',
-              borderRadius: '50%'
-            }}
-          />
-          </div>
-        </div>
-        
-        <div className="car-text-animate absolute bottom-[20%] text-center z-30 pointer-events-none" style={{ opacity: 0 }}>
-          <p className="text-[#C5A059] font-bold tracking-widest text-[11px] uppercase mb-2">Uncompromising Performance</p>
-          <h3 className="text-white text-3xl font-normal font-condensed">The journey begins here.</h3>
-        </div>
-      </div>
-    </div>
-
-    {/* Section 1: Image Banner */}
-    <div className="w-full bg-transparent py-12 md:py-24 px-4 md:px-8 relative z-10">
-      <RevealOnScroll className="max-w-[1200px] mx-auto w-full relative rounded-[24px] md:rounded-[32px] overflow-hidden min-h-[400px] md:min-h-[500px] flex items-center bg-neutral-900 shadow-2xl">
-        <img src="/assets/premium_interior.png" className="absolute inset-0 w-full h-full object-cover" alt="Luxury car interior" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-        <div className="relative z-10 px-8 md:px-16 lg:px-20 w-full text-left">
-          <AnimatedBannerText />
-          <button 
-            type="button"
-            onClick={handleScrollToListings}
-            className="bg-white text-black hover:bg-neutral-200 px-7 py-3 md:px-8 md:py-3.5 font-sans font-semibold text-[14px] md:text-[15px] rounded-full transition-all duration-300 shadow-lg"
-          >
-            Rent Now
-          </button>
-        </div>
-      </RevealOnScroll>
-    </div>
-
-    {/* Section 2: Spotlights Recommendation Carousel */}
-    <div className="w-full bg-transparent text-white py-16 px-6 text-center select-none relative z-10 overflow-hidden">
-      <RevealOnScroll className="max-w-[1100px] mx-auto w-full">
-        <h2 className="font-sans font-normal text-2xl md:text-4xl text-white tracking-wide uppercase text-center leading-none">
-          FIND YOUR LUXURY CAR IN OUR FLEET
-        </h2>
-        
-        {/* Desktop: Carousel grid of 2 cards */}
-        <div className="hidden md:grid grid-cols-2 gap-8 mt-12 text-left">
-          {carouselSlides[currentSlide].map((item, idx) => (
-            <CarCard 
-              key={"reco-card-" + idx}
-              car={item}
-              viewMode="fleet"
-              onClick={handleScrollToListings}
-            />
-          ))}
-        </div>
-
-        {/* Mobile: Smooth Horizontal Scroll of all cards */}
-        <div 
-          ref={mobileFleetScrollRef}
-          className="flex md:hidden overflow-x-auto snap-x snap-mandatory gap-4 mt-8 pb-6 text-left no-scrollbar px-6 -mx-6"
-          onScroll={(e) => {
-            const scrollLeft = e.target.scrollLeft;
-            const childWidth = e.target.scrollWidth / (carouselSlides.flat().length);
-            const newSlide = Math.round(scrollLeft / childWidth);
-            if (newSlide >= 0 && newSlide < carouselSlides.flat().length && newSlide !== currentMobileSlide) {
-              setCurrentMobileSlide(newSlide);
-            }
-          }}
-        >
-          {carouselSlides.flat().map((item, idx) => (
-            <div key={"mobile-reco-" + idx} className="min-w-[85vw] snap-center shrink-0 flex">
-              <div className="w-full h-full">
-                <CarCard 
-                  car={item}
-                  viewMode="fleet"
-                  onClick={handleScrollToListings}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Carousel Controls (Desktop) */}
-        <div className="hidden md:flex items-center justify-between mt-8 select-none">
-          {/* Carousel dots indicator */}
-          <div className="flex gap-2">
-            {carouselSlides.map((_, index) => (
-              <button
-                key={`desktop-dot-${index}`}
-                type="button"
-                onClick={() => setCurrentSlide(index)}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
-                  currentSlide === index ? 'bg-white scale-110' : 'bg-neutral-600 hover:bg-neutral-500'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          {/* Chevrons Navigation circles */}
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => setCurrentSlide(prev => (prev === 0 ? carouselSlides.length - 1 : prev - 1))}
-              className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setCurrentSlide(prev => (prev === carouselSlides.length - 1 ? 0 : prev + 1))}
-              className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
-              aria-label="Next slide"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Carousel Controls (Mobile) */}
-        <div className="flex md:hidden items-center justify-between mt-8 select-none">
-          {/* Carousel dots indicator */}
-          <div className="flex gap-2">
-            {carouselSlides.flat().map((_, index) => (
-              <button
-                key={`mobile-dot-${index}`}
-                type="button"
-                onClick={() => {
-                  const mobileContainer = mobileFleetScrollRef.current;
-                  if (mobileContainer) {
-                    const childWidth = mobileContainer.scrollWidth / carouselSlides.flat().length;
-                    mobileContainer.scrollTo({ left: index * childWidth, behavior: 'smooth' });
-                  }
-                }}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
-                  currentMobileSlide === index ? 'bg-white scale-110' : 'bg-neutral-600 hover:bg-neutral-500'
-                }`}
-                aria-label={`Go to car ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          {/* Chevrons Navigation circles */}
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => {
-                const mobileContainer = mobileFleetScrollRef.current;
-                if (mobileContainer) {
-                  const childWidth = mobileContainer.scrollWidth / carouselSlides.flat().length;
-                  mobileContainer.scrollBy({ left: -childWidth, behavior: 'smooth' });
-                }
-              }}
-              className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
-              aria-label="Previous car"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                const mobileContainer = mobileFleetScrollRef.current;
-                if (mobileContainer) {
-                  const childWidth = mobileContainer.scrollWidth / carouselSlides.flat().length;
-                  mobileContainer.scrollBy({ left: childWidth, behavior: 'smooth' });
-                }
-              }}
-              className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
-              aria-label="Next car"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      </RevealOnScroll>
-    </div>
-
-    {/* Section 3: Features Indicators Row */}
-    <div className="w-full bg-[#070707] border-t border-neutral-900/50 py-10 px-6 relative z-10 overflow-hidden">
-      <RevealOnScroll className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-left w-full">
-        {/* Global reach */}
-        <div className="flex flex-col gap-5">
-          <div className="flex items-center gap-3 text-[18px] font-bold text-white">
-            <Globe className="w-6 h-6 text-white stroke-[2.5]" />
-            <span>Global reach</span>
-          </div>
-          <p className="text-[25px] font-bold text-white leading-[1.3] pr-4">
-            2,000+ <span className="text-[#C5A059]">W</span> Luxury stations in over 105 countries
-          </p>
-        </div>
-
-        {/* Top fleet */}
-        <div className="flex flex-col gap-5">
-          <div className="flex items-center gap-3 text-[18px] font-bold text-white">
-            <CarFront className="w-6 h-6 text-white stroke-[2.5]" />
-            <span>Top fleet</span>
-          </div>
-          <p className="text-[25px] font-bold text-white leading-[1.3] pr-4">
-            Choose your favorite Luxury car from our wide range
-          </p>
-        </div>
-
-        {/* Exceptional service */}
-        <div className="flex flex-col gap-5">
-          <div className="flex items-center gap-3 text-[18px] font-bold text-white">
-            <HandHeart className="w-6 h-6 text-white stroke-[2.5]" />
-            <span>Exceptional service</span>
-          </div>
-          <p className="text-[25px] font-bold text-white leading-[1.3] pr-4">
-            Stress-free, trustworthy, no hidden costs
-          </p>
-        </div>
-      </RevealOnScroll>
-    </div>
-
-    {/* Section 4: Browse Popular Types Carousel */}
-    <PopularTypesCarousel onScrollToListings={handleScrollToListings} />
-
-    {/* Section 5: W LUXURY CAR RENTAL WORLDWIDE Carousel */}
-    <BoutiqueCarousel />
-
-    {/* Section 6: GOOD TO KNOW WHEN RENTING WITH W Accordion */}
-    <div className="w-full bg-white text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-100 overflow-hidden">
-      <RevealOnScroll className="max-w-[1100px] mx-auto text-center w-full">
-        <h2 
-          style={{ lineHeight: "1.2" }}
-          className="font-sans font-normal text-3xl md:text-4xl lg:text-[48px] xl:text-[56px] text-[#191919] tracking-tight uppercase text-center mb-16"
-        >
-          GOOD TO KNOW WHEN RENTING <span className="inline-block whitespace-nowrap">WITH <span className="text-[#C5A059]">W</span></span>
-        </h2>
-        
-        <div className="text-left max-w-[900px] mx-auto w-full">
-          {/* FAQ 1 */}
-          <div 
-            onClick={() => setActiveFaqIndex(activeFaqIndex === 0 ? null : 0)}
-            className="border-t border-[#e5e5e5] py-6 flex flex-col cursor-pointer transition-colors duration-200 hover:bg-neutral-50/50"
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-[22px] text-[#191919] select-none">
-                How old do I need to be to rent a luxury car?
-              </span>
-              <span className="text-[#191919] font-bold ml-4">
-                <svg className="w-6 h-6 text-[#191919]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d={activeFaqIndex === 0 ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
-                </svg>
-              </span>
-            </div>
-            {activeFaqIndex === 0 && (
-              <p className="text-[15px] text-[#191919] font-normal leading-[1.6] mt-4 animate-fadeIn">
-                You need to be 25 or older to rent a luxury car with <span className="text-[#C5A059] font-bold">W</span> in the US. Other countries may have a different minimum rental age for luxury models.
-              </p>
-            )}
-          </div>
-
-          {/* FAQ 2 */}
-          <div 
-            onClick={() => setActiveFaqIndex(activeFaqIndex === 1 ? null : 1)}
-            className="border-t border-[#e5e5e5] py-6 flex flex-col cursor-pointer transition-colors duration-200 hover:bg-neutral-50/50"
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-[22px] text-[#191919] select-none">
-                Can I choose which model I will get?
-              </span>
-              <span className="text-[#191919] font-bold ml-4">
-                <svg className="w-6 h-6 text-[#191919]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d={activeFaqIndex === 1 ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
-                </svg>
-              </span>
-            </div>
-            {activeFaqIndex === 1 && (
-              <p className="text-[15px] text-[#191919] font-normal leading-[1.6] mt-4 animate-fadeIn">
-                While we cannot guarantee a specific model due to availability, you will receive a premium vehicle within your chosen category. Some models are guaranteed under special tags.
-              </p>
-            )}
-          </div>
-
-          {/* FAQ 3 */}
-          <div 
-            onClick={() => setActiveFaqIndex(activeFaqIndex === 2 ? null : 2)}
-            className="border-t border-b border-[#e5e5e5] py-6 flex flex-col cursor-pointer transition-colors duration-200 hover:bg-neutral-50/50"
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-[22px] text-[#191919] select-none">
-                What are the steps to rent a luxury car?
-              </span>
-              <span className="text-[#191919] font-bold ml-4">
-                <svg className="w-6 h-6 text-[#191919]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d={activeFaqIndex === 2 ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
-                </svg>
-              </span>
-            </div>
-            {activeFaqIndex === 2 && (
-              <p className="text-[15px] text-[#191919] font-normal leading-[1.6] mt-4 animate-fadeIn">
-                1. Select your pickup station, dates, and times. 2. Filter or select the luxury category you want. 3. Enter your details and select protection packages. 4. Complete the booking online!
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div className="text-center mt-8">
-          <button 
-            type="button" 
-            className="text-xs font-bold text-neutral-900 underline hover:text-[#C5A059] uppercase tracking-wider select-none"
-          >
-            Show more
-          </button>
-        </div>
-      </RevealOnScroll>
-    </div>
-
-    {/* Section 7: WHERE WOULD YOU LIKE TO START FROM? */}
-    <div className="w-full bg-[#f4f4f4] text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-200">
-      <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 text-left items-start">
-        {/* Left column */}
-        <div className="lg:col-span-5 pr-4">
-          <h2 className="font-sans font-normal text-4xl md:text-[56px] lg:text-[64px] text-[#191919] uppercase leading-[0.9] tracking-tight">
-            WHERE WOULD YOU LIKE TO START FROM?
-          </h2>
-        </div>
-
-        {/* Right column */}
-        <div className="lg:col-span-7 bg-white rounded-[32px] p-6 md:p-10 shadow-sm">
-          {/* Tab Pills list */}
-          <div className="flex flex-wrap gap-2 pb-6">
-            {['Europe', 'North America', 'Africa', 'Asia', 'South America', 'Australia'].map((tab) => (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => setActiveRegionTab(tab)}
-                className={`px-5 py-2.5 rounded-full text-[13px] font-bold transition-all ${
-                  activeRegionTab === tab
-                    ? 'bg-[#191919] text-white'
-                    : 'bg-[#f4f4f4] text-[#191919] hover:bg-[#e5e5e5]'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          {/* Listed Countries */}
-          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-4 gap-x-4 text-[13px] font-bold text-[#191919]">
-            {regionCountries[activeRegionTab]?.map((country) => (
-              <div 
-                key={country} 
-                onClick={() => handleDestinationClick(country)}
-                className="hover:text-[#C5A059] cursor-pointer transition-colors truncate pr-2"
-                title={country}
-              >
-                {country}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Section 8: PLACES TO START YOUR JOURNEY */}
-    <div className="w-full bg-white text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-100">
-      <div className="max-w-[1100px] mx-auto text-center">
-        <h2 
-          className="font-condensed font-normal text-3xl md:text-4xl lg:text-[48px] text-[#191919] tracking-wide uppercase text-center leading-[1.1] mb-16"
-          style={{ WebkitTextStroke: '1.5px #191919' }}
-        >
-          PLACES TO START YOUR JOURNEY
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            { city: 'Los Angeles', img: 'https://images.unsplash.com/photo-1580655653885-65763b2597d0?auto=format&fit=crop&w=600&q=80' },
-            { city: 'New York City', img: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=600&q=80' },
-            { city: 'Miami, FL', img: 'https://images.unsplash.com/photo-1535498730771-e735b998cd64?auto=format&fit=crop&w=600&q=80' },
-            { city: 'San Francisco', img: 'https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?auto=format&fit=crop&w=600&q=80' },
-            { city: 'Las Vegas', img: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=600&q=80' },
-            { city: 'London', img: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80' }
-          ].map((item, idx) => (
-            <div 
-              key={`dest-${idx}`}
-              onClick={() => handleDestinationClick(item.city)}
-              className="h-[240px] rounded-3xl overflow-hidden relative group cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.01]"
-            >
-              <img 
-                src={item.img} 
-                alt={item.city}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              {/* Overlay shadow gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-10" />
-              
-              {/* Badge */}
-              <span className="absolute bottom-5 left-5 bg-black/60 backdrop-blur-md text-white px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border border-white/5 z-20">
-                {item.city}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-
-    {/* Section 9: MORE W */}
-    <div className="w-full bg-white text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-100">
-      <div className="max-w-[1100px] mx-auto text-center">
-        <h2 
-          className="font-condensed font-normal text-4xl md:text-5xl lg:text-[56px] text-[#191919] tracking-wide uppercase text-center leading-[1.1] mb-16"
-          style={{ WebkitTextStroke: '1.5px #191919' }}
-        >
-          MORE <span className="text-[#C5A059]" style={{ WebkitTextStroke: '0' }}>W</span>
-        </h2>
-
-        {/* 3 cards grid carousel */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6 text-center select-none">
-          {moreSixtCards.slice(moreSixtSlide, moreSixtSlide + 3).map((item, idx) => (
-            <div 
-              key={item.title}
-              className="relative h-[480px] rounded-3xl overflow-hidden flex flex-col justify-between p-8 text-white text-center shadow-lg group hover:shadow-2xl transition-all duration-300 bg-[#0F1012] border border-neutral-800"
-            >
-              {/* Card top text content grouped together */}
-              <div className="z-20 relative flex flex-col items-center w-full">
-                {/* Text container with a min-height to ensure horizontal button alignment */}
-                <div className="flex flex-col items-center gap-3 min-h-[110px] md:min-h-[120px] justify-start w-full">
-                  <div className="min-h-[56px] md:min-h-[64px] flex items-start justify-center w-full">
-                    <h3 className="font-condensed font-normal text-[22px] md:text-2xl text-white uppercase tracking-wide leading-tight">
-                      {item.title}
-                    </h3>
-                  </div>
-                  <p className="text-[13px] text-neutral-200 font-semibold leading-relaxed max-w-[280px]">
-                    {item.subtext}
-                  </p>
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <p className="text-xs font-black text-neutral-900 mb-2">Pickup</p>
+                  <button type="button" onClick={() => { setActiveDateField('pickup'); setMobilePanel('calendar'); }}
+                    className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3 mb-2">
+                    <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                    <span className="text-xs font-bold text-neutral-900">{pickupDate || 'Select'}</span>
+                  </button>
+                  <button type="button" onClick={() => setMobilePanel('time-pickup')}
+                    className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3">
+                    <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    <span className="text-xs font-bold text-neutral-900">{pickupTime}</span>
+                  </button>
                 </div>
-                {/* Button placed below the text area */}
-                <div className="mt-2">
-                  <button 
-                    type="button"
-                    className="border border-white/60 hover:border-white hover:bg-white hover:text-black text-white text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full transition-all duration-200"
-                  >
-                    {item.buttonText}
+                <div>
+                  <p className="text-xs font-black text-neutral-900 mb-2">Return</p>
+                  <button type="button" onClick={() => { setActiveDateField('return'); setMobilePanel('calendar'); }}
+                    className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3 mb-2">
+                    <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                    <span className="text-xs font-bold text-neutral-900">{returnDate || 'Select'}</span>
+                  </button>
+                  <button type="button" onClick={() => setMobilePanel('time-return')}
+                    className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3">
+                    <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    <span className="text-xs font-bold text-neutral-900">{returnTime}</span>
                   </button>
                 </div>
               </div>
 
-              {/* Card background graphic (spans full height behind content) */}
-              <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-                <img 
-                  src={item.image} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover object-bottom transform group-hover:scale-[1.03] transition-transform duration-500"
-                />
-                {/* Dark gradient overlay to blend the image into the card's dark style and ensure readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#0F1012] via-[#0F1012]/50 to-transparent" />
-              </div>
-
-              {/* App badges overlay for Card 1 */}
-              {item.isApp && (
-                <div className="z-20 relative flex justify-center gap-2 mt-auto">
-                  <div className="bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-lg text-[9px] font-bold border border-white/10 tracking-tight">App Store</div>
-                  <div className="bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-lg text-[9px] font-bold border border-white/10 tracking-tight">Google Play</div>
+              {/* Action buttons (Show Cars, Corporate Rate, Driver Age) centered at bottom of scroll content */}
+              <div className="pt-4 flex flex-col items-center gap-4">
+                <button type="button" onClick={() => { onSearch({ pickupLocation, returnLocation: isDifferentReturn ? returnLocation : pickupLocation, pickupDate, pickupTime, returnDate, returnTime, driverAge }); setMobilePanel(null); }}
+                  className="w-full bg-[#C5A059] hover:bg-[#B28F4B] text-white font-condensed font-black text-sm uppercase h-[52px] rounded-xl shadow tracking-wider">
+                  Show cars
+                </button>
+                <button type="button" className="text-xs font-bold text-neutral-600 underline">Apply corporate rate</button>
+                <div className="relative">
+                  <button type="button" onClick={() => setShowAgeDropdown(!showAgeDropdown)}
+                    className="flex items-center gap-1.5 text-xs font-bold text-neutral-700">
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+                    Driver's age {driverAge} <span className="text-[10px]">▼</span>
+                  </button>
+                  {showAgeDropdown && (
+                    <div className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-white border border-neutral-200 rounded-xl shadow-xl w-[130px] max-h-[200px] overflow-y-auto z-10 py-1">
+                      {['30+', '29', '28', '27', '26', '25', '24', '23', '22', '21', '20', '19', '18'].map(age => (
+                        <button key={age} type="button" onClick={() => { setDriverAge(age); setShowAgeDropdown(false); }}
+                          className={`w-full text-center px-4 py-2 text-xs font-bold ${driverAge === age ? 'text-[#C5A059]' : 'text-neutral-700'} hover:bg-neutral-50`}>
+                          {age}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
-          ))}
-        </div>
-
-        {/* Carousel Controls Row */}
-        <div className="flex items-center justify-between mt-8 select-none">
-          {/* Dots indicators */}
-          <div className="flex gap-2">
-            {[0, 1, 2, 3].map((idx) => (
-              <button
-                key={`more-sixt-dot-${idx}`}
-                type="button"
-                onClick={() => setMoreSixtSlide(idx)}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
-                  moreSixtSlide === idx ? 'bg-neutral-800 scale-110' : 'bg-neutral-300 hover:bg-neutral-400'
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
           </div>
+        )}
 
-          {/* Chevrons Navigation circles */}
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => setMoreSixtSlide(prev => Math.max(0, prev - 1))}
-              disabled={moreSixtSlide === 0}
-              className={`w-10 h-10 rounded-full border border-neutral-200 hover:border-neutral-800 hover:bg-neutral-50 flex items-center justify-center text-neutral-800 transition-all duration-200 ${
-                moreSixtSlide === 0 ? 'opacity-20 cursor-not-allowed pointer-events-none' : ''
-              }`}
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setMoreSixtSlide(prev => Math.min(3, prev + 1))}
-              disabled={moreSixtSlide === 3}
-              className={`w-10 h-10 rounded-full border border-neutral-200 hover:border-neutral-800 hover:bg-neutral-50 flex items-center justify-center text-neutral-800 transition-all duration-200 ${
-                moreSixtSlide === 3 ? 'opacity-20 cursor-not-allowed pointer-events-none' : ''
-              }`}
-              aria-label="Next slide"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Footer Fleet list */}
-        <div className="border-t border-[#e5e5e5] pt-16 grid grid-cols-1 lg:grid-cols-12 gap-12 text-left text-neutral-800">
-          {/* Label side */}
-          <div className="lg:col-span-5 pr-4">
-            <h3 
-              className="font-condensed font-normal text-3xl md:text-4xl lg:text-[48px] text-[#191919] uppercase leading-[0.9] tracking-tight"
-            >
-              <span className="text-[#C5A059]">W</span>'S WORLDWIDE FLEET
-            </h3>
-            <p className="text-[15px] text-[#191919] mt-6 font-normal leading-[1.6]">
-              Here you'll find all of our locations as well as the other types of cars we have in our fleet.
-            </p>
-          </div>
-
-          {/* Links side */}
-          <div className="lg:col-span-7 flex flex-col">
-            <div className="mb-8">
-              <button className="bg-[#191919] text-white text-[13px] font-bold px-5 py-2.5 rounded-full hover:bg-black transition-colors">
-                All categories
+        {/* ── PANEL 3: Calendar (full-screen stacked months) ── */}
+        {mobilePanel === 'calendar' && (
+          <div data-lenis-prevent className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
+              <button onClick={() => setMobilePanel('details')} className="text-neutral-700 p-1">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M19 12H5M12 5l-7 7 7 7" /></svg>
+              </button>
+              <span className="font-black text-base text-neutral-900">Trip dates</span>
+              <button onClick={() => { setPickupDate(''); setReturnDate(''); }} className="text-xs font-black text-neutral-500 uppercase tracking-wide">✕ Clear</button>
+            </div>
+            <div className="flex-grow overflow-y-auto px-5 py-6 space-y-10">
+              {renderMonth('June 2026', juneDays, 0)}
+              {renderMonth('July 2026', julyDays, 30)}
+              {renderMonth('August 2026', augustDays, 61)}
+            </div>
+            <div className="px-5 py-4 border-t border-neutral-100 bg-white">
+              <button type="button" onClick={() => { if (pickupDate && returnDate) setMobilePanel('details'); }}
+                disabled={!pickupDate || !returnDate}
+                className="w-full bg-[#C5A059] disabled:bg-neutral-200 disabled:text-neutral-400 text-white font-condensed font-black text-sm uppercase h-[52px] rounded-xl shadow tracking-wider transition-colors">
+                Continue
               </button>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-6">
-              {[
-                'Automatic car', 'Electric car', 'Station Wagon', 'Compact car',
-                'Minivan', 'SUV', 'Convertible', 'Pickup truck',
-                'Economy car', 'Sports car'
-              ].map((link) => (
-                <div 
-                  key={link}
-                  className="text-[13px] font-bold text-[#191919] hover:text-[#C5A059] cursor-pointer transition-colors select-none"
+          </div>
+        )}
+
+        {/* ── PANEL 4a: Time Picker – Pickup ── */}
+        {mobilePanel === 'time-pickup' && (
+          <div data-lenis-prevent className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
+              <button onClick={() => setMobilePanel('details')} className="text-neutral-700 p-1">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M19 12H5M12 5l-7 7 7 7" /></svg>
+              </button>
+              <span className="font-black text-base text-neutral-900">Select pickup time</span>
+              <div className="w-8" />
+            </div>
+            <div className="grid grid-cols-2 gap-3 px-5 pt-4 pb-2">
+              <div className="flex items-center gap-2 border-2 border-[#C5A059] bg-[#FDF8EF] rounded-xl h-[44px] px-3">
+                <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                <span className="text-xs font-bold text-neutral-900">{pickupDate || '—'}</span>
+              </div>
+              <div className="flex items-center gap-2 border-2 border-neutral-200 bg-neutral-50 rounded-xl h-[44px] px-3">
+                <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                <span className="text-xs font-bold text-neutral-900">{returnDate || '—'}</span>
+              </div>
+            </div>
+            <p className="px-5 text-[11px] text-neutral-400 font-semibold mb-1">⏱ Opening Times: {stationsData[pickupLocation]?.hours || '05:00 AM - 11:59 PM'}</p>
+            <div className="flex-grow overflow-y-auto px-5 pb-8">
+              <TimePickerPopup activeTimeField="pickup" currentTime={pickupTime} selectTime={(slot) => { setPickupTime(slot); setMobilePanel('details'); }} />
+            </div>
+            <div className="px-5 py-4 border-t border-neutral-100 bg-white">
+              <button type="button" onClick={() => setMobilePanel('details')}
+                className="w-full bg-[#C5A059] text-white font-condensed font-black text-sm uppercase h-[52px] rounded-xl shadow tracking-wider">
+                Continue
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── PANEL 4b: Time Picker – Return ── */}
+        {mobilePanel === 'time-return' && (
+          <div data-lenis-prevent className="md:hidden fixed inset-0 z-[300] bg-white flex flex-col animate-slideInLeft">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
+              <button onClick={() => setMobilePanel('details')} className="text-neutral-700 p-1">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M19 12H5M12 5l-7 7 7 7" /></svg>
+              </button>
+              <span className="font-black text-base text-neutral-900">Select return time</span>
+              <div className="w-8" />
+            </div>
+            <div className="grid grid-cols-2 gap-3 px-5 pt-4 pb-2">
+              <div className="flex items-center gap-2 border-2 border-neutral-200 bg-neutral-50 rounded-xl h-[44px] px-3">
+                <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                <span className="text-xs font-bold text-neutral-900">{pickupDate || '—'}</span>
+              </div>
+              <div className="flex items-center gap-2 border-2 border-[#C5A059] bg-[#FDF8EF] rounded-xl h-[44px] px-3">
+                <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                <span className="text-xs font-bold text-neutral-900">{returnDate || '—'}</span>
+              </div>
+            </div>
+            <p className="px-5 text-[11px] text-neutral-400 font-semibold mb-1">⏱ Opening Times: {stationsData[pickupLocation]?.hours || '05:00 AM - 11:59 PM'}</p>
+            <div className="flex-grow overflow-y-auto px-5 pb-8">
+              <TimePickerPopup activeTimeField="return" currentTime={returnTime} selectTime={(slot) => { setReturnTime(slot); setMobilePanel('details'); }} />
+            </div>
+            <div className="px-5 py-4 border-t border-neutral-100 bg-white">
+              <button type="button" onClick={() => setMobilePanel('details')}
+                className="w-full bg-[#C5A059] text-white font-condensed font-black text-sm uppercase h-[52px] rounded-xl shadow tracking-wider">
+                Continue
+              </button>
+            </div>
+          </div>
+        )}
+
+
+        {isSticky && !isDropdownMode && (
+          <div className="w-full max-w-[1100px] px-6 h-[420px] md:h-[310px] pointer-events-none" />
+        )}
+
+      </section>
+
+      {!isDropdownMode && (
+        <>
+          {/* Section 1.5: Scroll-linked Driving Animation */}
+          <div
+            ref={scrollAnimationRef}
+            id="car-animation-section"
+            className="w-full h-[300vh] bg-transparent relative z-10 block"
+          >
+            <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-black">
+              {/* Subtle background text */}
+              <h2 className="absolute top-[20%] text-[#141414] font-condensed font-normal text-[13vw] md:text-[9vw] leading-[0.9] md:whitespace-nowrap select-none pointer-events-none w-full text-center">
+                DRIVE EXCELLENCE
+              </h2>
+
+              {/* Car Container that drives across */}
+              <div
+                className="car-container-animate absolute z-20 flex items-center justify-center drop-shadow-2xl pointer-events-none"
+              >
+                <div className="relative w-[800px] h-[436px] origin-center scale-[0.4] sm:scale-[0.65] md:scale-100 transition-transform duration-300">
+                  {/* Main Car Body */}
+                  <img
+                    src="/assets/cars/rr_body.png"
+                    alt="Rolls Royce"
+                    className="absolute inset-0 w-full h-full object-contain z-30 origin-center"
+                    style={{ 
+                      // Custom mask if needed, but no mixBlendMode screen to ensure visibility
+                      WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 82%), linear-gradient(to right, transparent 2%, black 7%, black 93%, transparent 98%)',
+                      maskImage: 'linear-gradient(to bottom, black 70%, transparent 82%), linear-gradient(to right, transparent 2%, black 7%, black 93%, transparent 98%)',
+                      WebkitMaskComposite: 'intersect',
+                      maskComposite: 'intersect'
+                    }}
+                  />
+
+                  {/* Front Wheel Overlay */}
+                  <img
+                    src="/assets/cars/rr_wheel.png"
+                    alt="Front Wheel"
+                    className="car-wheel-front absolute z-40"
+                    style={{
+                      width: '125px',
+                      height: '125px',
+                      left: '109px',
+                      top: '240px',
+                      borderRadius: '50%'
+                    }}
+                  />
+
+                  {/* Rear Wheel Overlay */}
+                  <img
+                    src="/assets/cars/rr_wheel.png"
+                    alt="Rear Wheel"
+                    className="car-wheel-rear absolute z-40"
+                    style={{
+                      width: '125px',
+                      height: '125px',
+                      left: '570px',
+                      top: '240px',
+                      borderRadius: '50%'
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="car-text-animate absolute bottom-[20%] text-center z-30 pointer-events-none" style={{ opacity: 0 }}>
+                <p className="text-[#C5A059] font-bold tracking-widest text-[11px] uppercase mb-2">Uncompromising Performance</p>
+                <h3 className="text-white text-3xl font-normal font-condensed">The journey begins here.</h3>
+              </div>
+              {/* Sparkle icon removed */}
+            </div>
+          </div>
+
+          {/* Section 1: Image Banner */}
+          <div className="w-full bg-transparent py-12 md:py-24 px-4 md:px-8 relative z-10">
+            <RevealOnScroll className="max-w-[1200px] mx-auto w-full relative rounded-[24px] md:rounded-[32px] overflow-hidden min-h-[400px] md:min-h-[500px] flex items-center bg-neutral-900 shadow-2xl">
+              <img src="/assets/premium_interior.png" className="absolute inset-0 w-full h-full object-cover" alt="Luxury car interior" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+              <div className="relative z-10 px-8 md:px-16 lg:px-20 w-full text-left">
+                <AnimatedBannerText />
+                <button
+                  type="button"
+                  onClick={handleScrollToListings}
+                  className="bg-white text-black hover:bg-neutral-200 px-7 py-3 md:px-8 md:py-3.5 font-sans font-semibold text-[14px] md:text-[15px] rounded-full transition-all duration-300 shadow-lg"
                 >
-                  {link}
+                  Rent Now
+                </button>
+              </div>
+            </RevealOnScroll>
+          </div>
+
+          {/* Section 1.5: Infinite Logo Marquee */}
+          <div className="w-full bg-[#070707] py-12 relative overflow-hidden flex items-center">
+            {/* Gradient Fades for smooth entry/exit */}
+            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#070707] to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#070707] to-transparent z-10 pointer-events-none"></div>
+            
+            <div className="w-max flex animate-marquee cursor-default">
+              {/* First Set of Logos */}
+              <div className="flex space-x-20 px-10 items-center justify-center">
+                {MARQUEE_BRANDS.map((brand, i) => (
+                  <div key={`brand-1-${i}`} className="w-16 h-12 md:w-24 md:h-16 flex items-center justify-center transition-transform duration-500 hover:scale-110 cursor-pointer">
+                    <img 
+                      src={`/assets/logos/${brand.file}`} 
+                      alt={brand.name} 
+                      className="max-w-full max-h-full object-contain opacity-70 hover:opacity-100 transition-all duration-500 drop-shadow-[0_8px_16px_rgba(0,0,0,1)]" 
+                    />
+                  </div>
+                ))}
+              </div>
+              {/* Second Set of Logos (for seamless looping) */}
+              <div className="flex space-x-20 px-10 items-center justify-center">
+                {MARQUEE_BRANDS.map((brand, i) => (
+                  <div key={`brand-2-${i}`} className="w-16 h-12 md:w-24 md:h-16 flex items-center justify-center transition-transform duration-500 hover:scale-110 cursor-pointer">
+                    <img 
+                      src={`/assets/logos/${brand.file}`} 
+                      alt={brand.name} 
+                      className="max-w-full max-h-full object-contain opacity-70 hover:opacity-100 transition-all duration-500 drop-shadow-[0_8px_16px_rgba(0,0,0,1)]" 
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Section 2: Spotlights Recommendation Carousel */}
+          <div className="w-full bg-transparent text-white py-16 px-6 text-center select-none relative z-10 overflow-hidden">
+            <RevealOnScroll className="max-w-[1100px] mx-auto w-full">
+              <h2 className="font-sans font-normal text-2xl md:text-4xl text-white tracking-wide uppercase text-center leading-none">
+                FIND YOUR LUXURY CAR IN OUR FLEET
+              </h2>
+
+              {/* Desktop: Carousel grid of 2 cards */}
+              <div className="hidden md:grid grid-cols-2 gap-8 mt-12 text-left">
+                {carouselSlides[currentSlide].map((item, idx) => (
+                  <CarCard
+                    key={"reco-card-" + idx}
+                    car={item}
+                    viewMode="fleet"
+                    onClick={handleScrollToListings}
+                  />
+                ))}
+              </div>
+
+              {/* Section 3: Features Indicators Row */}
+              <div className="w-full bg-[#070707] border-t border-neutral-900/50 py-10 px-6 relative z-10 overflow-hidden">
+                <RevealOnScroll className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-left w-full">
+                  {/* Global reach */}
+                  <div className="flex flex-col gap-5">
+                    <div className="flex items-center gap-3 text-[18px] font-bold text-white">
+                      <Globe className="w-6 h-6 text-white stroke-[2.5]" />
+                      <span>Global reach</span>
+                    </div>
+                    <p className="text-[25px] font-bold text-white leading-[1.3] pr-4">
+                      2,000+ <span className="text-[#C5A059]">W</span> Luxury stations in over 105 countries
+                    </p>
+                  </div>
+
+                  {/* Top fleet */}
+                  <div className="flex flex-col gap-5">
+                    <div className="flex items-center gap-3 text-[18px] font-bold text-white">
+                      <CarFront className="w-6 h-6 text-white stroke-[2.5]" />
+                      <span>Top fleet</span>
+                    </div>
+                    <p className="text-[25px] font-bold text-white leading-[1.3] pr-4">
+                      Choose your favorite Luxury car from our wide range
+                    </p>
+                  </div>
+
+                  {/* Exceptional service */}
+                  <div className="flex flex-col gap-5">
+                    <div className="flex items-center gap-3 text-[18px] font-bold text-white">
+                      <HandHeart className="w-6 h-6 text-white stroke-[2.5]" />
+                      <span>Exceptional service</span>
+                    </div>
+                    <p className="text-[25px] font-bold text-white leading-[1.3] pr-4">
+                      Stress-free, trustworthy, no hidden costs
+                    </p>
+                  </div>
+                </RevealOnScroll>
+              </div>
+
+              {/* Mobile: Smooth Horizontal Scroll of all cards */}
+              <div
+                ref={mobileFleetScrollRef}
+                className="flex md:hidden overflow-x-auto snap-x snap-mandatory gap-4 mt-8 pb-6 text-left no-scrollbar px-6 -mx-6"
+                onScroll={(e) => {
+                  const scrollLeft = e.target.scrollLeft;
+                  const childWidth = e.target.scrollWidth / (carouselSlides.flat().length);
+                  const newSlide = Math.round(scrollLeft / childWidth);
+                  if (newSlide >= 0 && newSlide < carouselSlides.flat().length && newSlide !== currentMobileSlide) {
+                    setCurrentMobileSlide(newSlide);
+                  }
+                }}
+              >
+                {carouselSlides.flat().map((item, idx) => (
+                  <div key={"mobile-reco-" + idx} className="min-w-[85vw] snap-center shrink-0 flex">
+                    <div className="w-full h-full">
+                      <CarCard
+                        car={item}
+                        viewMode="fleet"
+                        onClick={handleScrollToListings}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Carousel Controls (Desktop) */}
+              <div className="hidden md:flex items-center justify-between mt-8 select-none">
+                {/* Carousel dots indicator */}
+                <div className="flex gap-2">
+                  {carouselSlides.map((_, index) => (
+                    <button
+                      key={`desktop-dot-${index}`}
+                      type="button"
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${currentSlide === index ? 'bg-white scale-110' : 'bg-neutral-600 hover:bg-neutral-500'
+                        }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
 
-      </div>
-    </div>
-
-    {/* Footer Section */}
-    <footer className="w-full bg-[#0a0a0b] py-16 px-6 relative z-10 text-left border-t border-neutral-900/60">
-      <div className="max-w-[1100px] mx-auto">
-        {/* Logo & Social Row */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-neutral-900 pb-8 mb-10 gap-4">
-          <div className="flex flex-col items-start leading-none select-none">
-            <span className="font-condensed font-black text-3xl tracking-tighter text-[#C5A059]">W</span>
-            <span className="text-[7px] font-extrabold tracking-widest text-neutral-400 mt-0.5 uppercase">LUXURY RENTAL</span>
-          </div>
-
-          <div className="flex gap-4">
-            <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-full border border-neutral-900 bg-neutral-950 flex items-center justify-center text-neutral-500 hover:text-white hover:border-neutral-700 transition-all duration-200">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-              </svg>
-            </a>
-            <a href="#" aria-label="LinkedIn" className="w-9 h-9 rounded-full border border-neutral-900 bg-neutral-950 flex items-center justify-center text-neutral-500 hover:text-white hover:border-neutral-700 transition-all duration-200">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                <rect width="4" height="12" x="2" y="9"/>
-                <circle cx="4" cy="4" r="2"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        {/* Column list grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 border-b border-neutral-900 pb-12 mb-10 text-left">
-          {/* Column 1 */}
-          <div>
-            <h4 className="font-condensed font-normal text-xs text-neutral-500 uppercase tracking-wider mb-5">
-              Our programs
-            </h4>
-            <div className="flex flex-col gap-3.5 text-xs font-bold text-neutral-300">
-              {['W+ CAR SUBSCRIPTION', 'W RIDE', 'Car rental deals', 'W ONE rewards program', 'W app'].map((link) => (
-                <div key={link} className="hover:text-[#C5A059] transition-colors cursor-pointer select-none">
-                  {link}
+                {/* Chevrons Navigation circles */}
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentSlide(prev => (prev === 0 ? carouselSlides.length - 1 : prev - 1))}
+                    className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
+                    aria-label="Previous slide"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCurrentSlide(prev => (prev === carouselSlides.length - 1 ? 0 : prev + 1))}
+                    className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
+                    aria-label="Next slide"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
 
-          {/* Column 2 */}
-          <div>
-            <h4 className="font-condensed font-normal text-xs text-neutral-500 uppercase tracking-wider mb-5">
-              W for business
-            </h4>
-            <div className="flex flex-col gap-3.5 text-xs font-bold text-neutral-300">
-              {['Register my business', 'Travel agencies', 'Business car rental', 'Business car alternatives'].map((link) => (
-                <div key={link} className="hover:text-[#C5A059] transition-colors cursor-pointer select-none">
-                  {link}
+              {/* Carousel Controls (Mobile) */}
+              <div className="flex md:hidden items-center justify-between mt-8 select-none">
+                {/* Carousel dots indicator */}
+                <div className="flex gap-2">
+                  {carouselSlides.flat().map((_, index) => (
+                    <button
+                      key={`mobile-dot-${index}`}
+                      type="button"
+                      onClick={() => {
+                        const mobileContainer = mobileFleetScrollRef.current;
+                        if (mobileContainer) {
+                          const childWidth = mobileContainer.scrollWidth / carouselSlides.flat().length;
+                          mobileContainer.scrollTo({ left: index * childWidth, behavior: 'smooth' });
+                        }
+                      }}
+                      className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${currentMobileSlide === index ? 'bg-white scale-110' : 'bg-neutral-600 hover:bg-neutral-500'
+                        }`}
+                      aria-label={`Go to car ${index + 1}`}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Column 3 */}
-          <div>
-            <h4 className="font-condensed font-normal text-xs text-neutral-500 uppercase tracking-wider mb-5">
-              About us
-            </h4>
-            <div className="flex flex-col gap-3.5 text-xs font-bold text-neutral-300">
-              {['W group', 'W Magazine', 'W News', 'Investor Relations', 'Careers', 'W Luxury Foundation'].map((link) => (
-                <div key={link} className="hover:text-[#C5A059] transition-colors cursor-pointer select-none">
-                  {link}
+                {/* Chevrons Navigation circles */}
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const mobileContainer = mobileFleetScrollRef.current;
+                      if (mobileContainer) {
+                        const childWidth = mobileContainer.scrollWidth / carouselSlides.flat().length;
+                        mobileContainer.scrollBy({ left: -childWidth, behavior: 'smooth' });
+                      }
+                    }}
+                    className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
+                    aria-label="Previous car"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const mobileContainer = mobileFleetScrollRef.current;
+                      if (mobileContainer) {
+                        const childWidth = mobileContainer.scrollWidth / carouselSlides.flat().length;
+                        mobileContainer.scrollBy({ left: childWidth, behavior: 'smooth' });
+                      }
+                    }}
+                    className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
+                    aria-label="Next car"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
                 </div>
-              ))}
+              </div>
+            </RevealOnScroll>
+          </div>
+
+          {/* Section 4: Browse Popular Types Carousel */}
+          <PopularTypesCarousel onScrollToListings={handleScrollToListings} />
+
+          {/* Section 4.5: Why W Luxury? */}
+          <div id="why-w-luxury" className="w-full bg-[#f4f4f4] text-neutral-900 py-14 px-6 relative z-10 border-t border-neutral-100 overflow-hidden">
+            <RevealOnScroll className="max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-8 lg:gap-8 text-left w-full">
+              {/* Left Column */}
+              <div className="w-full lg:w-[300px] flex-shrink-0 flex flex-col justify-center">
+                <h2 className="font-sans font-normal text-4xl md:text-[48px] lg:text-[56px] text-[#191919] uppercase leading-[0.9] tracking-tight mb-5">
+                  Why <br /> <span className="whitespace-nowrap"><span className="text-[#C5A059]">W</span> Luxury</span>
+                </h2>
+                <p className="text-[#191919]/80 text-[13px] leading-[1.6] font-normal pr-4">
+                  W Luxury is a next-generation rental car service that makes driving as convenient as it is luxurious. Pick a vehicle from our exclusive fleet, get it delivered to your doorstep, and drive off in a W Luxury car.
+                </p>
+              </div>
+
+              {/* Right Column (Cards) */}
+              <div className="flex-grow flex flex-col md:flex-row gap-6">
+                {/* Tall Card (Door-to-Door) */}
+                <div className="flex-grow rounded-[32px] p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-all duration-300 min-h-[220px]">
+                  {/* Background Image */}
+                  <div className="absolute inset-0 z-0">
+                    <img 
+                      src="/assets/door_to_door_delivery.png" 
+                      alt="Door-to-Door Delivery" 
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" 
+                    />
+                    {/* Dark gradient overlay for text readability exactly like image */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/50 to-black/90"></div>
+                  </div>
+
+                  {/* Top Text Content */}
+                  <div className="relative z-10 mt-2">
+                    <h3 className="text-[20px] md:text-[22px] font-bold text-white mb-3 leading-[1.2] tracking-wide uppercase">Door-to-Door<br/>Delivery</h3>
+                    <p className="text-white/70 text-[14px] leading-[1.4] max-w-[90%] font-light">
+                      W Luxury delivers and picks up your vehicle wherever you are, on your schedule.
+                    </p>
+                  </div>
+
+                  {/* Bottom Link */}
+                  <div className="relative z-10 mt-auto pb-2">
+                    <a href="#" className="inline-flex items-center text-[#C5A059] hover:text-[#d4b472] font-semibold text-[18px] transition-colors">
+                      Learn More <ArrowRight className="w-5 h-5 ml-1" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Two Small Cards Stacked */}
+                <div className="w-full md:w-[380px] flex-shrink-0 flex flex-col gap-4">
+                  {/* Top Small Card */}
+                  <div className="bg-white rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-lg transition-shadow border border-neutral-200/60 min-h-[95px]">
+                    <div className="relative z-10 w-[80%]">
+                      <h3 className="text-[18px] md:text-[20px] font-bold text-[#191919] mb-2 leading-[1.2] uppercase tracking-wide">Fair Toll + Fuel Plan</h3>
+                      <p className="text-[#191919]/70 text-[13px] leading-[1.5]">
+                        Pay only for what you use.<br />No surprise surcharges.
+                      </p>
+                    </div>
+                    <div className="relative z-10 mt-6">
+                      <a href="#" className="inline-flex items-center text-[#C5A059] hover:text-[#a88647] font-bold text-[15px] transition-colors">
+                        Learn More <ArrowRight className="w-4 h-4 ml-1" />
+                      </a>
+                    </div>
+                    <div className="absolute right-[-5%] top-[15%] w-[40%] h-[80%] opacity-20 pointer-events-none flex items-center justify-center text-[#191919]">
+                      <Fuel className="w-32 h-32 transform rotate-12 drop-shadow-xl" strokeWidth={1} />
+                    </div>
+                  </div>
+
+                  {/* Bottom Small Card */}
+                  <div className="bg-white rounded-[24px] p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-lg transition-shadow border border-neutral-200/60 min-h-[95px]">
+                    <div className="relative z-10">
+                      <h3 className="text-[18px] md:text-[20px] font-bold text-[#191919] mb-2 leading-[1.2] uppercase tracking-wide">The Car You Want.<br />The Car You Need</h3>
+                      <p className="text-[#191919]/70 text-[13px] leading-[1.5] max-w-[90%]">
+                        Only the best: Range Rover, Porsche, BMW, Mercedes, Jaguar, or Maserati.
+                      </p>
+                    </div>
+                    <div className="relative z-10 mt-6">
+                      <a href="#" className="inline-flex items-center text-[#C5A059] hover:text-[#a88647] font-bold text-[15px] transition-colors">
+                        Choose a Car <ArrowRight className="w-4 h-4 ml-1" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </RevealOnScroll>
+          </div>
+
+          {/* Section 5: W LUXURY CAR RENTAL WORLDWIDE Carousel */}
+          <BoutiqueCarousel />
+
+          {/* Section 6: WHERE WOULD YOU LIKE TO START FROM? */}
+          <div className="w-full bg-[#f4f4f4] text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-200">
+            <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 text-left items-start">
+              {/* Left column */}
+              <div className="lg:col-span-5 pr-4">
+                <h2 className="font-sans font-normal text-4xl md:text-[56px] lg:text-[64px] text-[#191919] uppercase leading-[0.9] tracking-tight">
+                  WHERE WOULD YOU LIKE TO START FROM?
+                </h2>
+              </div>
+
+              {/* Right column */}
+              <div className="lg:col-span-7 bg-white rounded-[32px] p-6 md:p-10 shadow-sm">
+                {/* Tab Pills list */}
+                <div className="flex flex-wrap gap-2 pb-6">
+                  {['Europe', 'North America', 'Africa', 'Asia', 'South America', 'Australia'].map((tab) => (
+                    <button
+                      key={tab}
+                      type="button"
+                      onClick={() => setActiveRegionTab(tab)}
+                      className={`px-5 py-2.5 rounded-full text-[13px] font-bold transition-all ${activeRegionTab === tab
+                          ? 'bg-[#191919] text-white'
+                          : 'bg-[#f4f4f4] text-[#191919] hover:bg-[#e5e5e5]'
+                        }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Listed Countries */}
+                <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-4 gap-x-4 text-[13px] font-bold text-[#191919]">
+                  {regionCountries[activeRegionTab]?.map((country) => (
+                    <div
+                      key={country}
+                      onClick={() => handleDestinationClick(country)}
+                      className="hover:text-[#C5A059] cursor-pointer transition-colors truncate pr-2"
+                      title={country}
+                    >
+                      {country}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* App Store Buttons Row */}
-        <div className="flex flex-wrap gap-3.5 mb-10 justify-start">
-          <button 
-            type="button" 
-            className="flex items-center gap-2.5 bg-black border border-neutral-900 hover:border-neutral-800 px-4 py-2 rounded-xl text-left select-none active:scale-95 transition-all text-white"
-          >
-            <span className="text-xl leading-none"></span>
-            <div>
-              <span className="text-[8px] text-neutral-500 block font-bold leading-none uppercase">Download on the</span>
-              <span className="text-[11px] text-white block font-black leading-none mt-0.5">App Store</span>
-            </div>
-          </button>
-          <button 
-            type="button" 
-            className="flex items-center gap-2.5 bg-black border border-neutral-900 hover:border-neutral-800 px-4 py-2 rounded-xl text-left select-none active:scale-95 transition-all text-white"
-          >
-            <span className="text-sm text-[#C5A059] leading-none">▶</span>
-            <div>
-              <span className="text-[8px] text-neutral-500 block font-bold leading-none uppercase">GET IT ON</span>
-              <span className="text-[11px] text-white block font-black leading-none mt-0.5">Google Play</span>
-            </div>
-          </button>
-        </div>
+          {/* Section 7: PLACES TO START YOUR JOURNEY */}
+          <div className="w-full bg-white text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-100">
+            <div className="max-w-[1100px] mx-auto text-center">
+              <h2
+                className="font-condensed font-normal text-3xl md:text-4xl lg:text-[48px] text-[#191919] tracking-wide uppercase text-center leading-[1.1] mb-16"
+                style={{ WebkitTextStroke: '1.5px #191919' }}
+              >
+                PLACES TO START YOUR JOURNEY
+              </h2>
 
-        {/* Footer Bottom Bar */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 border-t border-neutral-900 pt-8 text-[10px] font-bold text-neutral-500 uppercase tracking-wider">
-          <div className="flex flex-wrap gap-x-4 gap-y-2.5">
-            {[
-              'Help', 'Rental information', 'W for business', 'W partners',
-              'W Magazine', 'Privacy', 'Do not share or sell my personal information',
-              'Terms & conditions', 'Customers with disabilities', 'Cookie-Settings'
-            ].map((link) => (
-              <span key={link} className="hover:text-white cursor-pointer transition-colors">
-                {link}
-              </span>
-            ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  { city: 'Los Angeles', img: 'https://images.unsplash.com/photo-1580655653885-65763b2597d0?auto=format&fit=crop&w=600&q=80' },
+                  { city: 'New York City', img: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=600&q=80' },
+                  { city: 'Miami, FL', img: 'https://images.unsplash.com/photo-1535498730771-e735b998cd64?auto=format&fit=crop&w=600&q=80' },
+                  { city: 'San Francisco', img: 'https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?auto=format&fit=crop&w=600&q=80' },
+                  { city: 'Las Vegas', img: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=600&q=80' },
+                  { city: 'London', img: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80' }
+                ].map((item, idx) => (
+                  <div
+                    key={`dest-${idx}`}
+                    onClick={() => handleDestinationClick(item.city)}
+                    className="h-[240px] rounded-3xl overflow-hidden relative group cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.01]"
+                  >
+                    <img
+                      src={item.img}
+                      alt={item.city}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    {/* Overlay shadow gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-10" />
+
+                    {/* Badge */}
+                    <span className="absolute bottom-5 left-5 bg-black/60 backdrop-blur-md text-white px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border border-white/5 z-20">
+                      {item.city}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <span className="text-neutral-600 whitespace-nowrap block lg:text-right select-none">
-            © 2026 <span className="text-[#C5A059]">W</span> Luxury Car Rental
-          </span>
-        </div>
-      </div>
-    </footer>
-      </>
-    )}
+
+          {/* Section 8: GOOD TO KNOW WHEN RENTING WITH W Accordion */}
+          {(() => {
+            const wFaqs = [
+              { q: "How can I pick up a rental car?", a: "We offer door-to-door delivery and pickup. Simply select your location and our concierge will bring the vehicle directly to you." },
+              { q: "Where can I rent a car with W Luxury?", a: "W Luxury is available in major cities worldwide, including New York, Miami, Los Angeles, and across Europe." },
+              { q: "What types of cars can I rent with W Luxury?", a: "Our exclusive fleet features the latest models from top brands including Range Rover, Porsche, BMW, Mercedes, Jaguar, and Maserati." },
+              { q: "What makes your fleet special?", a: "Every vehicle in our fleet is brand new, meticulously maintained, and fully loaded with premium options and features." },
+              { q: "On what terms can I rent a luxury car?", a: "You need to be 25 or older, hold a valid driver's license, and provide a major credit card for the security deposit." },
+              { q: "What happens if I need to cancel my car reservation?", a: "We offer flexible cancellation policies. Reservations can typically be canceled up to 48 hours in advance for a full refund." },
+              { q: "Why should I rent in New York with W Luxury?", a: "Navigating New York is better in comfort. We skip the rental counter lines and bring the luxury directly to your hotel or residence." },
+              { q: "What do I need to rent a car with W Luxury?", a: "A valid driver's license, proof of insurance, and a major credit card in the renter's name." },
+              { q: "Can I rent a car for a month or longer with W Luxury?", a: "Yes, we offer flexible long-term rentals and subscriptions for month-to-month flexibility without long-term commitments." },
+              { q: "Is insurance included with W Luxury rentals?", a: "All W Luxury vehicles come with comprehensive insurance coverage. Additional coverage options are available at checkout for full peace of mind." }
+            ];
+
+            return (
+              <div className="w-full bg-white text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-100 overflow-hidden">
+                <RevealOnScroll className="max-w-[1100px] mx-auto w-full text-center">
+                  <h2
+                    style={{ lineHeight: "1.2" }}
+                    className="font-sans font-normal text-3xl md:text-4xl lg:text-[48px] xl:text-[56px] text-[#191919] tracking-tight uppercase text-center mb-16"
+                  >
+                    GOOD TO KNOW WHEN RENTING <span className="inline-block whitespace-nowrap">WITH <span className="text-[#C5A059]">W</span></span>
+                  </h2>
+
+                  <div className="text-left w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                    {/* Left Column */}
+                    <div className="flex flex-col gap-4 md:gap-5">
+                      {wFaqs.slice(0, 5).map((faq, idx) => (
+                        <div
+                          key={idx}
+                          onClick={() => setActiveFaqIndex(activeFaqIndex === idx ? null : idx)}
+                          className="bg-[#f4f4f4] rounded-2xl py-5 px-6 flex flex-col cursor-pointer transition-all duration-200 group hover:shadow-lg"
+                        >
+                          <div className="flex items-center justify-between gap-4">
+                            <span className={`font-normal text-[15px] md:text-[16px] transition-colors ${activeFaqIndex === idx ? 'text-[#C5A059]' : 'text-[#191919] group-hover:text-[#C5A059]'} select-none`}>
+                              {faq.q}
+                            </span>
+                            <span className="text-[#C5A059] font-light text-2xl flex-shrink-0 leading-none">
+                              {activeFaqIndex === idx ? '−' : '+'}
+                            </span>
+                          </div>
+                          {activeFaqIndex === idx && (
+                            <p className="text-[14px] text-[#191919]/80 font-light leading-[1.6] mt-4 animate-fadeIn">
+                              {faq.a}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Right Column */}
+                    <div className="flex flex-col gap-4 md:gap-5">
+                      {wFaqs.slice(5).map((faq, index) => {
+                        const idx = index + 5;
+                        return (
+                          <div
+                            key={idx}
+                            onClick={() => setActiveFaqIndex(activeFaqIndex === idx ? null : idx)}
+                            className="bg-[#f4f4f4] rounded-2xl py-5 px-6 flex flex-col cursor-pointer transition-all duration-200 group hover:shadow-lg"
+                          >
+                            <div className="flex items-center justify-between gap-4">
+                              <span className={`font-normal text-[15px] md:text-[16px] transition-colors ${activeFaqIndex === idx ? 'text-[#C5A059]' : 'text-[#191919] group-hover:text-[#C5A059]'} select-none`}>
+                                {faq.q}
+                              </span>
+                              <span className="text-[#C5A059] font-light text-2xl flex-shrink-0 leading-none">
+                                {activeFaqIndex === idx ? '−' : '+'}
+                              </span>
+                            </div>
+                            {activeFaqIndex === idx && (
+                              <p className="text-[14px] text-[#191919]/80 font-light leading-[1.6] mt-4 animate-fadeIn">
+                                {faq.a}
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </RevealOnScroll>
+              </div>
+            );
+          })()}
+
+          {/* Section 9: Instagram */}
+          <div className="w-full bg-white text-neutral-900 pt-10 pb-8 relative z-10 border-t border-[#e5e5e5]">
+            <div className="w-[100vw] relative left-1/2 -translate-x-1/2 bg-white pb-0 pl-6 md:pl-12 lg:pl-20 overflow-hidden">
+              <RevealOnScroll className="w-full flex flex-col md:flex-row items-center md:items-stretch gap-8 md:gap-12">
+                {/* Text Side */}
+                <div className="w-full md:w-[28%] flex-shrink-0 text-left pr-6 md:pr-0 flex items-center">
+                  <h2 className="font-sans font-bold text-3xl md:text-[36px] lg:text-[44px] text-neutral-500 leading-[1.2] tracking-tight">
+                    Follow us <br className="hidden md:block" /> on Instagram <br />
+                    <span className="mt-4 block font-bold text-[#191919]">@Real.Car</span>
+                  </h2>
+                </div>
+                
+                {/* Images Side */}
+                <div className="w-full md:w-[72%] flex gap-1 overflow-x-auto no-scrollbar pb-4 pr-6 pl-0 md:pl-4">
+                  {[
+                    "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/074/original/326f274ea93a21b59d8e7d6cec60066b.jpg",
+                    "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/077/original/b594a823867b73049cabcdb53bac0c33.jpg",
+                    "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/010/original/06aaeff587d0d47f0de18343d7c3b2ef.jpg",
+                    "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/010/original/a28563d1cae7ddc14cf36f62b81f356c.jpg",
+                    "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/011/original/273f1afb63faba2172f69c9e702deaa3.jpg",
+                    "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/011/original/22557b4957d09fc6eca26d24080e23b1.jpg",
+                    "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/012/original/279dcf72ecf2b72dfcf7c2cf0bff188a.jpg",
+                    "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/012/original/7f74bcb2a9e9fb9d57364ac3625bace5.jpg"
+                  ].map((img, idx) => (
+                    <div key={idx} className="flex-shrink-0 w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[200px] lg:h-[230px]">
+                      <img
+                        src={img}
+                        alt="Instagram Photo"
+                        className="w-full h-full object-cover select-none pointer-events-none bg-neutral-100"
+                        onError={(e) => {
+                          // Fallback placeholder if local image is missing
+                          e.target.src = "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=400";
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </RevealOnScroll>
+            </div>
+          </div>
+
+          {/* Footer Section */}
+          <footer className="w-full bg-[#1a1a1a] py-14 px-6 relative z-10 text-left">
+            <div className="max-w-[1100px] mx-auto">
+              {/* Logo */}
+              <div className="mb-10">
+                <span className="font-sans font-light text-white tracking-[0.35em] text-sm uppercase select-none">
+                  W &nbsp; L U X U R Y
+                </span>
+              </div>
+
+              {/* 3-column grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10">
+                {/* Column 1 */}
+                <div className="flex flex-col gap-3">
+                  {[
+                    { label: 'FAQ', highlight: false },
+                    { label: 'BONUS PROGRAM', highlight: true },
+                    { label: 'CONTACT US', highlight: false },
+                    { label: 'RENTAL CAR DELIVERY IN MIAMI', highlight: false },
+                    { label: 'ONE-WAY CAR RENTAL', highlight: false },
+                    { label: 'LONG-TERM CAR RENTAL', highlight: false },
+                  ].map(({ label, highlight }) => (
+                    <a
+                      key={label}
+                      href="#"
+                      className={`text-[11px] font-semibold tracking-wider uppercase transition-colors ${highlight ? 'text-[#C5A059] hover:text-[#d4b472]' : 'text-neutral-300 hover:text-white'}`}
+                    >
+                      {label}
+                    </a>
+                  ))}
+                </div>
+
+                {/* Column 2 */}
+                <div className="flex flex-col gap-3">
+                  {[
+                    'TERMS & CONDITIONS',
+                    'PRIVACY POLICY',
+                    'REVIEWS',
+                    'VACANCIES',
+                  ].map((label) => (
+                    <a
+                      key={label}
+                      href="#"
+                      className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors"
+                    >
+                      {label}
+                    </a>
+                  ))}
+                </div>
+
+                {/* Column 3 – Contact & Social */}
+                <div className="flex flex-col gap-4">
+                  <a href="mailto:HELLO@WLUXURY.NYC" className="text-[11px] font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-colors">
+                    HELLO@WLUXURY.NYC
+                  </a>
+                  <a href="tel:+13053062353" className="text-[13px] font-semibold text-neutral-300 hover:text-white transition-colors">
+                    +1 305 306 2353
+                  </a>
+
+                  {/* Social icons */}
+                  <div className="flex gap-3 mt-1">
+                    {/* Facebook */}
+                    <a href="#" aria-label="Facebook" className="text-neutral-400 hover:text-white transition-colors">
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                      </svg>
+                    </a>
+                    {/* Instagram */}
+                    <a href="#" aria-label="Instagram" className="text-neutral-400 hover:text-white transition-colors">
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                      </svg>
+                    </a>
+                    {/* LinkedIn */}
+                    <a href="#" aria-label="LinkedIn" className="text-neutral-400 hover:text-white transition-colors">
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                        <rect width="4" height="12" x="2" y="9" />
+                        <circle cx="4" cy="4" r="2" />
+                      </svg>
+                    </a>
+                    {/* Pinterest */}
+                    <a href="#" aria-label="Pinterest" className="text-neutral-400 hover:text-white transition-colors">
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" />
+                      </svg>
+                    </a>
+                    {/* X / Twitter */}
+                    <a href="#" aria-label="X" className="text-neutral-400 hover:text-white transition-colors">
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      </svg>
+                    </a>
+                  </div>
+
+                  {/* NYC Association badge */}
+                  <div className="mt-2 flex items-center gap-2">
+                    <img
+                      src="https://realcar.miami/assets/images/nycahc-badge.png"
+                      alt="New York City Association of Hotel Concierges"
+                      className="h-12 w-auto object-contain"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                    <span className="text-[9px] text-neutral-500 leading-tight max-w-[120px]">
+                      New York City Association<br />of Hotel Concierges
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom bar */}
+              <div className="border-t border-neutral-800 pt-6">
+                <p className="text-[9px] font-medium tracking-widest uppercase text-neutral-500">
+                  © 2026 W LUXURY. ALL RIGHTS RESERVED.
+                </p>
+              </div>
+            </div>
+          </footer>
+        </>
+      )}
     </>
   );
 }

@@ -26,17 +26,16 @@ export default function App() {
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const updateLenis = (time) => {
       lenis.raf(time * 1000);
-    });
+    };
 
+    gsap.ticker.add(updateLenis);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
+      gsap.ticker.remove(updateLenis);
     };
   }, []);
 
@@ -60,12 +59,10 @@ export default function App() {
   const [wizardMileage, setWizardMileage] = useState('included');
 
   // Track responsive grid columns
-  const [cols, setCols] = useState(3);
+  const [cols, setCols] = useState(2);
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setCols(3);
-      } else if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 768) {
         setCols(2);
       } else {
         setCols(1);
@@ -96,6 +93,30 @@ export default function App() {
     setIsEditingSearch(false);
     setSelectedCarId(null); // Close details on search submit
     window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const handleOurFleetClick = () => {
+    setSelectedCarId(null);
+    setIsSearchResultsView(true);
+    setTimeout(() => {
+      const el = document.getElementById('listings-container');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
+  const handleAboutUsClick = () => {
+    setSelectedCarId(null);
+    setIsSearchResultsView(false);
+    setTimeout(() => {
+      const el = document.getElementById('why-w-luxury');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 150);
   };
 
   // Filter handlers
@@ -185,11 +206,13 @@ export default function App() {
             setIsSearchResultsView(false);
           }}
           onOpenFilters={() => setShowFilterDrawer(true)}
+          onOurFleetClick={handleOurFleetClick}
+          onAboutUsClick={handleAboutUsClick}
         />
 
         {/* Desktop Search Dropdown Panel */}
         {isEditingSearch && (
-          <div className="hidden md:block w-full absolute top-[64px] left-0 z-40 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.1)] border-b border-neutral-200">
+          <div className="hidden md:block w-full absolute top-[64px] left-0 z-50 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.1)] border-b border-neutral-200">
             <Hero
               onSearch={handleSearchSubmit}
               isDropdownMode={true}
@@ -199,85 +222,41 @@ export default function App() {
         )}
 
         {/* Results Page content */}
-        <main className="flex-grow pb-16 pt-10 max-w-[1100px] w-full mx-auto px-6">
-          {/* Title */}
-          <h2 className="hidden md:block font-condensed font-black text-3xl md:text-[34px] text-neutral-900 tracking-wide uppercase mb-8 text-left">
-            WHICH CAR DO YOU WANT TO DRIVE?
-          </h2>
+        <main id="listings-container" className="flex-grow pb-16 pt-10 max-w-[1100px] w-full mx-auto px-6">
+          {/* Header Row: Title on Left, Filters on Right */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 md:mb-10">
+            <h2 className="hidden md:block font-condensed font-black text-3xl md:text-[34px] text-neutral-900 tracking-wide uppercase text-left">
+              WHICH CAR DO YOU WANT TO DRIVE?
+            </h2>
 
-          {/* Filters Row */}
-          <div className="flex flex-nowrap md:flex-wrap items-center gap-2 mb-6 md:mb-10 overflow-x-auto no-scrollbar select-none py-1">
-            {/* Recommended filter */}
-            <button className="flex items-center gap-2 bg-white hover:bg-neutral-50 border border-neutral-300 rounded-full px-4 py-2 text-xs font-bold text-neutral-800 transition-colors whitespace-nowrap">
-              Recommended
-              <svg className="w-3.5 h-3.5 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M6 9l6 6 6-6" /></svg>
-            </button>
+            {/* Recommended and Filters */}
+            <div className="flex items-center gap-2 select-none">
+              {/* Recommended filter */}
+              <button className="flex items-center gap-2 bg-white hover:bg-neutral-50 border border-neutral-300 rounded-full px-4 py-2 text-xs font-bold text-neutral-800 transition-colors whitespace-nowrap">
+                Recommended
+                <svg className="w-3.5 h-3.5 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M6 9l6 6 6-6" /></svg>
+              </button>
 
-            {/* Filters toggle (Desktop only) */}
-            <button
-              onClick={() => setShowFilterDrawer(true)}
-              className="hidden md:flex items-center gap-2 bg-black hover:bg-neutral-900 rounded-full px-4 py-2 text-xs font-bold text-white transition-colors border border-black whitespace-nowrap"
-            >
-              <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <line x1="4" y1="21" x2="4" y2="14" />
-                <line x1="4" y1="10" x2="4" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="12" />
-                <line x1="12" y1="8" x2="12" y2="3" />
-                <line x1="20" y1="21" x2="20" y2="16" />
-                <line x1="20" y1="12" x2="20" y2="3" />
-                <line x1="1" y1="14" x2="7" y2="14" />
-                <line x1="9" y1="8" x2="15" y2="8" />
-                <line x1="17" y1="16" x2="23" y2="16" />
-              </svg>
-              Filters
-              <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M6 9l6 6 6-6" /></svg>
-            </button>
-
-            {/* Hot offers */}
-            <button
-              onClick={() => toggleFilter('hotOffers')}
-              className={`flex items-center gap-1.5 border rounded-full px-4 py-2 text-xs font-bold transition-all whitespace-nowrap ${activeFilters.hotOffers
-                ? 'bg-[#C5A059] border-[#C5A059] text-white'
-                : 'bg-white hover:bg-neutral-50 border-neutral-300 text-neutral-800'
-                }`}
-            >
-              <span>🔥</span> Hot offers
-            </button>
-
-            {/* Premium */}
-            <button
-              onClick={() => toggleFilter('premium')}
-              className={`flex items-center gap-1.5 border rounded-full px-4 py-2 text-xs font-bold transition-all whitespace-nowrap ${activeFilters.premium
-                ? 'bg-[#C5A059] border-[#C5A059] text-white'
-                : 'bg-white hover:bg-neutral-50 border-neutral-300 text-neutral-800'
-                }`}
-            >
-              <span>💎</span> Premium
-            </button>
-
-            {/* Guaranteed model */}
-            <button
-              onClick={() => toggleFilter('guaranteed')}
-              className={`flex items-center gap-1.5 border rounded-full px-4 py-2 text-xs font-bold transition-all whitespace-nowrap ${activeFilters.guaranteed
-                ? 'bg-[#C5A059] border-[#C5A059] text-white'
-                : 'bg-white hover:bg-neutral-50 border-neutral-300 text-neutral-800'
-                }`}
-            >
-              <span>🚗</span> Guaranteed model
-            </button>
-
-            {/* Automatic */}
-            <button
-              onClick={() => toggleFilter('automatic')}
-              className={`flex items-center gap-1.5 border rounded-full px-4 py-2 text-xs font-bold transition-all whitespace-nowrap ${activeFilters.automatic
-                ? 'bg-[#C5A059] border-[#C5A059] text-white'
-                : 'bg-white hover:bg-neutral-50 border-neutral-300 text-neutral-800'
-                }`}
-            >
-              <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black mr-0.5 ${activeFilters.automatic ? 'bg-white text-black' : 'bg-neutral-100 text-neutral-800'
-                }`}>A</span>
-              Automatic
-            </button>
+              {/* Filters toggle */}
+              <button
+                onClick={() => setShowFilterDrawer(true)}
+                className="flex items-center gap-2 bg-black hover:bg-neutral-900 rounded-full px-4 py-2 text-xs font-bold text-white transition-colors border border-black whitespace-nowrap"
+              >
+                <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="4" y1="21" x2="4" y2="14" />
+                  <line x1="4" y1="10" x2="4" y2="3" />
+                  <line x1="12" y1="21" x2="12" y2="12" />
+                  <line x1="12" y1="8" x2="12" y2="3" />
+                  <line x1="20" y1="21" x2="20" y2="16" />
+                  <line x1="20" y1="12" x2="20" y2="3" />
+                  <line x1="1" y1="14" x2="7" y2="14" />
+                  <line x1="9" y1="8" x2="15" y2="8" />
+                  <line x1="17" y1="16" x2="23" y2="16" />
+                </svg>
+                Filters
+                <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M6 9l6 6 6-6" /></svg>
+              </button>
+            </div>
           </div>
 
           {/* Cars Grid */}
@@ -293,7 +272,7 @@ export default function App() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[1000px] mx-auto">
                 {filteredCars.map((car, idx) => {
                   const selectedIndex = filteredCars.findIndex(c => c._id === selectedCarId);
                   const insertAfterIndex = Math.min(
@@ -309,6 +288,7 @@ export default function App() {
                           viewMode="results"
                           index={idx}
                           isSelected={selectedCarId === car._id}
+                          searchParams={searchParams}
                           onClick={(selected) => {
                             if (selectedCarId === selected._id) {
                               setSelectedCarId(null);
@@ -328,7 +308,7 @@ export default function App() {
                         />
                       </div>
                       {selectedCarId && idx === insertAfterIndex && !selectedCar && (
-                        <div id="car-options-section" className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center mt-6 mb-4">
+                        <div id="car-options-section" className="col-span-1 md:col-span-2 flex justify-center mt-6 mb-4">
                           <div className="w-full max-w-[1100px]">
                             <CarCardDetails
                               car={filteredCars.find(c => c._id === selectedCarId)}
@@ -409,7 +389,7 @@ export default function App() {
                   onClick={() => setShowFilterDrawer(false)}
                   className="text-neutral-900 hover:text-black font-semibold text-lg p-1.5 transition-colors"
                 >
-                  <svg className="w-5 h-5 text-neutral-900 stroke-[2.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>
+                  <svg className="w-5 h-5 text-neutral-900 stroke-[2.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6" /></svg>
                 </button>
 
                 <h3 className="font-condensed font-black text-lg tracking-wide uppercase text-neutral-900 select-none">
@@ -433,12 +413,12 @@ export default function App() {
                   </h4>
                   <div className="flex flex-wrap gap-2.5">
                     {[
-                      { id: 'wagon', label: 'Station wagon', icon: '🚙' },
-                      { id: 'sedan', label: 'Sedan', icon: '🚗' },
-                      { id: 'suv', label: 'SUV', icon: '🚙' },
-                      { id: 'convertible', label: 'Convertible', icon: '🏎️' },
-                      { id: 'family', label: 'Family car', icon: '🚐' },
-                      { id: 'coupe', label: 'Coupe', icon: '🏎️' }
+                      { id: 'wagon', label: 'Station wagon' },
+                      { id: 'sedan', label: 'Sedan' },
+                      { id: 'suv', label: 'SUV' },
+                      { id: 'convertible', label: 'Convertible' },
+                      { id: 'family', label: 'Family car' },
+                      { id: 'coupe', label: 'Coupe' }
                     ].map((type) => {
                       const isSelected = activeFilters[type.id];
                       return (
@@ -446,12 +426,12 @@ export default function App() {
                           key={type.id}
                           type="button"
                           onClick={() => toggleFilter(type.id)}
-                          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-bold transition-all ${isSelected
+                          className={`px-4 py-2.5 rounded-xl border text-xs font-bold transition-all ${isSelected
                             ? 'bg-black border-black text-white'
                             : 'bg-white hover:bg-neutral-50 border-neutral-200 text-neutral-800'
                             }`}
                         >
-                          <span>{type.icon}</span> {type.label}
+                          {type.label}
                         </button>
                       );
                     })}
@@ -465,8 +445,8 @@ export default function App() {
                   </h4>
                   <div className="flex flex-wrap gap-2.5">
                     {[
-                      { id: 'premium', label: 'Premium', icon: '💎' },
-                      { id: 'guaranteed', label: 'Guaranteed model', icon: '🚗' }
+                      { id: 'premium', label: 'Premium' },
+                      { id: 'guaranteed', label: 'Guaranteed model' }
                     ].map((item) => {
                       const isSelected = activeFilters[item.id];
                       return (
@@ -474,12 +454,12 @@ export default function App() {
                           key={item.id}
                           type="button"
                           onClick={() => toggleFilter(item.id)}
-                          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-bold transition-all ${isSelected
+                          className={`px-4 py-2.5 rounded-xl border text-xs font-bold transition-all ${isSelected
                             ? 'bg-black border-black text-white'
                             : 'bg-white hover:bg-neutral-50 border-neutral-200 text-neutral-800'
                             }`}
                         >
-                          <span>{item.icon}</span> {item.label}
+                          {item.label}
                         </button>
                       );
                     })}
@@ -493,11 +473,11 @@ export default function App() {
                   </h4>
                   <div className="flex flex-wrap gap-2.5">
                     {[
-                      { id: 'performance', label: 'High performance', icon: '⚙️' },
-                      { id: 'electric', label: 'Electric', icon: '⚡' },
-                      { id: 'automatic', label: 'Automatic', icon: 'A' },
-                      { id: 'gps', label: 'GPS', icon: '🗺️' },
-                      { id: 'hotOffers', label: 'Hot offers', icon: '🔥' }
+                      { id: 'performance', label: 'High performance' },
+                      { id: 'electric', label: 'Electric' },
+                      { id: 'automatic', label: 'Automatic' },
+                      { id: 'gps', label: 'GPS' },
+                      { id: 'hotOffers', label: 'Hot offers' }
                     ].map((feature) => {
                       const isSelected = activeFilters[feature.id];
                       return (
@@ -505,17 +485,11 @@ export default function App() {
                           key={feature.id}
                           type="button"
                           onClick={() => toggleFilter(feature.id)}
-                          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-bold transition-all ${isSelected
+                          className={`px-4 py-2.5 rounded-xl border text-xs font-bold transition-all ${isSelected
                             ? 'bg-black border-black text-white'
                             : 'bg-white hover:bg-neutral-50 border-neutral-200 text-neutral-800'
                             }`}
                         >
-                          {feature.id === 'automatic' ? (
-                            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black mr-0.5 ${isSelected ? 'bg-white text-black' : 'bg-neutral-200 text-neutral-800'
-                              }`}>A</span>
-                          ) : (
-                            <span>{feature.icon}</span>
-                          )}
                           {feature.label}
                         </button>
                       );
@@ -628,10 +602,14 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#070707] flex flex-col font-sans text-[#F3F3F3]">
       {/* Visual Header */}
-      <Header onResetView={() => {
-        clearFilters();
-        setSelectedCarId(null);
-      }} />
+      <Header 
+        onResetView={() => {
+          clearFilters();
+          setSelectedCarId(null);
+        }} 
+        onOurFleetClick={handleOurFleetClick}
+        onAboutUsClick={handleAboutUsClick}
+      />
 
       {/* Main Core Booking Experience */}
       <main className="flex-grow">
