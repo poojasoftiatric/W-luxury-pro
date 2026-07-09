@@ -2167,8 +2167,12 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                         Learn More <ArrowRight className="w-4 h-4 ml-1" />
                       </a>
                     </div>
-                    <div className="absolute right-[-5%] top-[15%] w-[40%] h-[80%] opacity-20 pointer-events-none flex items-center justify-center text-[#191919]">
-                      <Fuel className="w-32 h-32 transform rotate-12 drop-shadow-xl" strokeWidth={1} />
+                    <div className="absolute right-[-10px] bottom-[-10px] w-[140px] h-[140px] pointer-events-none z-0">
+                      <img 
+                        src="/assets/fuel_nozzle.png" 
+                        alt="Fuel Nozzle" 
+                        className="w-full h-full object-contain mix-blend-multiply" 
+                      />
                     </div>
                   </div>
 
@@ -2367,14 +2371,14 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           })()}
 
           {/* Section 9: Instagram */}
-          <div className="w-full bg-white text-neutral-900 pt-10 pb-8 relative z-10 border-t border-[#e5e5e5]">
+          <div id="instagram-section" className="w-full bg-white text-neutral-900 pt-10 pb-8 relative z-10 border-t border-[#e5e5e5]">
             <div className="w-[100vw] relative left-1/2 -translate-x-1/2 bg-white pb-0 pl-6 md:pl-12 lg:pl-20 overflow-hidden">
               <RevealOnScroll className="w-full flex flex-col md:flex-row items-center md:items-stretch gap-8 md:gap-12">
                 {/* Text Side */}
                 <div className="w-full md:w-[28%] flex-shrink-0 text-left pr-6 md:pr-0 flex items-center">
                   <h2 className="font-sans font-bold text-3xl md:text-[36px] lg:text-[44px] text-neutral-500 leading-[1.2] tracking-tight">
                     Follow us <br className="hidden md:block" /> on Instagram <br />
-                    <span className="mt-4 block font-bold text-[#191919]">@Real.Car</span>
+                    <span className="mt-4 block font-bold text-[#191919]">@W.Luxury</span>
                   </h2>
                 </div>
                 
@@ -2431,7 +2435,13 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   ].map(({ label, highlight }) => (
                     <a
                       key={label}
-                      href="#"
+                      href={label === 'CONTACT US' ? '#instagram-section' : '#'}
+                      onClick={(e) => {
+                        if (label === 'CONTACT US') {
+                          e.preventDefault();
+                          document.getElementById('instagram-section')?.scrollIntoView({ behavior: 'smooth' });
+                        }
+                      }}
                       className={`text-[11px] font-semibold tracking-wider uppercase transition-colors ${highlight ? 'text-[#C5A059] hover:text-[#d4b472]' : 'text-neutral-300 hover:text-white'}`}
                     >
                       {label}

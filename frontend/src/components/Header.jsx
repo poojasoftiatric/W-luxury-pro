@@ -18,7 +18,7 @@ const CustomCloseIcon = ({ className }) => (
   </svg>
 );
 
-export default function Header({ onResetView, isResultsPage, searchParams, onEditSearch, onOpenFilters, onOurFleetClick, onAboutUsClick }) {
+export default function Header({ onResetView, isResultsPage, searchParams, onEditSearch, onOpenFilters, onOurFleetClick, onAboutUsClick, onContactUsClick }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLangModalOpen, setIsLangModalOpen] = useState(false);
   const { langCode, setLangCode, currencySymbol, setCurrencySymbol, langName, setLangName, currencyName, setCurrencyName } = useUserSettings();
@@ -259,7 +259,7 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
               </div>
 
               {/* Right Side: Navigation Links */}
-              <div className="flex items-center gap-7 text-[16px] font-medium text-white tracking-tight">
+              <div className="flex items-center gap-7 text-[18px] font-medium text-white tracking-tight">
 
                 {/* Our Fleet Link */}
                 <button 
@@ -321,6 +321,8 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
                   onOurFleetClick();
                 } else if (item === 'ABOUT W') {
                   onAboutUsClick();
+                } else if (item === 'CONTACT US' && onContactUsClick) {
+                  onContactUsClick();
                 }
               }}
             >

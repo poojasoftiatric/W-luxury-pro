@@ -119,6 +119,17 @@ export default function App() {
     }, 150);
   };
 
+  const handleContactUsClick = () => {
+    setSelectedCarId(null);
+    setIsSearchResultsView(false);
+    setTimeout(() => {
+      const el = document.getElementById('instagram-section');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 150);
+  };
+
   // Filter handlers
   const toggleFilter = (key) => {
     setActiveFilters(prev => ({ ...prev, [key]: !prev[key] }));
@@ -208,6 +219,7 @@ export default function App() {
           onOpenFilters={() => setShowFilterDrawer(true)}
           onOurFleetClick={handleOurFleetClick}
           onAboutUsClick={handleAboutUsClick}
+          onContactUsClick={handleContactUsClick}
         />
 
         {/* Desktop Search Dropdown Panel */}
@@ -380,6 +392,7 @@ export default function App() {
             />
             {/* Drawer */}
             <div
+              data-lenis-prevent
               className="fixed top-0 left-0 h-full w-[550px] max-w-full bg-white text-neutral-900 shadow-2xl z-[101] flex flex-col justify-between transform transition-transform duration-300 ease-out animate-slideInLeft overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
@@ -609,6 +622,7 @@ export default function App() {
         }} 
         onOurFleetClick={handleOurFleetClick}
         onAboutUsClick={handleAboutUsClick}
+        onContactUsClick={handleContactUsClick}
       />
 
       {/* Main Core Booking Experience */}
