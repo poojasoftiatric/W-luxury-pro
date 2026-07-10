@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 import CarCard from './CarCard.jsx';
+import { ServiceAreaMap } from './ServiceAreaMap.jsx';
 
 const RevealOnScroll = ({ children, className = "w-full flex flex-col items-center justify-center" }) => {
   const ref = useRef(null);
@@ -479,146 +480,199 @@ const popularTypesList = [
 ];
 
 const PopularTypesCarousel = ({ onScrollToListings }) => {
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [thumbStartIdx, setThumbStartIdx] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+  const featuredRef = useRef(null);
+  const activeCar = popularTypesList[selectedIdx];
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useGSAP(() => {
+    if (featuredRef.current) {
+      // Stagger fade-in-up transition for the featured area
+      gsap.fromTo(
+        featuredRef.current.children,
+        { opacity: 0, y: 15 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.5, 
+          stagger: 0.08, 
+          ease: "power2.out" 
+        }
+      );
+    }
+  }, [selectedIdx]);
+
+  // Helper to split title for luxury stacked style
+  const splitTitle = (title) => {
+    const parts = title.split(' ');
+    if (parts.length > 2) {
+      const lastWord = parts[parts.length - 1];
+      const remaining = parts.slice(0, parts.length - 1).join(' ');
+      return { line1: remaining, line2: lastWord };
+    } else if (parts.length === 2) {
+      return { line1: parts[0], line2: parts[1] };
+    }
+    return { line1: title, line2: '' };
+  };
+
+  const { line1, line2 } = splitTitle(activeCar.title);
+
   return (
-    <div className="w-full bg-white text-neutral-900 py-20 px-6 text-center select-none relative z-10 border-t border-neutral-100 overflow-hidden">
-      <RevealOnScroll className="max-w-[1200px] mx-auto w-full">
-        <h2 className="font-sans font-normal text-4xl md:text-6xl lg:text-[64px] text-neutral-900 tracking-wide uppercase text-center leading-none">
+    <div className="w-full bg-white text-neutral-900 py-6 md:py-8 px-6 text-center select-none relative z-10 border-t border-neutral-100 overflow-hidden">
+      <div className="max-w-[1200px] mx-auto w-full">
+        {/* Section Heading */}
+        <h2 className="font-sans font-normal text-3xl md:text-6xl lg:text-[64px] text-neutral-900 tracking-wide uppercase text-center leading-none mb-6">
           BROWSE POPULAR TYPES
         </h2>
 
-        {/* Top Row Grid: First 4 items */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16 text-center w-full">
-          {popularTypesList.slice(0, 4).map((item, index) => (
-            <div
-              key={`popular-${index}`}
-              className="w-full flex flex-col items-center transition-all duration-200 mx-auto group cursor-pointer"
-            >
-              {/* Image */}
-              <div className="relative w-full h-[180px] flex items-center justify-center mb-6">
-                <div className="absolute bottom-4 w-3/4 h-4 bg-black/5 rounded-[100%] blur-md scale-75 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-700 pointer-events-none" />
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="relative z-10 max-h-[160px] w-[105%] object-contain drop-shadow-[0_8px_15px_rgba(0,0,0,0.1)] transform group-hover:scale-[1.15] group-hover:translate-x-3 group-hover:-translate-y-3 transition-all duration-[800ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] group-hover:drop-shadow-[0_25px_25px_rgba(0,0,0,0.25)]"
-                />
-              </div>
+        {/* Large Featured Area */}
+        <div ref={featuredRef} className="flex flex-col items-center mb-4 max-w-[800px] mx-auto">
+          {/* Image */}
+          <div className="relative w-full max-w-[420px] h-[140px] md:h-[175px] flex items-center justify-center mb-2">
+            <img
+              src={activeCar.image}
+              alt={activeCar.title}
+              className="relative z-10 max-h-[130px] md:max-h-[165px] w-full object-contain drop-shadow-[0_6px_12px_rgba(0,0,0,0.1)] transition-transform duration-500 hover:scale-[1.03]"
+            />
+          </div>
 
-              {/* Text & Button Wrapper with fixed height */}
-              <div className="flex flex-col items-center w-full px-2 h-[250px]">
-                <h3 className="font-condensed font-normal text-[26px] md:text-[30px] text-[#191919] uppercase tracking-wide leading-[1.1] mb-1 text-center min-h-[66px] flex items-center justify-center">
-                  {item.title}
-                </h3>
-                <span className="text-[14px] text-[#333333] block mb-3 text-center">
-                  {item.subtitle}
-                </span>
+          {/* Title */}
+          <h2 className="font-sans font-normal text-xl md:text-2xl lg:text-[30px] text-neutral-900 tracking-wide uppercase leading-tight mb-0.5 text-center">
+            {line1}
+            {line2 && <span className="block mt-0.5">{line2}</span>}
+          </h2>
 
-                {/* Specs Row with flex-wrap */}
-                <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[12px] font-bold text-[#191919] mb-4 w-full">
-                  <div className="flex items-center gap-1.5 whitespace-nowrap">
-                    <User className="w-3.5 h-3.5 text-[#191919] stroke-[2.5]" />
-                    <span>{item.seats} seaters</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 whitespace-nowrap">
-                    <Briefcase className="w-3.5 h-3.5 text-[#191919] stroke-[2.5]" />
-                    <span>{item.suitcases} bags</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 whitespace-nowrap">
-                    {item.transmission.toLowerCase().includes('range') ? (
-                      <svg className="w-4 h-4 text-[#191919] stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <rect x="2" y="7" width="16" height="10" rx="2" ry="2" />
-                        <line x1="22" y1="11" x2="22" y2="13" />
-                      </svg>
-                    ) : (
-                      <span className="w-4 h-4 bg-[#191919] text-white rounded-[2px] flex items-center justify-center text-[10px] font-black leading-none">A</span>
-                    )}
-                    <span>{item.transmission}</span>
-                  </div>
-                </div>
+          {/* Subtitle */}
+          <span className="text-[12px] md:text-[13px] text-neutral-400 font-sans block mb-2 text-center">
+            {activeCar.subtitle}
+          </span>
 
-                <p className="text-[13px] text-[#333333] leading-relaxed max-w-[240px] text-center mx-auto mb-5">
-                  {item.desc}
-                </p>
-                <button
-                  type="button"
-                  onClick={onScrollToListings}
-                  className="bg-[#191919] hover:bg-black text-white font-bold text-[13px] py-2.5 px-6 rounded-full transition-all hover:scale-[1.02] active:scale-95 w-fit mx-auto shadow-md mt-auto shrink-0"
-                >
-                  Check availability
-                </button>
-              </div>
+          {/* Specs Row */}
+          <div className="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-1 text-[11px] md:text-[12px] font-bold text-neutral-800 mb-2.5 w-full">
+            <div className="flex items-center gap-1.5 whitespace-nowrap bg-neutral-50 px-3 py-0.5 rounded-full border border-neutral-200/50 shadow-sm">
+              <User className="w-3.5 h-3.5 text-neutral-700 stroke-[2.5]" />
+              <span>{activeCar.seats} seaters</span>
             </div>
-          ))}
+            <div className="flex items-center gap-1.5 whitespace-nowrap bg-neutral-50 px-3 py-0.5 rounded-full border border-neutral-200/50 shadow-sm">
+              <Briefcase className="w-3.5 h-3.5 text-neutral-700 stroke-[2.5]" />
+              <span>{activeCar.suitcases} bags</span>
+            </div>
+            <div className="flex items-center gap-1.5 whitespace-nowrap bg-neutral-50 px-3 py-0.5 rounded-full border border-neutral-200/50 shadow-sm">
+              {activeCar.transmission.toLowerCase().includes('range') ? (
+                <svg className="w-3.5 h-3.5 text-neutral-700 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <rect x="2" y="7" width="16" height="10" rx="2" ry="2" />
+                  <line x1="22" y1="11" x2="22" y2="13" />
+                </svg>
+              ) : (
+                <span className="w-3.5 h-3.5 bg-neutral-800 text-white rounded-[2px] flex items-center justify-center text-[8px] font-black leading-none">A</span>
+              )}
+              <span>{activeCar.transmission}</span>
+            </div>
+          </div>
+
+          {/* Description */}
+          <p className="text-[12px] md:text-[13px] text-neutral-500 leading-relaxed max-w-[420px] text-center mx-auto mb-3 font-sans">
+            {activeCar.desc}
+          </p>
+
+          {/* CTA */}
+          <button
+            type="button"
+            onClick={onScrollToListings}
+            className="bg-[#191919] hover:bg-black text-white font-bold text-[11px] md:text-[12px] tracking-wide py-1.5 px-6 rounded-full transition-all hover:scale-[1.02] active:scale-95 shadow-md flex items-center justify-center"
+          >
+            Check availability
+          </button>
         </div>
 
-        {/* Bottom Row Flex: Centered remaining 2 items */}
-        <div className="flex flex-col sm:flex-row justify-center gap-6 mt-6 text-center w-full lg:max-w-[50%] mx-auto">
-          {popularTypesList.slice(4, 6).map((item, index) => (
-            <div
-              key={`popular-${index + 4}`}
-              className="w-full flex flex-col items-center transition-all duration-200 group cursor-pointer"
+        {/* Thumbnail Gallery Slider */}
+        <div className="w-full mt-6 border-t border-neutral-200/50 pt-6 relative px-0 md:px-12">
+          {/* Left chevron arrow */}
+          <button
+            type="button"
+            onClick={() => setThumbStartIdx(prev => Math.max(0, prev - 1))}
+            className={`hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-neutral-200 bg-white shadow-md items-center justify-center text-neutral-800 hover:border-neutral-400 active:scale-95 transition-all z-20 ${
+              thumbStartIdx === 0 ? 'opacity-30 pointer-events-none' : 'opacity-100'
+            }`}
+            aria-label="Previous thumbnails"
+          >
+            <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+          </button>
+
+          {/* Right chevron arrow */}
+          <button
+            type="button"
+            onClick={() => setThumbStartIdx(prev => Math.min(2, prev + 1))}
+            className={`hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-neutral-200 bg-white shadow-md items-center justify-center text-neutral-800 hover:border-neutral-400 active:scale-95 transition-all z-20 ${
+              thumbStartIdx === 2 ? 'opacity-30 pointer-events-none' : 'opacity-100'
+            }`}
+            aria-label="Next thumbnails"
+          >
+            <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+          </button>
+
+          {/* Track viewport container */}
+          <div className="w-full overflow-hidden py-2.5 -my-2.5">
+            <div 
+              className="flex md:transition-transform md:duration-500 md:ease-out overflow-x-auto md:overflow-x-visible snap-x snap-mandatory no-scrollbar pb-2 md:pb-0 px-2 md:px-0 -mx-2 md:mx-0"
+              style={isDesktop ? { transform: `translateX(-${thumbStartIdx * 25}%)` } : {}}
             >
-              {/* Image */}
-              <div className="relative w-full h-[180px] flex items-center justify-center mb-6">
-                <div className="absolute bottom-4 w-3/4 h-4 bg-black/5 rounded-[100%] blur-md scale-75 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-700 pointer-events-none" />
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="relative z-10 max-h-[160px] w-[105%] object-contain drop-shadow-[0_8px_15px_rgba(0,0,0,0.1)] transform group-hover:scale-[1.15] group-hover:translate-x-3 group-hover:-translate-y-3 transition-all duration-[800ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] group-hover:drop-shadow-[0_25px_25px_rgba(0,0,0,0.25)]"
-                />
-              </div>
+              {popularTypesList.map((item, idx) => {
+                const isSelected = selectedIdx === idx;
+                return (
+                  <div
+                    key={`thumb-${idx}`}
+                    onClick={() => setSelectedIdx(idx)}
+                    className={`snap-center shrink-0 w-[190px] md:w-[calc(25%-12px)] mx-1.5 bg-[#fcfcfc] hover:bg-[#f6f6f6] border rounded-xl p-3 flex flex-col items-center cursor-pointer transition-all duration-300 ${
+                      isSelected
+                        ? 'border-[#C5A059] bg-white shadow-md scale-[1.02] ring-1 ring-[#C5A059]/30'
+                        : 'border-neutral-200/50 shadow-sm'
+                    }`}
+                  >
+                    {/* Thumbnail Image */}
+                    <div className="relative w-full h-[55px] flex items-center justify-center mb-2">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="max-h-[50px] max-w-full object-contain drop-shadow-[0_3px_6px_rgba(0,0,0,0.08)] transition-transform duration-300"
+                      />
+                    </div>
 
-              {/* Text & Button Wrapper with fixed height */}
-              <div className="flex flex-col items-center w-full px-2 h-[250px]">
-                <h3 className="font-condensed font-normal text-[26px] md:text-[30px] text-[#191919] uppercase tracking-wide leading-[1.1] mb-1 text-center min-h-[66px] flex items-center justify-center">
-                  {item.title}
-                </h3>
-                <span className="text-[14px] text-[#333333] block mb-3 text-center">
-                  {item.subtitle}
-                </span>
+                    {/* Thumbnail Title */}
+                    <h3 className="font-condensed font-bold text-[12px] text-neutral-800 uppercase tracking-wide leading-tight text-center mb-0.5 line-clamp-1">
+                      {item.title}
+                    </h3>
+                    <span className="text-[10px] text-neutral-400 block mb-1.5 text-center line-clamp-1">
+                      {item.subtitle}
+                    </span>
 
-                {/* Specs Row with flex-wrap */}
-                <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[12px] font-bold text-[#191919] mb-4 w-full">
-                  <div className="flex items-center gap-1.5 whitespace-nowrap">
-                    <User className="w-3.5 h-3.5 text-[#191919] stroke-[2.5]" />
-                    <span>{item.seats} seaters</span>
+                    {/* Specs row tiny */}
+                    <div className="flex items-center justify-center gap-1.5 text-[9px] font-bold text-neutral-500 w-full">
+                      <span>{item.seats}S</span>
+                      <span className="text-neutral-200">•</span>
+                      <span>{item.suitcases}B</span>
+                      <span className="text-neutral-200">•</span>
+                      <span>{item.transmission.split(' ')[0]}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5 whitespace-nowrap">
-                    <Briefcase className="w-3.5 h-3.5 text-[#191919] stroke-[2.5]" />
-                    <span>{item.suitcases} bags</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 whitespace-nowrap">
-                    {item.transmission.toLowerCase().includes('range') ? (
-                      <svg className="w-4 h-4 text-[#191919] stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <rect x="2" y="7" width="16" height="10" rx="2" ry="2" />
-                        <line x1="22" y1="11" x2="22" y2="13" />
-                      </svg>
-                    ) : (
-                      <span className="w-4 h-4 bg-[#191919] text-white rounded-[2px] flex items-center justify-center text-[10px] font-black leading-none">A</span>
-                    )}
-                    <span>{item.transmission}</span>
-                  </div>
-                </div>
-
-                <p className="text-[13px] text-[#333333] leading-relaxed max-w-[240px] text-center mx-auto mb-5">
-                  {item.desc}
-                </p>
-                <button
-                  type="button"
-                  onClick={onScrollToListings}
-                  className="bg-[#191919] hover:bg-black text-white font-bold text-[13px] py-2.5 px-6 rounded-full transition-all hover:scale-[1.02] active:scale-95 w-fit mx-auto shadow-md mt-auto shrink-0"
-                >
-                  Check availability
-                </button>
-              </div>
+                );
+              })}
             </div>
-          ))}
+          </div>
         </div>
 
         {/* Small warning print at bottom */}
         <p className="text-[10px] text-neutral-400 font-bold mt-10 text-center leading-normal max-w-lg mx-auto">
           Vehicles shown are examples only. Availability may vary based on pickup location and dates.
         </p>
-      </RevealOnScroll>
+      </div>
     </div>
   );
 };
@@ -666,6 +720,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
   const [returnTime, setReturnTime] = useState(initialSearchParams?.returnTime || '12:00 PM');
   const [driverAge, setDriverAge] = useState(initialSearchParams?.driverAge || '30+');
   const [activeTab, setActiveTab] = useState('Cars');
+  const [activeServiceLocation, setActiveServiceLocation] = useState(null);
   const [isWidgetExpanded, setIsWidgetExpanded] = useState(false);
   const widgetRef = useRef(null);
   const stickyWidgetRef = useRef(null);
@@ -758,9 +813,11 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
   const [moreSixtSlide, setMoreSixtSlide] = useState(0);
   const [activeFaqIndex, setActiveFaqIndex] = useState(0);
-  const [activeRegionTab, setActiveRegionTab] = useState('Australia');
+  const [activeRegionTab, setActiveRegionTab] = useState('NYC Boroughs');
   // Mobile step-by-step panel: null | 'location' | 'details' | 'calendar' | 'time-pickup' | 'time-return'
   const [mobilePanel, setMobilePanel] = useState(initialMobilePanel || null);
+  const [instagramReels, setInstagramReels] = useState([]);
+  const [instagramLoading, setInstagramLoading] = useState(true);
 
   useEffect(() => {
     if (initialMobilePanel) {
@@ -773,6 +830,29 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
       onPanelClosed();
     }
   }, [mobilePanel, onPanelClosed]);
+
+  // Fetch live Instagram media via Meta Graph API
+  useEffect(() => {
+    const token = import.meta.env.VITE_INSTAGRAM_ACCESS_TOKEN;
+    const userId = import.meta.env.VITE_INSTAGRAM_USER_ID;
+    if (!token || !userId) {
+      setInstagramLoading(false);
+      return;
+    }
+    fetch(
+      `https://graph.instagram.com/${userId}/media?fields=id,media_type,media_url,thumbnail_url,permalink&limit=8&access_token=${token}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.data && data.data.length > 0) {
+          setInstagramReels(data.data);
+        }
+        setInstagramLoading(false);
+      })
+      .catch(() => {
+        setInstagramLoading(false);
+      });
+  }, []);
 
   const handleScrollToListings = () => {
     const el = document.getElementById('listings-container');
@@ -791,19 +871,34 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
   };
 
   const handleDestinationClick = (city) => {
-    if (city.toLowerCase().includes('los angeles')) {
-      setPickupLocation('Los Angeles Int Airport');
-      setHoveredStationKey('Los Angeles Int Airport');
-    } else if (city.toLowerCase().includes('san francisco')) {
-      setPickupLocation('San Francisco Int Airport');
-      setHoveredStationKey('San Francisco Int Airport');
-    } else if (city.toLowerCase().includes('munich')) {
-      setPickupLocation('Munich Airport');
-      setHoveredStationKey('Munich Airport');
-    } else {
-      setPickupLocation(city);
+    setPickupLocation(city);
+    setHoveredStationKey(city);
+
+    // Map clicked destination name to a matching activeServiceLocation ID
+    const name = city.toLowerCase();
+    let locationId = null;
+    if (name.includes('manhattan')) locationId = 'manhattan';
+    else if (name.includes('brooklyn')) locationId = 'brooklyn';
+    else if (name.includes('queens')) locationId = 'queens';
+    else if (name.includes('bronx')) locationId = 'bronx';
+    else if (name.includes('staten island')) locationId = 'statenisland';
+    else if (name.includes('jfk') || name.includes('kennedy')) locationId = 'jfk';
+    else if (name.includes('lga') || name.includes('laguardia')) locationId = 'lga';
+    else if (name.includes('ewr') || name.includes('newark')) locationId = 'ewr';
+    else if (name.includes('teb') || name.includes('teterboro')) locationId = 'teb';
+    else if (name.includes('hpn') || name.includes('westchester')) locationId = 'hpn';
+
+    if (locationId) {
+      setActiveServiceLocation(locationId);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Scroll smoothly to the map section instead of top
+    setTimeout(() => {
+      const mapSection = document.getElementById('service-area-section');
+      if (mapSection) {
+        mapSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 80);
   };
 
 
@@ -861,8 +956,11 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
         setIsSticky(false);
       }
 
-      // Update scroll-up search bar visibility
-      if (currentScrollY > 300) {
+      // Update scroll-up search bar visibility when main search bar has scrolled out of view
+      const threshold = window.innerWidth >= 768 ? window.innerHeight * 0.78 + 160 : window.innerHeight * 0.68 + 220;
+      const isWidgetOutOfView = currentScrollY > threshold;
+
+      if (isWidgetOutOfView) {
         if (currentScrollY < lastScrollY.current) {
           setShowStickySearch(true);
         } else {
@@ -1066,12 +1164,16 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
 
   const regionCountries = {
-    'Australia': ['Australia', 'New Zealand'],
-    'Europe': ['Germany', 'United Kingdom', 'France', 'Italy', 'Spain', 'Austria', 'Switzerland', 'Netherlands'],
-    'North America': ['United States', 'Canada', 'Mexico'],
-    'Africa': ['South Africa', 'Morocco', 'Egypt'],
-    'Asia': ['Singapore', 'United Arab Emirates', 'Japan', 'Thailand', 'Turkey'],
-    'South America': ['Brazil', 'Argentina', 'Colombia', 'Chile']
+    'NYC Boroughs': ['Manhattan', 'Brooklyn', 'Queens', 'The Bronx', 'Staten Island'],
+    'Airport Hubs': [
+      'John F. Kennedy International Airport (JFK)',
+      'LaGuardia Airport (LGA)',
+      'Newark Liberty International Airport (EWR)',
+      'Teterboro Airport (TEB)',
+      'Westchester County Airport (HPN)',
+      'Morristown Municipal Airport (MMU)',
+      'Long Island MacArthur Airport (ISP)'
+    ]
   };
 
   const renderSearchWidget = () => {
@@ -1498,37 +1600,83 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
         </div>
       </div>
 
-      <section className={`relative w-full flex flex-col justify-start items-center select-none ${isDropdownMode ? 'bg-white py-4 md:py-6' : 'h-screen min-h-[520px] bg-transparent overflow-hidden pt-20'}`}>
+      <section className={`relative z-20 w-full flex flex-col justify-start items-center select-none ${isDropdownMode ? 'bg-white py-4 md:py-6' : 'bg-transparent w-full pb-4'}`}>
 
         {/* Full-width Background Video exactly like the reference */}
         {!isDropdownMode && (
           <>
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none z-0"
-            >
-              {/* The video source is now a local file. Drop your downloaded video into public/assets/bg-video.mp4 */}
-              <source src="/assets/bg-video3.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-
-            {/* Elegant Text Overlay matching Lucid Motors */}
-            <RevealOnScroll className="absolute inset-0 flex flex-col justify-start items-start px-6 md:px-12 lg:px-[10%] pt-24 md:pt-32 z-10 pointer-events-none">
-              {renderSearchWidget()}
-
-              <h1
-                className="text-white text-[45px] md:text-[70px] lg:text-[85px] font-condensed font-normal tracking-tight leading-[1.1] mb-4 drop-shadow-md mt-24 md:mt-[15vh]"
+            {/* Full-width Background Video banner */}
+            <div className="relative w-full h-[68vh] md:h-[73vh] lg:h-[78vh] min-h-[480px] overflow-hidden flex flex-col justify-center items-start px-6 md:px-12 lg:px-[10%] select-none z-0">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none z-0"
               >
-                W Luxury Car Rental
-              </h1>
-              <p className="text-white text-base md:text-[20px] font-medium max-w-lg md:max-w-2xl leading-relaxed opacity-100 font-sans tracking-wide drop-shadow-md">
-                Choose from our range of top Luxury cars worldwide.
-              </p>
-            </RevealOnScroll>
+                <source src="/assets/bg-video3.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
 
+              {/* Elegant Text Overlay matching Lucid Motors */}
+              <RevealOnScroll className="absolute inset-0 flex flex-col justify-center items-start px-6 md:px-12 lg:px-[10%] z-10 pointer-events-none">
+                <h1
+                  className="text-white text-[45px] md:text-[70px] lg:text-[85px] font-condensed font-normal tracking-tight leading-[1.1] mb-4 drop-shadow-md"
+                >
+                  W Luxury Car Rental
+                </h1>
+                <p className="text-white text-base md:text-[20px] font-medium max-w-lg md:max-w-2xl leading-relaxed opacity-100 font-sans tracking-wide drop-shadow-md">
+                  Choose from our range of top Luxury cars worldwide.
+                </p>
+              </RevealOnScroll>
+            </div>
+
+            {/* Relocated Search Bar Widget below Video Banner */}
+            <div className="w-full max-w-[1100px] px-6 mx-auto mt-6 md:mt-8 mb-6 z-30 relative pointer-events-auto">
+              {renderSearchWidget()}
+            </div>
+
+            {/* Address & Contact Information Box directly beneath the Search Bar */}
+            <div className="w-full max-w-[1100px] px-6 mx-auto mb-16 z-10 relative">
+              <div className="flex flex-col md:flex-row gap-4 w-full text-left">
+                {/* Left Side: Stacked Phone and Hours Cards */}
+                <div className="w-full md:w-[40%] flex flex-col gap-4">
+                  {/* Phone card */}
+                  <div className="bg-[#121212] rounded-[24px] py-4 px-6 border border-neutral-800/40 shadow-lg flex flex-col justify-center h-[82px]">
+                    <span className="text-[10px] font-normal text-neutral-400/80 uppercase tracking-widest mb-1 font-sans">
+                      Phone
+                    </span>
+                    <a href="tel:+12129918002" className="text-lg md:text-xl font-bold text-white hover:text-[#C5A059] transition-colors leading-tight">
+                      +1 212 991 8002
+                    </a>
+                  </div>
+                  {/* Hours card */}
+                  <div className="bg-[#121212] rounded-[24px] py-4 px-6 border border-neutral-800/40 shadow-lg flex flex-col justify-center h-[82px]">
+                    <span className="text-[10px] font-normal text-neutral-400/80 uppercase tracking-widest mb-1 font-sans">
+                      Operating hours
+                    </span>
+                    <span className="text-[16px] md:text-[18px] font-bold text-white leading-tight">
+                      Mon — Sun: 8 AM — 8 PM
+                    </span>
+                  </div>
+                </div>
+
+                {/* Right Side: Tall Address Card */}
+                <div className="w-full md:w-[60%] bg-[#121212] garage-map-card rounded-[24px] p-5 md:p-6 border border-neutral-800/40 shadow-lg flex flex-col justify-between min-h-[180px]">
+                  <div>
+                    <span className="text-[10px] font-normal text-neutral-400/80 uppercase tracking-widest mb-1 block font-sans">
+                      Address
+                    </span>
+                    <span className="text-lg md:text-[20px] font-bold text-white leading-snug">
+                      448 West 38th street, New York, NY 10018
+                    </span>
+                  </div>
+                  <p className="text-[11px] font-normal text-neutral-400/80 leading-relaxed mt-2 pt-2.5 border-t border-neutral-800/60">
+                    Please note that W Luxury does not conduct in-person transactions for rental vehicles or other services at this address. Our garage is for pick-up and drop-off only. To rent with W Luxury, please book online.
+                  </p>
+                </div>
+              </div>
+            </div>
           </>
         )}
 
@@ -1799,9 +1947,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
         )}
 
 
-        {isSticky && !isDropdownMode && (
-          <div className="w-full max-w-[1100px] px-6 h-[420px] md:h-[310px] pointer-events-none" />
-        )}
+
 
       </section>
 
@@ -1928,182 +2074,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
             </div>
           </div>
 
-          {/* Section 2: Spotlights Recommendation Carousel */}
-          <div className="w-full bg-transparent text-white py-16 px-6 text-center select-none relative z-10 overflow-hidden">
-            <RevealOnScroll className="max-w-[1100px] mx-auto w-full">
-              <h2 className="font-sans font-normal text-2xl md:text-4xl text-white tracking-wide uppercase text-center leading-none">
-                FIND YOUR LUXURY CAR IN OUR FLEET
-              </h2>
 
-              {/* Desktop: Carousel grid of 2 cards */}
-              <div className="hidden md:grid grid-cols-2 gap-8 mt-12 text-left">
-                {carouselSlides[currentSlide].map((item, idx) => (
-                  <CarCard
-                    key={"reco-card-" + idx}
-                    car={item}
-                    viewMode="fleet"
-                    onClick={handleScrollToListings}
-                  />
-                ))}
-              </div>
-
-              {/* Section 3: Features Indicators Row */}
-              <div className="w-full bg-[#070707] border-t border-neutral-900/50 py-10 px-6 relative z-10 overflow-hidden">
-                <RevealOnScroll className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-left w-full">
-                  {/* Global reach */}
-                  <div className="flex flex-col gap-5">
-                    <div className="flex items-center gap-3 text-[18px] font-bold text-white">
-                      <Globe className="w-6 h-6 text-white stroke-[2.5]" />
-                      <span>Global reach</span>
-                    </div>
-                    <p className="text-[25px] font-bold text-white leading-[1.3] pr-4">
-                      2,000+ <span className="text-[#C5A059]">W</span> Luxury stations in over 105 countries
-                    </p>
-                  </div>
-
-                  {/* Top fleet */}
-                  <div className="flex flex-col gap-5">
-                    <div className="flex items-center gap-3 text-[18px] font-bold text-white">
-                      <CarFront className="w-6 h-6 text-white stroke-[2.5]" />
-                      <span>Top fleet</span>
-                    </div>
-                    <p className="text-[25px] font-bold text-white leading-[1.3] pr-4">
-                      Choose your favorite Luxury car from our wide range
-                    </p>
-                  </div>
-
-                  {/* Exceptional service */}
-                  <div className="flex flex-col gap-5">
-                    <div className="flex items-center gap-3 text-[18px] font-bold text-white">
-                      <HandHeart className="w-6 h-6 text-white stroke-[2.5]" />
-                      <span>Exceptional service</span>
-                    </div>
-                    <p className="text-[25px] font-bold text-white leading-[1.3] pr-4">
-                      Stress-free, trustworthy, no hidden costs
-                    </p>
-                  </div>
-                </RevealOnScroll>
-              </div>
-
-              {/* Mobile: Smooth Horizontal Scroll of all cards */}
-              <div
-                ref={mobileFleetScrollRef}
-                className="flex md:hidden overflow-x-auto snap-x snap-mandatory gap-4 mt-8 pb-6 text-left no-scrollbar px-6 -mx-6"
-                onScroll={(e) => {
-                  const scrollLeft = e.target.scrollLeft;
-                  const childWidth = e.target.scrollWidth / (carouselSlides.flat().length);
-                  const newSlide = Math.round(scrollLeft / childWidth);
-                  if (newSlide >= 0 && newSlide < carouselSlides.flat().length && newSlide !== currentMobileSlide) {
-                    setCurrentMobileSlide(newSlide);
-                  }
-                }}
-              >
-                {carouselSlides.flat().map((item, idx) => (
-                  <div key={"mobile-reco-" + idx} className="min-w-[85vw] snap-center shrink-0 flex">
-                    <div className="w-full h-full">
-                      <CarCard
-                        car={item}
-                        viewMode="fleet"
-                        onClick={handleScrollToListings}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Carousel Controls (Desktop) */}
-              <div className="hidden md:flex items-center justify-between mt-8 select-none">
-                {/* Carousel dots indicator */}
-                <div className="flex gap-2">
-                  {carouselSlides.map((_, index) => (
-                    <button
-                      key={`desktop-dot-${index}`}
-                      type="button"
-                      onClick={() => setCurrentSlide(index)}
-                      className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${currentSlide === index ? 'bg-white scale-110' : 'bg-neutral-600 hover:bg-neutral-500'
-                        }`}
-                      aria-label={`Go to slide ${index + 1}`}
-                    />
-                  ))}
-                </div>
-
-                {/* Chevrons Navigation circles */}
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setCurrentSlide(prev => (prev === 0 ? carouselSlides.length - 1 : prev - 1))}
-                    className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
-                    aria-label="Previous slide"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCurrentSlide(prev => (prev === carouselSlides.length - 1 ? 0 : prev + 1))}
-                    className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
-                    aria-label="Next slide"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Carousel Controls (Mobile) */}
-              <div className="flex md:hidden items-center justify-between mt-8 select-none">
-                {/* Carousel dots indicator */}
-                <div className="flex gap-2">
-                  {carouselSlides.flat().map((_, index) => (
-                    <button
-                      key={`mobile-dot-${index}`}
-                      type="button"
-                      onClick={() => {
-                        const mobileContainer = mobileFleetScrollRef.current;
-                        if (mobileContainer) {
-                          const childWidth = mobileContainer.scrollWidth / carouselSlides.flat().length;
-                          mobileContainer.scrollTo({ left: index * childWidth, behavior: 'smooth' });
-                        }
-                      }}
-                      className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${currentMobileSlide === index ? 'bg-white scale-110' : 'bg-neutral-600 hover:bg-neutral-500'
-                        }`}
-                      aria-label={`Go to car ${index + 1}`}
-                    />
-                  ))}
-                </div>
-
-                {/* Chevrons Navigation circles */}
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const mobileContainer = mobileFleetScrollRef.current;
-                      if (mobileContainer) {
-                        const childWidth = mobileContainer.scrollWidth / carouselSlides.flat().length;
-                        mobileContainer.scrollBy({ left: -childWidth, behavior: 'smooth' });
-                      }
-                    }}
-                    className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
-                    aria-label="Previous car"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const mobileContainer = mobileFleetScrollRef.current;
-                      if (mobileContainer) {
-                        const childWidth = mobileContainer.scrollWidth / carouselSlides.flat().length;
-                        mobileContainer.scrollBy({ left: childWidth, behavior: 'smooth' });
-                      }
-                    }}
-                    className="w-10 h-10 rounded-full border border-neutral-800 hover:border-neutral-400 hover:bg-neutral-900 flex items-center justify-center text-white transition-colors"
-                    aria-label="Next car"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-            </RevealOnScroll>
-          </div>
 
           {/* Section 4: Browse Popular Types Carousel */}
           <PopularTypesCarousel onScrollToListings={handleScrollToListings} />
@@ -2212,7 +2183,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
               <div className="lg:col-span-7 bg-white rounded-[32px] p-6 md:p-10 shadow-sm">
                 {/* Tab Pills list */}
                 <div className="flex flex-wrap gap-2 pb-6">
-                  {['Europe', 'North America', 'Africa', 'Asia', 'South America', 'Australia'].map((tab) => (
+                  {['NYC Boroughs', 'Airport Hubs'].map((tab) => (
                     <button
                       key={tab}
                       type="button"
@@ -2244,44 +2215,33 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
             </div>
           </div>
 
-          {/* Section 7: PLACES TO START YOUR JOURNEY */}
-          <div className="w-full bg-white text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-100">
-            <div className="max-w-[1100px] mx-auto text-center">
-              <h2
-                className="font-condensed font-normal text-3xl md:text-4xl lg:text-[48px] text-[#191919] tracking-wide uppercase text-center leading-[1.1] mb-16"
-                style={{ WebkitTextStroke: '1.5px #191919' }}
-              >
-                PLACES TO START YOUR JOURNEY
-              </h2>
+          {/* Section 7: SERVICE COVERAGE AREA (NYC & NORTHERN NJ) */}
+          <div id="service-area-section" className="w-full bg-white text-neutral-900 py-20 px-6 relative z-10 border-t border-neutral-100">
+            <div className="max-w-[1200px] mx-auto w-full">
+              {/* Responsive columns: grid on desktop/tablet, stacked on mobile */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                {/* Left Side Content Column */}
+                <div className="lg:col-span-5 text-left">
+                  <span className="text-[11px] font-bold bg-[#C5A059]/10 text-[#C5A059] px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">
+                    Our Service Coverage
+                  </span>
+                  
+                  <h2 className="font-sans font-normal text-3xl md:text-5xl text-[#191919] tracking-tight uppercase leading-[1.1] mb-6">
+                    Serving New York City & Northern New Jersey
+                  </h2>
+                  
+                  <p className="text-[14px] md:text-[15px] text-neutral-500 font-sans leading-relaxed mb-0">
+                    Skip standard rental counters. We offer premium door-to-door vehicle pickup and drop-off services throughout the five boroughs of NYC and major surrounding airports. Our concierge team delivers your selected vehicle directly to your hotel, office, private airport FBO, or residence.
+                  </p>
+                </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  { city: 'Los Angeles', img: 'https://images.unsplash.com/photo-1580655653885-65763b2597d0?auto=format&fit=crop&w=600&q=80' },
-                  { city: 'New York City', img: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=600&q=80' },
-                  { city: 'Miami, FL', img: 'https://images.unsplash.com/photo-1535498730771-e735b998cd64?auto=format&fit=crop&w=600&q=80' },
-                  { city: 'San Francisco', img: 'https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?auto=format&fit=crop&w=600&q=80' },
-                  { city: 'Las Vegas', img: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=600&q=80' },
-                  { city: 'London', img: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80' }
-                ].map((item, idx) => (
-                  <div
-                    key={`dest-${idx}`}
-                    onClick={() => handleDestinationClick(item.city)}
-                    className="h-[240px] rounded-3xl overflow-hidden relative group cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.01]"
-                  >
-                    <img
-                      src={item.img}
-                      alt={item.city}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    {/* Overlay shadow gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-10" />
-
-                    {/* Badge */}
-                    <span className="absolute bottom-5 left-5 bg-black/60 backdrop-blur-md text-white px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border border-white/5 z-20">
-                      {item.city}
-                    </span>
-                  </div>
-                ))}
+                {/* Right Side Interactive Map Column */}
+                <div className="lg:col-span-7 w-full h-[360px] md:h-[400px]">
+                  <ServiceAreaMap 
+                    activeLocation={activeServiceLocation}
+                    onSelectLocation={setActiveServiceLocation}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -2382,30 +2342,90 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                   </h2>
                 </div>
                 
-                {/* Images Side */}
-                <div className="w-full md:w-[72%] flex gap-1 overflow-x-auto no-scrollbar pb-4 pr-6 pl-0 md:pl-4">
-                  {[
-                    "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/074/original/326f274ea93a21b59d8e7d6cec60066b.jpg",
-                    "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/077/original/b594a823867b73049cabcdb53bac0c33.jpg",
-                    "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/010/original/06aaeff587d0d47f0de18343d7c3b2ef.jpg",
-                    "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/010/original/a28563d1cae7ddc14cf36f62b81f356c.jpg",
-                    "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/011/original/273f1afb63faba2172f69c9e702deaa3.jpg",
-                    "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/011/original/22557b4957d09fc6eca26d24080e23b1.jpg",
-                    "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/012/original/279dcf72ecf2b72dfcf7c2cf0bff188a.jpg",
-                    "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/012/original/7f74bcb2a9e9fb9d57364ac3625bace5.jpg"
-                  ].map((img, idx) => (
-                    <div key={idx} className="flex-shrink-0 w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[200px] lg:h-[230px]">
-                      <img
-                        src={img}
-                        alt="Instagram Photo"
-                        className="w-full h-full object-cover select-none pointer-events-none bg-neutral-100"
-                        onError={(e) => {
-                          // Fallback placeholder if local image is missing
-                          e.target.src = "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=400";
-                        }}
+                {/* Live Instagram Feed / Fallback Static Images */}
+                <div className="w-full md:w-[72%] flex gap-3 overflow-x-auto no-scrollbar pb-4 pr-6 pl-0 md:pl-4">
+                  {instagramLoading ? (
+                    // Loading skeleton placeholders
+                    Array.from({ length: 5 }).map((_, idx) => (
+                      <div
+                        key={`skeleton-${idx}`}
+                        className="flex-shrink-0 w-[200px] h-[240px] bg-neutral-100 rounded-[16px] animate-pulse"
                       />
-                    </div>
-                  ))}
+                    ))
+                  ) : instagramReels.length > 0 ? (
+                    // Dynamic Instagram iframes
+                    instagramReels.map((item) => (
+                      <div
+                        key={item.id}
+                        className="flex-shrink-0 w-[200px] h-[240px] rounded-[16px] overflow-hidden shadow-md bg-neutral-100 relative group cursor-pointer"
+                      >
+                        {item.media_type === 'VIDEO' ? (
+                          // Video reel — show thumbnail with play icon, click opens permalink
+                          <a
+                            href={item.permalink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full h-full"
+                          >
+                            <img
+                              src={item.thumbnail_url || item.media_url}
+                              alt="Instagram Reel"
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                            {/* Play icon overlay */}
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                              <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                                <svg className="w-5 h-5 text-[#C5A059] ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M8 5v14l11-7z" />
+                                </svg>
+                              </div>
+                            </div>
+                            {/* Reel label */}
+                            <div className="absolute top-2 right-2 bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                              Reel
+                            </div>
+                          </a>
+                        ) : (
+                          // Photo post
+                          <a
+                            href={item.permalink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full h-full"
+                          >
+                            <img
+                              src={item.media_url}
+                              alt="Instagram Post"
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                          </a>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    // Fallback static images when API is unavailable
+                    [
+                      "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/074/original/326f274ea93a21b59d8e7d6cec60066b.jpg",
+                      "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/077/original/b594a823867b73049cabcdb53bac0c33.jpg",
+                      "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/010/original/06aaeff587d0d47f0de18343d7c3b2ef.jpg",
+                      "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/010/original/a28563d1cae7ddc14cf36f62b81f356c.jpg",
+                      "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/011/original/273f1afb63faba2172f69c9e702deaa3.jpg",
+                      "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/011/original/22557b4957d09fc6eca26d24080e23b1.jpg",
+                      "https://cdn-api.realcar.nyc/main_banner_images/data/000/000/012/original/279dcf72ecf2b72dfcf7c2cf0bff188a.jpg",
+                      "https://cdn-api.realcar.nyc/vertical_banner_images/data/000/000/012/original/7f74bcb2a9e9fb9d57364ac3625bace5.jpg"
+                    ].map((img, idx) => (
+                      <div key={idx} className="flex-shrink-0 w-[200px] h-[240px] rounded-[16px] overflow-hidden">
+                        <img
+                          src={img}
+                          alt="Instagram Photo"
+                          className="w-full h-full object-cover bg-neutral-100"
+                          onError={(e) => {
+                            e.target.src = "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=400";
+                          }}
+                        />
+                      </div>
+                    ))
+                  )}
                 </div>
               </RevealOnScroll>
             </div>

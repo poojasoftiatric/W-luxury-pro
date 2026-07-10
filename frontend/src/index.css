@@ -71,6 +71,25 @@ html.lenis body {
   /* Firefox */
 }
 
+/* Custom premium scrollbar for details panel */
+.premium-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.premium-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.premium-scrollbar::-webkit-scrollbar-thumb {
+  background: #E5E5E5;
+  border-radius: 2px;
+}
+.premium-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #C5A059;
+}
+.premium-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #E5E5E5 transparent;
+}
+
 body {
   background-color: #0C0C0C;
   color: #F3F3F3;
@@ -236,4 +255,18 @@ h3 {
 
 .animate-scaleIn {
   animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Garage Map Background styling matching reference exactly */
+.garage-map-card {
+  background-image: url('/assets/adress_mob.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+@media (min-width: 768px) {
+  .garage-map-card {
+    background-image: url('/assets/adress.png');
+  }
 }

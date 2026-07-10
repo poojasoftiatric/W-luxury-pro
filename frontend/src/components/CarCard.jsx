@@ -148,9 +148,10 @@ export default function CarCard({ car, onClick, index = 0, viewMode = 'results',
   }
 
   // Search Results View variant (Exactly styled like image2 but with light gray background #f4f4f4)
+  const daysCount = searchParams ? getRentalDays(searchParams.pickupDate, searchParams.returnDate) : 1;
   const dateStr = searchParams 
-    ? `${searchParams.pickupDate} — ${searchParams.returnDate}` 
-    : '9 — 9 Jul 2026';
+    ? `${searchParams.pickupDate} — ${searchParams.returnDate} | ${daysCount} ${daysCount === 1 ? 'day' : 'days'}` 
+    : `9 — 9 Jul 2026 | 1 day`;
 
   return (
     <div ref={cardRef} className={`relative mt-16 ${isSelected ? 'z-40' : 'z-10'} group`}>
@@ -168,56 +169,25 @@ export default function CarCard({ car, onClick, index = 0, viewMode = 'results',
         className={`relative w-full rounded-[28px] overflow-hidden px-6 pb-6 pt-32 cursor-pointer transition-all duration-300 flex flex-col justify-between shadow-md select-none bg-[#f4f4f4] ${isSelected ? 'border-[3px] border-[#C5A059]' : 'border border-neutral-200/50 hover:border-neutral-300'}`}
       >
         {/* Details and Pricing matching image2 layout */}
-        <div className="flex-grow flex flex-col justify-between text-left">
+        <div className="flex-grow flex flex-col text-left">
           <div>
             {/* Title with Arrow */}
             <h3 className="font-sans font-extrabold text-[22px] text-[#191919] tracking-tight leading-tight flex items-center gap-1.5 hover:text-[#C5A059] transition-colors uppercase">
               {car.name} 
               <span className="text-neutral-400 font-light group-hover:translate-x-1 transition-transform duration-200 inline-block">→</span>
             </h3>
-
-            {/* Car Subheading */}
-            <p className="text-[13px] text-neutral-400 font-bold mt-1 tracking-wide">
-              {car.category}
-            </p>
-
-            {/* Feature Badges Row */}
-            <div className="flex flex-wrap items-center gap-1.5 mt-3 text-[11px] font-bold text-neutral-700 select-none">
-              {car.isGuaranteedModel ? (
-                <span className="bg-[#EBECEC] text-neutral-700 px-2.5 py-1.5 rounded-full flex items-center gap-1">
-                  Guaranteed model <Info className="w-3.5 h-3.5 text-neutral-500" />
-                </span>
-              ) : (
-                <span className="bg-[#EBECEC] text-neutral-800 px-2.5 py-1.5 rounded-full flex items-center gap-1">
-                  Premium Brand <Info className="w-3.5 h-3.5 text-neutral-500" />
-                </span>
-              )}
-              <span className="bg-[#EBECEC] text-neutral-800 px-2.5 py-1.5 rounded-full flex items-center gap-1">
-                <User className="w-3.5 h-3.5 text-neutral-600 stroke-[2.5]" /> {car.seats}
-              </span>
-              <span className="bg-[#EBECEC] text-neutral-800 px-2.5 py-1.5 rounded-full flex items-center gap-1">
-                <Briefcase className="w-3.5 h-3.5 text-neutral-600 stroke-[2.5]" /> {car.suitcases}
-              </span>
-              <span className="bg-[#EBECEC] text-neutral-800 px-2.5 py-1.5 rounded-full flex items-center gap-1">
-                <span className="w-4 h-4 bg-white text-black rounded flex items-center justify-center text-[9px] font-black leading-none shadow-sm mr-0.5">
-                  {car.transmission === 'Automatic' ? 'A' : 'M'}
-                </span>
-                {car.transmission}
-              </span>
-            </div>
             
             {/* Date range in format "9 — 9 Jul 2026" */}
-            <p className="text-[14px] text-[#191919]/70 font-semibold mt-4">
+            <p className="text-[14px] text-[#191919]/70 font-semibold mt-1.5">
               {dateStr}
             </p>
           </div>
 
           {/* Pricing Row: Daily price and Dynamic Total */}
           {(() => {
-            const daysCount = searchParams ? getRentalDays(searchParams.pickupDate, searchParams.returnDate) : 1;
             const totalVal = (car.baseRate * daysCount + 0.88).toFixed(2);
             return (
-              <div className="flex items-center justify-between mt-6 pt-2">
+              <div className="flex items-center justify-between mt-3.5 pt-1">
                 <div className="flex flex-col text-left">
                   {/* Daily Price */}
                   <div className="flex items-baseline text-[#191919]">
