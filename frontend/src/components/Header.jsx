@@ -127,7 +127,7 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
               >
                 <div className="flex-grow text-left">
                   <p className="text-[13px] font-bold text-white tracking-wide leading-tight">
-                    {searchParams?.pickupLocation || 'Frankfurt Airport'}
+                    Rental Date/time
                   </p>
                   <p className="text-[11px] font-semibold text-neutral-300 leading-tight mt-0.5">
                     {searchParams?.pickupDate || 'Jun 30'} | {searchParams?.pickupTime || '12:00 PM'} - {searchParams?.returnDate || 'Jul 15'} | {searchParams?.returnTime || '12:00 PM'}
@@ -166,7 +166,7 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
             <div onClick={onEditSearch} className="flex-grow flex items-center justify-between bg-neutral-100/80 rounded-xl px-4 py-2.5 cursor-pointer">
               <div>
                 <p className="text-sm font-bold text-neutral-900 leading-tight">
-                  {searchParams?.pickupLocation || 'Frankfurt Airport'}
+                  Rental Date/time
                 </p>
                 <p className="text-[10px] font-bold text-neutral-500 leading-tight mt-0.5">
                   {searchParams?.pickupDate || 'Jun 29'} | {searchParams?.pickupTime || '12:00 PM'} - {searchParams?.returnDate || 'Jul 03'} | {searchParams?.returnTime || '12:00 PM'}
@@ -216,24 +216,12 @@ export default function Header({ onResetView, isResultsPage, searchParams, onEdi
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <button>
-                  <svg className="w-5 h-5 fill-current text-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M3 5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V16C21 17.1046 20.1046 18 19 18H14.1L12 21L9.9 18H5C3.89543 18 3 17.1046 3 16V5ZM12 15.5C12.8284 15.5 13.5 14.8284 13.5 14C13.5 13.1716 12.8284 12.5 12 12.5C11.1716 12.5 10.5 13.1716 10.5 14C10.5 14.8284 11.1716 15.5 12 15.5ZM11.1674 9.14432C11.5432 8.41624 12.4302 8.1224 13.1582 8.49826C13.8863 8.87413 14.1802 9.76106 13.8043 10.4891L13.8043 9.73307C13.7291 9.87877 13.5786 9.98222 13.3904 10.018L12.9184 10.1078C11.676 10.3441 10.5979 11.2625 10.2919 12.4866C10.1717 12.9674 10.4628 13.4534 10.9436 13.5736C11.4243 13.6938 11.9103 13.4026 12.0305 12.9219C12.1581 12.4116 12.6074 12.0289 13.125 11.9304L13.597 11.8407C14.1206 11.7411 14.595 11.453 14.8291 10.9996C15.5858 9.53385 14.9936 7.7465 13.5279 6.98978C12.0622 6.23306 10.2748 6.82522 9.51811 8.29093C9.28371 8.74519 9.46178 9.30784 9.91605 9.54224C10.3703 9.77665 10.9329 9.59858 11.1674 9.14432Z" />
-                  </svg>
+              <div className="flex items-center gap-5 text-[14px] font-semibold text-white tracking-tight">
+                <button onClick={onOurFleetClick} className="hover:text-[#C5A059] transition-colors">
+                  Our Fleet
                 </button>
-                <button onClick={onResetView}>
-                  <svg className="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
-                    <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 7h11l1.04 3H5.46l1.04-3zM7.5 17a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                  </svg>
-                </button>
-                <button onClick={() => setIsLangModalOpen(true)}>
-                  <Globe className="w-5 h-5 stroke-current stroke-[2.5] text-white" />
-                </button>
-                <button onClick={() => alert("Registration and member accounts are currently visual-only in this demonstration.")}>
-                  <svg className="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
+                <button onClick={onAboutUsClick} className="hover:text-[#C5A059] transition-colors">
+                  About Us
                 </button>
               </div>
             </div>

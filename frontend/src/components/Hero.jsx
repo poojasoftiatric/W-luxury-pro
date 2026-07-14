@@ -621,7 +621,7 @@ const PopularTypesCarousel = ({ onScrollToListings }) => {
           {/* Track viewport container */}
           <div className="w-full overflow-hidden py-2.5 -my-2.5">
             <div 
-              className="flex md:transition-transform md:duration-500 md:ease-out overflow-x-auto md:overflow-x-visible snap-x snap-mandatory no-scrollbar pb-2 md:pb-0 px-2 md:px-0 -mx-2 md:mx-0"
+              className="flex md:transition-transform md:duration-500 md:ease-out overflow-x-auto md:overflow-x-visible snap-x snap-mandatory no-scrollbar pt-2.5 pb-2.5 px-2 md:px-0 -mx-2 md:mx-0"
               style={isDesktop ? { transform: `translateX(-${thumbStartIdx * 25}%)` } : {}}
             >
               {popularTypesList.map((item, idx) => {
@@ -818,6 +818,14 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
   const [mobilePanel, setMobilePanel] = useState(initialMobilePanel || null);
   const [instagramReels, setInstagramReels] = useState([]);
   const [instagramLoading, setInstagramLoading] = useState(true);
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (initialMobilePanel) {
@@ -1275,7 +1283,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
           {/* Show Cars Button */}
           <button 
             onClick={handleScrollToListings}
-            className="bg-[#C5A059] hover:bg-[#B28F4B] text-white rounded-[16px] px-10 py-2.5 flex items-center justify-center font-bold text-[16px] transition-colors md:w-auto shadow-md"
+            className="w-full md:w-auto bg-[#C5A059] hover:bg-[#B28F4B] text-white rounded-[16px] px-10 py-2.5 flex items-center justify-center font-bold text-[16px] transition-colors shadow-md"
           >
             Show Cars
           </button>
@@ -1284,9 +1292,12 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
         {/* Calendar Popup Overlay */}
         {showCalendarPopup && (
-          <div className="absolute top-[calc(100%+12px)] left-0 w-full bg-[#F4F5F6] rounded-[24px] px-8 py-5 shadow-2xl z-50 border border-neutral-200/50">
+          <div 
+            data-lenis-prevent
+            className="absolute top-[74px] md:top-[calc(100%+12px)] left-0 w-full bg-[#F4F5F6] rounded-[24px] px-8 py-5 shadow-2xl z-50 border border-neutral-200/50 max-h-[380px] overflow-y-auto premium-scrollbar md:max-h-none md:overflow-visible"
+          >
             {/* Header with arrows */}
-            <div className="flex items-center justify-between mb-5">
+            <div className="hidden md:flex items-center justify-between mb-5">
               <button 
                 type="button" 
                 onClick={() => setCalendarOffset(Math.max(0, calendarOffset - 1))}
@@ -1313,8 +1324,11 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
             </div>
             
             {/* Calendars Row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[0, 1, 2].map(offset => {
+            <div 
+              data-lenis-prevent
+              className="grid grid-cols-1 md:grid-cols-3 gap-8 max-h-[380px] md:max-h-none overflow-y-auto md:overflow-visible premium-scrollbar"
+            >
+              {(isMobile ? Array.from({length: 12}, (_, i) => i) : [0, 1, 2]).map(offset => {
                 const { firstDay, daysInMonth, monthName } = getMonthData(2026, 6 + calendarOffset + offset);
                 
                 return (
@@ -1528,8 +1542,11 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 </div>
 
                 {/* Calendars Container */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {[0, 1, 2].map(offset => {
+                <div 
+                  data-lenis-prevent
+                  className="grid grid-cols-1 md:grid-cols-3 gap-8 max-h-[380px] md:max-h-none overflow-y-auto md:overflow-visible premium-scrollbar"
+                >
+                  {(isMobile ? Array.from({length: 12}, (_, i) => i) : [0, 1, 2]).map(offset => {
                     const { firstDay, daysInMonth } = getMonthData(2026, 6 + calendarOffset + offset);
                     return (
                       <div key={offset}>
@@ -1771,86 +1788,155 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
 
         {/* ── PANEL 2: Rental Details ── */}
         {mobilePanel === 'details' && (
-          <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-white flex flex-col animate-slideInLeft">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
-              <span className="font-black text-base text-neutral-900">Your rental details</span>
-              <button onClick={() => setMobilePanel(null)} className="text-neutral-800 font-bold text-lg p-1">✕</button>
+          <div data-lenis-prevent className="md:hidden fixed inset-0 z-[200] bg-black text-white flex flex-col animate-slideInLeft select-none">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-800">
+              <span className="font-bold text-base text-white">Your rental details</span>
+              <button onClick={() => setMobilePanel(null)} className="text-neutral-400 hover:text-white font-bold text-lg p-1">✕</button>
             </div>
-            <div className="flex-grow overflow-y-auto px-5 py-5 space-y-5">
-              <div>
-                <p className="text-xs font-black text-neutral-400 uppercase tracking-wider mb-2">Pickup &amp; return</p>
-                <button type="button" onClick={() => setMobilePanel('location')}
-                  className="w-full flex items-center gap-3 border-2 border-neutral-200 rounded-xl h-[50px] px-4 text-left">
-                  <svg className="w-4 h-4 text-neutral-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
-                  <span className="text-sm font-bold text-neutral-900 truncate">{pickupLocation}</span>
-                </button>
-                <button type="button" onClick={() => setIsDifferentReturn(!isDifferentReturn)}
-                  className="flex items-center gap-1.5 mt-2 text-xs font-bold text-[#C5A059]">
-                  <span className="text-base leading-none">{isDifferentReturn ? '−' : '+'}</span>
-                  {isDifferentReturn ? 'Same return location' : 'Different return location?'}
-                </button>
-                {isDifferentReturn && (
-                  <div className="mt-2 flex items-center gap-3 border-2 border-neutral-200 rounded-xl h-[50px] px-4 cursor-pointer"
-                    onClick={() => setMobilePanel('location-return')}>
-                    <svg className="w-4 h-4 text-neutral-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
-                    <span className="text-sm font-bold text-neutral-900 truncate">{returnLocation || 'Select return location'}</span>
-                  </div>
-                )}
-              </div>
-              <div className="grid grid-cols-2 gap-3 pt-1">
-                <div>
-                  <p className="text-xs font-black text-neutral-900 mb-2">Pickup</p>
-                  <button type="button" onClick={() => { setActiveDateField('pickup'); setMobilePanel('calendar'); }}
-                    className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3 mb-2">
-                    <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-                    <span className="text-xs font-bold text-neutral-900">{pickupDate || 'Select'}</span>
-                  </button>
-                  <button type="button" onClick={() => setMobilePanel('time-pickup')}
-                    className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3">
-                    <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                    <span className="text-xs font-bold text-neutral-900">{pickupTime}</span>
-                  </button>
+            <div className="flex-grow overflow-y-auto px-5 py-6 space-y-4">
+              
+              {/* Rental Dates Capsule */}
+              <div 
+                onClick={() => {
+                  setShowCalendarPopup(!showCalendarPopup);
+                  setShowTimePopup(false);
+                }}
+                className="flex items-center justify-between bg-[#F4F5F6] rounded-[16px] px-6 py-3.5 cursor-pointer hover:bg-[#EBECEC] transition-colors animate-fadeIn"
+              >
+                <div className="flex flex-col text-left">
+                  <span className="text-[13px] font-normal text-neutral-400 mb-0.5">Rental dates</span>
+                  <span className="text-[16px] font-bold text-neutral-800">
+                    {pickupDate && returnDate ? `${pickupDate} - ${returnDate}` : 'Select dates'}
+                  </span>
                 </div>
-                <div>
-                  <p className="text-xs font-black text-neutral-900 mb-2">Return</p>
-                  <button type="button" onClick={() => { setActiveDateField('return'); setMobilePanel('calendar'); }}
-                    className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3 mb-2">
-                    <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-                    <span className="text-xs font-bold text-neutral-900">{returnDate || 'Select'}</span>
-                  </button>
-                  <button type="button" onClick={() => setMobilePanel('time-return')}
-                    className="w-full flex items-center gap-2 border-2 border-neutral-200 rounded-xl h-[46px] px-3">
-                    <svg className="w-4 h-4 text-neutral-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                    <span className="text-xs font-bold text-neutral-900">{returnTime}</span>
-                  </button>
+                <svg className="w-6 h-6 text-[#C5A059] stroke-[1.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </div>
+
+              {/* Inline 12-Month Scrollable Calendar Dropdown */}
+              {showCalendarPopup && (
+                <div className="w-full bg-[#F4F5F6] rounded-[24px] px-6 py-5 border border-neutral-200/50 shadow-md animate-fadeIn">
+                  <div 
+                    data-lenis-prevent
+                    className="grid grid-cols-1 gap-8 max-h-[300px] overflow-y-auto premium-scrollbar"
+                  >
+                    {Array.from({length: 12}, (_, i) => i).map(offset => {
+                      const { firstDay, daysInMonth, monthName } = getMonthData(2026, 6 + calendarOffset + offset);
+                      
+                      return (
+                        <div key={offset} className="flex-1 text-neutral-900">
+                          <p className="text-center font-bold text-[14px] text-neutral-500 uppercase tracking-widest mb-4">
+                            {monthName}
+                          </p>
+                          
+                          {/* Days of week */}
+                          <div className="grid grid-cols-7 gap-y-2 text-center text-xs font-bold text-neutral-400 mb-2">
+                            <span>MO</span><span>TU</span><span>WE</span><span>TH</span><span>FR</span><span>SA</span><span>SU</span>
+                          </div>
+                          
+                          {/* Month Days */}
+                          <div className="grid grid-cols-7 gap-y-2 text-center">
+                            {Array.from({length: firstDay}).map((_, i) => (
+                              <div key={`empty-${offset}-${i}`}></div>
+                            ))}
+                            {Array.from({length: daysInMonth}, (_, i) => i + 1).map(date => {
+                              const monthPrefix = getMonthData(2026, 6 + calendarOffset + offset).monthName.split(' ')[0].substring(0, 3);
+                              const dateStr = `${monthPrefix} ${date}`;
+                              
+                              const startDate = parseDateStr(pickupDate);
+                              const endDate = parseDateStr(returnDate);
+                              const cellDate = new Date(2026, 6 + calendarOffset + offset, date);
+                              const isStart = isSameDay(cellDate, startDate);
+                              const isEnd = isSameDay(cellDate, endDate);
+                              const inRange = startDate && endDate && cellDate > startDate && cellDate < endDate;
+
+                              let dayClass = "text-[14px] font-semibold w-[32px] h-[32px] mx-auto flex items-center justify-center rounded-full cursor-pointer transition-colors ";
+                              if (isStart || isEnd) {
+                                dayClass += "bg-black text-white font-bold";
+                              } else if (inRange) {
+                                dayClass += "bg-neutral-200 text-neutral-900 rounded-lg";
+                              } else {
+                                dayClass += "text-neutral-800 hover:bg-neutral-200/50";
+                              }
+
+                              return (
+                                <div 
+                                  key={date} 
+                                  onClick={() => {
+                                    if (!pickupDate || (pickupDate && returnDate)) {
+                                      setPickupDate(dateStr);
+                                      setReturnDate('');
+                                    } else {
+                                      setReturnDate(dateStr);
+                                      setShowCalendarPopup(false);
+                                    }
+                                  }}
+                                  className={dayClass}
+                                >
+                                  {date}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Time Selectors Capsule */}
+              <div 
+                className="flex items-center bg-[#F4F5F6] rounded-[16px] relative h-[62px]"
+              >
+                {/* Pick up time */}
+                <div 
+                  onClick={() => setMobilePanel('time-pickup')}
+                  className="flex flex-col justify-center px-6 py-2.5 flex-1 cursor-pointer hover:bg-[#EBECEC] rounded-l-[16px] transition-colors h-full text-left"
+                >
+                  <span className="text-[13px] font-normal text-neutral-400 mb-0.5">Pick up time</span>
+                  <span className="text-[16px] font-bold text-neutral-800">{pickupTime}</span>
+                </div>
+                
+                {/* Divider */}
+                <div className="w-[1px] h-[36px] bg-neutral-200"></div>
+                
+                {/* Drop-off time */}
+                <div 
+                  onClick={() => setMobilePanel('time-return')}
+                  className="flex flex-col justify-center px-6 py-2.5 flex-1 cursor-pointer hover:bg-[#EBECEC] rounded-r-[16px] transition-colors h-full text-left"
+                >
+                  <span className="text-[13px] font-normal text-neutral-400 mb-0.5">Drop-off time</span>
+                  <span className="text-[16px] font-bold text-neutral-800">{returnTime}</span>
                 </div>
               </div>
 
-              {/* Action buttons (Show Cars, Corporate Rate, Driver Age) centered at bottom of scroll content */}
-              <div className="pt-4 flex flex-col items-center gap-4">
-                <button type="button" onClick={() => { onSearch({ pickupLocation, returnLocation: isDifferentReturn ? returnLocation : pickupLocation, pickupDate, pickupTime, returnDate, returnTime, driverAge }); setMobilePanel(null); }}
-                  className="w-full bg-[#C5A059] hover:bg-[#B28F4B] text-white font-condensed font-black text-sm uppercase h-[52px] rounded-xl shadow tracking-wider">
+              {/* Show Cars Button */}
+              <div className="pt-4 flex flex-col items-center">
+                <button 
+                  type="button" 
+                  onClick={() => { 
+                    onSearch({ 
+                      pickupLocation, 
+                      returnLocation: isDifferentReturn ? returnLocation : pickupLocation, 
+                      pickupDate, 
+                      pickupTime, 
+                      returnDate, 
+                      returnTime, 
+                      driverAge 
+                    }); 
+                    setMobilePanel(null); 
+                  }}
+                  className="w-full bg-[#C5A059] hover:bg-[#B28F4B] text-white font-bold text-[16px] uppercase h-[52px] rounded-[16px] shadow-lg tracking-wider"
+                >
                   Show cars
                 </button>
-                <button type="button" className="text-xs font-bold text-neutral-600 underline">Apply corporate rate</button>
-                <div className="relative">
-                  <button type="button" onClick={() => setShowAgeDropdown(!showAgeDropdown)}
-                    className="flex items-center gap-1.5 text-xs font-bold text-neutral-700">
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
-                    Driver's age {driverAge} <span className="text-[10px]">▼</span>
-                  </button>
-                  {showAgeDropdown && (
-                    <div className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-white border border-neutral-200 rounded-xl shadow-xl w-[130px] max-h-[200px] overflow-y-auto z-10 py-1">
-                      {['30+', '29', '28', '27', '26', '25', '24', '23', '22', '21', '20', '19', '18'].map(age => (
-                        <button key={age} type="button" onClick={() => { setDriverAge(age); setShowAgeDropdown(false); }}
-                          className={`w-full text-center px-4 py-2 text-xs font-bold ${driverAge === age ? 'text-[#C5A059]' : 'text-neutral-700'} hover:bg-neutral-50`}>
-                          {age}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
               </div>
+
             </div>
           </div>
         )}
@@ -2014,7 +2100,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                 </div>
               </div>
 
-              <div className="car-text-animate absolute bottom-[20%] text-center z-30 pointer-events-none" style={{ opacity: 0 }}>
+              <div className="car-text-animate absolute bottom-[20%] text-center z-10 pointer-events-none" style={{ opacity: 0 }}>
                 <p className="text-[#C5A059] font-bold tracking-widest text-[11px] uppercase mb-2">Uncompromising Performance</p>
                 <h3 className="text-white text-3xl font-normal font-condensed">The journey begins here.</h3>
               </div>

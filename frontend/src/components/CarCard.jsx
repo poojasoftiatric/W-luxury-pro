@@ -156,7 +156,7 @@ export default function CarCard({ car, onClick, index = 0, viewMode = 'results',
   return (
     <div ref={cardRef} className={`relative mt-16 ${isSelected ? 'z-40' : 'z-10'} group`}>
       {/* Overflowing Car Image */}
-      <div className="absolute -top-36 left-1/2 -translate-x-1/2 w-[85%] z-20 pointer-events-none select-none">
+      <div className="absolute -top-28 md:-top-24 lg:-top-36 left-1/2 -translate-x-1/2 w-[85%] z-20 pointer-events-none select-none">
         <img
           src={car.image}
           alt={car.name}
@@ -166,7 +166,7 @@ export default function CarCard({ car, onClick, index = 0, viewMode = 'results',
 
       <div
         onClick={() => onClick(car)}
-        className={`relative w-full rounded-[28px] overflow-hidden px-6 pb-6 pt-32 cursor-pointer transition-all duration-300 flex flex-col justify-between shadow-md select-none bg-[#f4f4f4] ${isSelected ? 'border-[3px] border-[#C5A059]' : 'border border-neutral-200/50 hover:border-neutral-300'}`}
+        className={`relative w-full rounded-[28px] overflow-hidden px-6 pb-6 pt-20 md:pt-24 lg:pt-32 cursor-pointer transition-all duration-300 flex flex-col justify-between shadow-md select-none bg-[#f4f4f4] ${isSelected ? 'border-[3px] border-[#C5A059]' : 'border border-neutral-200/50 hover:border-neutral-300'}`}
       >
         {/* Details and Pricing matching image2 layout */}
         <div className="flex-grow flex flex-col text-left">

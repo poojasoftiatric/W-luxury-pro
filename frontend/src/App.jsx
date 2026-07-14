@@ -205,11 +205,9 @@ export default function App() {
           isResultsPage={true}
           searchParams={searchParams}
           onEditSearch={() => {
-            if (window.innerWidth >= 768) {
-              setIsEditingSearch(!isEditingSearch);
-            } else {
-              setHeroInitialPanel('details');
-              setIsSearchResultsView(false);
+            setIsEditingSearch(!isEditingSearch);
+            if (!isEditingSearch) {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }
           }}
           onResetView={() => {
@@ -222,15 +220,21 @@ export default function App() {
           onContactUsClick={handleContactUsClick}
         />
 
-        {/* Desktop Search Dropdown Panel */}
+        {/* Search Dropdown Panel */}
         {isEditingSearch && (
-          <div className="hidden md:block w-full absolute top-[64px] left-0 z-50 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.1)] border-b border-neutral-200">
-            <Hero
-              onSearch={handleSearchSubmit}
-              isDropdownMode={true}
-              initialSearchParams={searchParams}
+          <>
+            <div 
+              className="fixed inset-0 z-40 bg-transparent"
+              onClick={() => setIsEditingSearch(false)}
             />
-          </div>
+            <div className="w-full absolute top-[102px] md:top-[64px] left-0 z-50 md:bg-white shadow-[0_10px_30px_rgba(0,0,0,0.1)] md:border-b md:border-neutral-200">
+              <Hero
+                onSearch={handleSearchSubmit}
+                isDropdownMode={true}
+                initialSearchParams={searchParams}
+              />
+            </div>
+          </>
         )}
 
         {/* Results Page content */}
@@ -365,20 +369,88 @@ export default function App() {
         </main>
 
         {/* Visual Footer */}
-        <footer className="w-full bg-[#0C0C0C] text-neutral-500 py-10 px-4 border-t border-neutral-900 mt-auto text-xs text-center">
-          <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-col leading-none text-left">
-              <span className="font-condensed font-extrabold text-2xl text-neutral-400">
-                <span className="text-[#C5A059]">W</span>
-              </span>
-              <span className="text-[6px] tracking-[0.2em] font-semibold text-neutral-600 uppercase block">
-                Luxury Collection
-              </span>
+        <footer className="w-full bg-[#0C0C0C] text-neutral-400 pt-16 pb-12 px-6 md:px-12 border-t border-neutral-900 mt-auto text-xs">
+          <div className="max-w-[1100px] mx-auto flex flex-col gap-10">
+            {/* Logo */}
+            <div className="text-[13px] font-medium tracking-[0.6em] text-white uppercase text-left">
+              W&nbsp;&nbsp;LUXURY
             </div>
 
-            <p className="font-semibold text-[10px] tracking-wider uppercase text-neutral-600">
-              &copy; 2026 <span className="text-[#C5A059]">W</span> Luxury Car Rental. Created for paired client review. All rights reserved.
-            </p>
+            {/* Columns Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Column 1 */}
+              <div className="flex flex-col gap-3.5 text-left">
+                <a href="#faq" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">FAQ</a>
+                <a href="#bonus" className="text-[#C5A059] hover:text-[#B28F4B] transition-colors font-bold uppercase tracking-wider text-[11px]">Bonus Program</a>
+                <a href="#contact" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Contact Us</a>
+                <a href="#delivery" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Rental Car Delivery in Miami</a>
+                <a href="#one-way" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">One-Way Car Rental</a>
+                <a href="#long-term" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Long-Term Car Rental</a>
+              </div>
+
+              {/* Column 2 */}
+              <div className="flex flex-col gap-3.5 text-left">
+                <a href="#terms" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Terms & Conditions</a>
+                <a href="#privacy" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Privacy Policy</a>
+                <a href="#reviews" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Reviews</a>
+                <a href="#vacancies" className="text-neutral-400 hover:text-white transition-colors font-bold uppercase tracking-wider text-[11px]">Vacancies</a>
+              </div>
+
+              {/* Column 3 */}
+              <div className="flex flex-col gap-4 text-left">
+                <div className="flex flex-col gap-3">
+                  <a href="mailto:hello@wluxury.nyc" className="text-white hover:text-[#C5A059] transition-colors font-bold uppercase tracking-wider text-[11px] block">
+                    hello@wluxury.nyc
+                  </a>
+                  <a href="tel:+13053062353" className="text-white hover:text-[#C5A059] transition-colors font-bold uppercase tracking-wider text-[11px] block">
+                    +1 305 306 2353
+                  </a>
+                </div>
+
+                {/* Social Icons */}
+                <div className="flex items-center gap-4 text-neutral-400 mt-2">
+                  <a href="#" className="hover:text-white transition-colors" aria-label="Facebook">
+                    <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24" width="18" height="18">
+                      <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
+                    </svg>
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors" aria-label="Instagram">
+                    <svg className="w-4.5 h-4.5 fill-none stroke-current stroke-2" viewBox="0 0 24 24" width="18" height="18" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                    </svg>
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors" aria-label="LinkedIn">
+                    <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24" width="18" height="18">
+                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                    </svg>
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors" aria-label="Pinterest">
+                    <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24" width="18" height="18">
+                      <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.007-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.166-1.495-.69-2.433-2.878-2.433-4.617 0-3.772 2.74-7.237 7.897-7.237 4.15 0 7.379 2.959 7.379 6.917 0 4.127-2.607 7.452-6.227 7.452-1.216 0-2.362-.631-2.753-1.378l-.751 2.87c-.273 1.055-1.005 2.375-1.495 3.181 1.12.347 2.311.537 3.548.537 6.62 0 11.988-5.367 11.988-11.987C24.007 5.362 18.636 0 12.017 0z" />
+                    </svg>
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors" aria-label="X">
+                    <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24" width="18" height="18">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
+                  </a>
+                </div>
+
+                {/* Association Text */}
+                <div className="text-[10px] text-neutral-600 font-semibold leading-relaxed mt-2 uppercase tracking-widest">
+                  New York City Association<br />of Hotel Concierges
+                </div>
+              </div>
+            </div>
+
+            {/* Divider and Copyright */}
+            <div className="border-t border-neutral-900 mt-6 pt-6 text-left">
+              <p className="text-[10px] tracking-wider uppercase text-neutral-600">
+                &copy; 2026 W Luxury. All rights reserved.
+              </p>
+            </div>
           </div>
         </footer>
 

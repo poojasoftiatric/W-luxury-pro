@@ -113,7 +113,7 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
         type="button"
         onClick={onClose} 
         className={`absolute top-5 transition-all duration-500 z-[25] text-neutral-400 hover:text-white bg-neutral-900/60 backdrop-blur-md p-2 rounded-full border border-neutral-800 hover:scale-105 active:scale-95 shadow-lg ${
-          isPanelOpen ? 'right-5 md:right-[480px]' : 'right-5'
+          isPanelOpen ? 'right-5 lg:right-[480px]' : 'right-5'
         }`}
         title="Close details"
       >
@@ -122,7 +122,7 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
 
       {/* Featured Vehicle Header Watermark */}
       <div className={`absolute top-6 left-0 right-0 text-center pointer-events-none z-10 pl-24 transition-all duration-500 ${
-        isPanelOpen ? 'pr-24 md:pr-[484px]' : 'pr-24'
+        isPanelOpen ? 'pr-24 md:pr-24 lg:pr-[484px]' : 'pr-24 md:pr-24'
       }`}>
         <h3 className="font-condensed font-normal text-2xl md:text-4xl text-white uppercase tracking-wider leading-none drop-shadow-md">
           {car.name}
@@ -135,7 +135,7 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
       {/* Primary Large Image Showcase Area */}
       <div 
         className={`flex-grow flex items-center justify-center relative w-full h-full pl-4 md:pl-12 transition-all duration-500 ${
-          isPanelOpen ? 'pr-4 md:pr-[472px]' : 'pr-4 md:pr-12'
+          isPanelOpen ? 'pr-4 md:pr-12 lg:pr-[472px]' : 'pr-4 md:pr-12'
         }`}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -166,7 +166,7 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
           type="button"
           onClick={() => setViewMode(VIEWS[(activeIndex + 1) % VIEWS.length])}
           className={`absolute z-[20] w-11 h-11 rounded-full bg-neutral-900/75 border border-neutral-800 text-white flex items-center justify-center hover:bg-neutral-800 hover:border-neutral-700 hover:scale-105 active:scale-95 transition-all shadow-lg ${
-            isPanelOpen ? 'right-4 md:right-[484px]' : 'right-4 md:right-8'
+            isPanelOpen ? 'right-4 md:right-8 lg:right-[484px]' : 'right-4 md:right-8'
           }`}
           title="Next view"
         >
@@ -183,7 +183,7 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
 
       {/* Bottom Specs Strip & Primary Trigger */}
       <div className={`w-full bg-neutral-950/85 backdrop-blur-md border-t border-neutral-900 py-4 pl-6 md:pl-10 flex flex-col md:flex-row items-center justify-between gap-4 z-[20] shrink-0 transition-all duration-500 ${
-        isPanelOpen ? 'pr-6 md:pr-[490px]' : 'pr-6 md:pr-10'
+        isPanelOpen ? 'pr-6 md:pr-10 lg:pr-[490px]' : 'pr-6 md:pr-10'
       }`}>
         {/* Left Specs */}
         <div className="flex items-center justify-center md:justify-start gap-6 w-full md:flex-1 md:w-auto order-2 md:order-1">
@@ -212,7 +212,7 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
             type="button"
             onClick={() => setIsPanelOpen(true)}
             className={`w-full bg-[#C5A059] hover:bg-[#B28F4B] active:scale-95 text-white py-3.5 rounded-xl font-bold text-[13px] uppercase tracking-wider transition-all shadow-md flex items-center justify-center ${
-              isPanelOpen ? 'md:w-[120px]' : 'md:w-[180px]'
+              isPanelOpen ? 'md:w-[180px] lg:w-[120px]' : 'md:w-[180px]'
             }`}
           >
             Book Now
@@ -233,7 +233,7 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
 
       {/* Expandable Details Panel Overlay Backdrop */}
       <div 
-        className={`absolute inset-0 bg-black/55 z-[30] transition-opacity duration-300 md:hidden ${
+        className={`absolute inset-0 bg-black/55 z-[30] transition-opacity duration-300 lg:hidden ${
           isPanelOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setIsPanelOpen(false)}
@@ -243,14 +243,14 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
       <div 
         className={`absolute z-[40] bg-white transition-all duration-500 ease-out flex flex-col shadow-2xl ${
           // Desktop: slides from right
-          'md:top-0 md:bottom-0 md:right-0 md:left-auto md:w-[460px] md:h-full md:border-l md:border-neutral-200'
+          'lg:top-0 lg:bottom-0 lg:right-0 lg:left-auto lg:w-[460px] lg:h-full lg:border-l lg:border-neutral-200'
         } ${
-          // Mobile: slides up from bottom
-          'top-auto bottom-0 left-0 right-0 h-[85%] md:h-full rounded-t-3xl md:rounded-none'
+          // Mobile/Tablet: slides up from bottom
+          'top-auto bottom-0 left-0 right-0 h-[85%] lg:h-full rounded-t-3xl lg:rounded-none'
         } ${
           isPanelOpen 
             ? 'translate-x-0 translate-y-0' 
-            : 'md:translate-x-full translate-y-full md:translate-y-0'
+            : 'lg:translate-x-full translate-y-full lg:translate-y-0'
         }`}
       >
         {/* Panel Header */}
@@ -273,7 +273,7 @@ export default function CarCardDetails({ car, onClose, onNext, searchParams }) {
         </div>
 
         {/* Panel Scrollable Body */}
-        <div className="p-4 flex-grow overflow-y-auto premium-scrollbar space-y-4 text-left">
+        <div data-lenis-prevent className="p-4 flex-grow min-h-0 overflow-y-auto premium-scrollbar space-y-4 text-left">
           
           {/* Booking options */}
           <div>
