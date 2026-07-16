@@ -1358,8 +1358,14 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                         const isEnd = isSameDay(cellDate, endDate);
                         const inRange = startDate && endDate && cellDate > startDate && cellDate < endDate;
 
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        const isPast = cellDate < today;
+
                         let dayClass = "text-[14px] font-semibold w-[32px] h-[32px] mx-auto flex items-center justify-center rounded-full cursor-pointer transition-colors ";
-                        if (isStart || isEnd) {
+                        if (isPast) {
+                          dayClass += "text-neutral-300 cursor-not-allowed pointer-events-none";
+                        } else if (isStart || isEnd) {
                           dayClass += "bg-black text-white font-bold";
                         } else if (inRange) {
                           dayClass += "bg-neutral-200 text-neutral-900 rounded-lg";
@@ -1371,6 +1377,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                           <div 
                             key={date} 
                             onClick={() => {
+                              if (isPast) return;
                               if (!pickupDate || (pickupDate && returnDate)) {
                                 setPickupDate(dateStr);
                                 setReturnDate('');
@@ -1570,8 +1577,14 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                             const isEnd = isSameDay(cellDate, endDate);
                             const inRange = startDate && endDate && cellDate > startDate && cellDate < endDate;
 
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0);
+                            const isPast = cellDate < today;
+
                             let dayClass = "text-[14px] font-semibold w-[32px] h-[32px] mx-auto flex items-center justify-center rounded-full cursor-pointer transition-colors ";
-                            if (isStart || isEnd) {
+                            if (isPast) {
+                              dayClass += "text-neutral-300 cursor-not-allowed pointer-events-none";
+                            } else if (isStart || isEnd) {
                               dayClass += "bg-black text-white font-bold";
                             } else if (inRange) {
                               dayClass += "bg-neutral-200 text-neutral-900 rounded-lg";
@@ -1583,6 +1596,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                               <div 
                                 key={date} 
                                 onClick={() => {
+                                  if (isPast) return;
                                   if (!pickupDate || (pickupDate && returnDate)) {
                                     setPickupDate(dateStr);
                                     setReturnDate('');
@@ -1854,8 +1868,14 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                               const isEnd = isSameDay(cellDate, endDate);
                               const inRange = startDate && endDate && cellDate > startDate && cellDate < endDate;
 
+                              const today = new Date();
+                              today.setHours(0, 0, 0, 0);
+                              const isPast = cellDate < today;
+
                               let dayClass = "text-[14px] font-semibold w-[32px] h-[32px] mx-auto flex items-center justify-center rounded-full cursor-pointer transition-colors ";
-                              if (isStart || isEnd) {
+                              if (isPast) {
+                                dayClass += "text-neutral-300 cursor-not-allowed pointer-events-none";
+                              } else if (isStart || isEnd) {
                                 dayClass += "bg-black text-white font-bold";
                               } else if (inRange) {
                                 dayClass += "bg-neutral-200 text-neutral-900 rounded-lg";
@@ -1867,6 +1887,7 @@ export default function Hero({ onSearch, initialMobilePanel, onPanelClosed, isDr
                                 <div 
                                   key={date} 
                                   onClick={() => {
+                                    if (isPast) return;
                                     if (!pickupDate || (pickupDate && returnDate)) {
                                       setPickupDate(dateStr);
                                       setReturnDate('');
